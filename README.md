@@ -1,112 +1,95 @@
 # Frame Kit
 
-Frame Kit is a React UI kit for creative and productivity tools. It provides a
-coherent, precise interface language for inspectors, sidebars, toolbars,
-timelines, graphs, colour controls, and other high-density application UI.
+Frame Kit is a React UI kit for creative and productivity tools. Use it to build
+sidebars, inspectors, toolbars, timelines, graphs, colour controls, and other
+precise interface elements without having to create a new visual system first.
 
-It is designed to help you build professional tools quickly without losing the
-small interaction details that make creative software feel considered.
+It includes light and dark themes, accessible colour contrast, bundled fonts,
+semantic design tokens, and components made for dense professional tool UI.
 
-## Install
+## Add it to your app
+
+Install the package:
 
 ```sh
 npm install @presentstandards/framekit-ui
 ```
 
-Frame Kit supports React 18 and 19.
+Then import the stylesheet once, at your app root. It contains the fonts,
+tokens, base styles, and component styles.
 
-## Start building
+```tsx
+import '@presentstandards/framekit-ui/styles.css';
+```
 
-Import the stylesheet once at your application root. It includes the bundled
-fonts, design tokens, base styles, and component styles.
+Now you can use components in your interface:
 
 ```tsx
 import { useState } from 'react';
-import '@presentstandards/framekit-ui/styles.css';
-import { Button, Sidebar, SidebarSection, Slider } from '@presentstandards/framekit-ui';
+import { Button, Slider } from '@presentstandards/framekit-ui';
 
-export function Inspector() {
+export function Adjustments() {
   const [exposure, setExposure] = useState(54);
 
   return (
-    <Sidebar title="Adjustments" aria-label="Image adjustments">
-      <SidebarSection label="Light">
-        <Slider label="Exposure" value={exposure} onValueChange={setExposure} />
-      </SidebarSection>
+    <section>
+      <Slider label="Exposure" value={exposure} onValueChange={setExposure} />
       <Button>Export image</Button>
-    </Sidebar>
+    </section>
   );
 }
 ```
 
-Use Frame Kit components as the foundation of your interface, then compose them
-around the tasks people need to complete. Group controls by feature or workflow
-rather than by component type, keep primary actions visible, and use the more
-specialised controls when they better match the value being adjusted.
+## Choose your appearance
 
-For example, use an `AxisField` for linked X/Y values, a `ToneCurve` for tonal
-work, a `KeyframeLane` for time-based editing, or a `CameraPath` for spatial
-movement—instead of reducing every interaction to a generic slider.
-
-## Theme, accent, and surface style
-
-Light mode is the default. Enable dark mode or select a bundled accent at the
-document level:
+Frame Kit uses light mode by default. Set dark mode or an accent preset on your
+root HTML element:
 
 ```html
 <html data-theme="dark" data-accent="blue"></html>
 ```
 
-Available accent presets are `slate`, `sage`, `mauve`, `sand`, `blue`, `teal`,
+The available presets are `slate`, `sage`, `mauve`, `sand`, `blue`, `teal`,
 `violet`, `rose`, `coral`, and `amber`.
 
-You can also create a custom accent. Frame Kit derives its supporting colour
-tokens and accessible text colour automatically.
+For a custom colour, use `applyAccent`. Frame Kit automatically creates the
+supporting tokens and selects a readable text colour for solid accent actions.
 
 ```tsx
-import { applyAccent, applyFrameKitStyle } from '@presentstandards/framekit-ui';
+import { applyAccent } from '@presentstandards/framekit-ui';
 
 applyAccent('#DE3B3B');
-applyFrameKitStyle('transparent');
 ```
 
-Use the default surface style for most interfaces. The optional `transparent`
-style is useful when your tool has media, a canvas, or artwork behind its UI.
+## Make a good tool interface
 
-## Use the system well
+- Start with the component that best matches the task, not just the most familiar control. For example, use `AxisField` for linked X/Y values, `ToneCurve` for colour work, and `KeyframeLane` for animation timing.
+- Group controls by the task people are doing—such as Appearance, Transform, or Motion—not by component type.
+- Use Frame Kit’s `--fk-*` tokens for your application UI instead of hard-coded interface colours.
+- Keep spacing on the 4px grid and use Inter for normal UI text. Office Code Pro is for compact values, tags, and code.
+- Check both light and dark themes, keyboard use, visible focus, long labels, and narrow layouts before shipping.
 
-- Build interface chrome with Frame Kit’s semantic `--fk-*` tokens instead of hard-coded UI colours.
-- Use Inter for regular interface text. Office Code Pro is reserved for compact tags, values, and code.
-- Preserve the 4px spacing rhythm, restrained radii, and flat surface treatment.
-- Test both themes, keyboard interaction, visible focus, long labels, and narrow layouts.
-- Prefer composition and documented component props over copying or restyling component internals.
-
-## Documentation
-
-The package includes component specs, token references, examples, and guidance
-for working with AI agents:
+## Learn more
 
 - [Component documentation](./packages/framekit/docs/components/)
-- [Design principles](./packages/framekit/docs/principles.md)
 - [Tokens and theming](./packages/framekit/docs/tokens.md)
-- [Customisation guidance](./packages/framekit/docs/customization.md)
+- [Customisation guide](./packages/framekit/docs/customization.md)
 - [AI Direction](./packages/framekit/docs/ai/direction.md)
 
-When using an AI agent, install the included Frame Kit skill so it can choose
-components intelligently, preserve the visual system, and organise sidebars as
-real tool interfaces rather than generic control lists. See the
-[package guide](./packages/framekit/README.md#build-with-an-ai-agent) for setup.
+Frame Kit also includes a skill for Claude and GPT/Codex. It helps an AI agent
+choose suitable components and compose a professional tool UI. Follow the
+[AI setup guide](./packages/framekit/README.md#build-with-an-ai-agent) to use it.
 
-## Work on this repository
+## Work on Frame Kit
+
+If you are working from this repository:
 
 ```sh
 npm install
 npm run dev
 ```
 
-The documentation site runs at `http://localhost:5180`. Use `npm run typecheck`
-and `npm run build` before opening a pull request or publishing a new package
-version.
+The documentation site starts at `http://localhost:5180`.
 
 ## License
 
