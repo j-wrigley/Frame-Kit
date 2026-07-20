@@ -1,0 +1,325 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Loader
+   Compact currentColor activity indicators for tool UI controls.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-loader {
+  --fk-loader-size: 16px;
+
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  width: var(--fk-loader-size);
+  height: var(--fk-loader-size);
+  color: currentColor;
+  line-height: 1;
+}
+
+.fk-loader--sm {
+  --fk-loader-size: 12px;
+}
+
+.fk-loader--lg {
+  --fk-loader-size: 20px;
+}
+
+/* ── Grid: four square cells step through a compact matrix. ── */
+
+.fk-loader--grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.fk-loader--grid .fk-loader__cell {
+  display: block;
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-grid 900ms var(--fk-ease) infinite;
+}
+
+.fk-loader--grid .fk-loader__cell:nth-child(2) {
+  animation-delay: 112ms;
+}
+
+.fk-loader--grid .fk-loader__cell:nth-child(4) {
+  animation-delay: 225ms;
+}
+
+.fk-loader--grid .fk-loader__cell:nth-child(3) {
+  animation-delay: 337ms;
+}
+
+@keyframes fk-loader-grid {
+  0%,
+  65%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.55);
+  }
+
+  24% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Bars: a tiny equalizer of rectangular blocks. ── */
+
+.fk-loader--bars {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 2px 1px;
+}
+
+.fk-loader--bars .fk-loader__cell {
+  width: calc((100% - 4px) / 3);
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: center;
+  animation: fk-loader-bars 720ms var(--fk-ease) infinite alternate;
+}
+
+.fk-loader--bars .fk-loader__cell:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.fk-loader--bars .fk-loader__cell:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@keyframes fk-loader-bars {
+  from {
+    opacity: 0.35;
+    transform: scaleY(0.34);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* ── Steps: blocks march along a baseline, useful at very small sizes. ── */
+
+.fk-loader--steps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 1px;
+}
+
+.fk-loader--steps .fk-loader__cell {
+  width: calc((100% - 4px) / 3);
+  aspect-ratio: 1;
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-steps 780ms var(--fk-ease) infinite;
+}
+
+.fk-loader--steps .fk-loader__cell:nth-child(2) {
+  animation-delay: 130ms;
+}
+
+.fk-loader--steps .fk-loader__cell:nth-child(3) {
+  animation-delay: 260ms;
+}
+
+@keyframes fk-loader-steps {
+  0%,
+  70%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(2px);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* ── Pulse: nested squares give a calm, precise heartbeat. ── */
+
+.fk-loader--pulse::before,
+.fk-loader--pulse::after {
+  position: absolute;
+  inset: 2px;
+  content: '';
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  animation: fk-loader-pulse 1s var(--fk-ease) infinite;
+}
+
+.fk-loader--pulse::after {
+  inset: 5px;
+  background: currentColor;
+  border: 0;
+  animation-delay: 180ms;
+}
+
+@keyframes fk-loader-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.72);
+  }
+
+  45% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Orbit: a single block runs a clean, unframed square perimeter. ── */
+
+.fk-loader--orbit::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 30%;
+  content: '';
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-orbit 1s var(--fk-ease) infinite;
+}
+
+@keyframes fk-loader-orbit {
+  0% {
+    opacity: 0.45;
+    transform: translate(0, 0);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(235%, 0);
+  }
+
+  50% {
+    transform: translate(235%, 235%);
+  }
+
+  75% {
+    transform: translate(0, 235%);
+  }
+
+  100% {
+    opacity: 0.45;
+    transform: translate(0, 0);
+  }
+}
+
+/* ── Wave: four square cells pass a compact vertical beat. ── */
+
+.fk-loader--wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 0;
+}
+
+.fk-loader--wave .fk-loader__cell {
+  width: calc((100% - 6px) / 4);
+  aspect-ratio: 1;
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-wave 820ms var(--fk-ease) infinite;
+}
+
+.fk-loader--wave .fk-loader__cell:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.fk-loader--wave .fk-loader__cell:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.fk-loader--wave .fk-loader__cell:nth-child(4) {
+  animation-delay: 300ms;
+}
+
+@keyframes fk-loader-wave {
+  0%,
+  70%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(3px) scale(0.75);
+  }
+
+  32% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1);
+  }
+}
+
+/* ── Flip: paired tiles turn over in a short, mechanical cadence. ── */
+
+.fk-loader--flip {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 1px;
+  perspective: 32px;
+}
+
+.fk-loader--flip .fk-loader__cell {
+  width: calc((100% - 2px) / 2);
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-flip 900ms var(--fk-ease) infinite;
+}
+
+.fk-loader--flip .fk-loader__cell:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+@keyframes fk-loader-flip {
+  0%,
+  65%,
+  100% {
+    opacity: 0.28;
+    transform: rotateX(84deg) scaleY(0.48);
+  }
+
+  28% {
+    opacity: 1;
+    transform: rotateX(0) scaleY(1);
+  }
+}
+
+/* ── Scan: a single rectangular beam sweeps an unframed field. ── */
+
+.fk-loader--scan {
+  overflow: hidden;
+}
+
+.fk-loader--scan::before {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: 30%;
+  content: '';
+  background: currentColor;
+  border-radius: 1px;
+  animation: fk-loader-scan 900ms var(--fk-ease) infinite;
+}
+
+@keyframes fk-loader-scan {
+  0% {
+    opacity: 0.32;
+    transform: translateX(-10%);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateX(220%);
+  }
+
+  50%,
+  100% {
+    opacity: 0.32;
+    transform: translateX(220%);
+  }
+}

@@ -1,0 +1,181 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Drop zone
+   A general-purpose target for any DataTransfer payload.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-drop-zone {
+  --fk-drop-zone-min-height: 124px;
+  --fk-drop-zone-icon-size: 20px;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  align-content: center;
+  gap: var(--fk-space-2);
+  min-height: var(--fk-drop-zone-min-height);
+  padding: var(--fk-space-4);
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-control);
+  border: 1px dashed var(--fk-border-strong);
+  border-radius: var(--fk-radius-md);
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-drop-zone::before {
+  position: absolute;
+  inset: var(--fk-space-1);
+  pointer-events: none;
+  content: '';
+  border: 1px solid transparent;
+  border-radius: var(--fk-radius-sm);
+  transition: border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-drop-zone--sm {
+  --fk-drop-zone-min-height: 76px;
+  --fk-drop-zone-icon-size: 16px;
+
+  gap: var(--fk-space-1);
+  padding: var(--fk-space-3);
+}
+
+.fk-drop-zone--lg {
+  --fk-drop-zone-min-height: 172px;
+  --fk-drop-zone-icon-size: 24px;
+
+  padding: var(--fk-space-5);
+}
+
+.fk-drop-zone--interactive {
+  cursor: pointer;
+}
+
+.fk-drop-zone--interactive:hover {
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control-hover);
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-drop-zone--interactive:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 2px;
+}
+
+.fk-drop-zone--dragging {
+  color: var(--fk-accent-text);
+  background: var(--fk-accent-subtle);
+  border-color: var(--fk-accent);
+  box-shadow: inset 0 0 0 1px var(--fk-accent);
+}
+
+.fk-drop-zone--dragging::before {
+  border-color: var(--fk-accent-muted);
+}
+
+.fk-drop-zone--disabled,
+.fk-drop-zone--busy {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.fk-drop-zone__icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: var(--fk-drop-zone-icon-size);
+  height: var(--fk-drop-zone-icon-size);
+  place-items: center;
+  color: var(--fk-text-tertiary);
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-drop-zone__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.fk-drop-zone--sm .fk-drop-zone__icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.fk-drop-zone--lg .fk-drop-zone__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.fk-drop-zone--interactive:hover .fk-drop-zone__icon {
+  color: var(--fk-accent-text);
+}
+
+.fk-drop-zone--dragging .fk-drop-zone__icon {
+  color: var(--fk-accent-text);
+  transform: translateY(-1px);
+}
+
+.fk-drop-zone__copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  text-align: center;
+}
+
+.fk-drop-zone__copy strong {
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-regular);
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-drop-zone__description {
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  line-height: 1.35;
+}
+
+.fk-drop-zone__action {
+  margin-top: 2px;
+  color: var(--fk-accent-text);
+  font-family: var(--fk-font-mono);
+  font-size: 8px;
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: var(--fk-tracking-label);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-drop-zone,
+  .fk-drop-zone::before,
+  .fk-drop-zone__icon {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-drop-zone {
+    border-color: CanvasText;
+  }
+
+  .fk-drop-zone--dragging,
+  .fk-drop-zone--interactive:focus-visible {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

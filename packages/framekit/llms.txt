@@ -1,0 +1,204 @@
+# Frame Kit (@presentstandards/framekit-ui)
+
+> Precision React UI kit for creative and productivity tools — panels, inspectors,
+> canvases, timelines. Light by default with a first-class dark theme, token-driven.
+> Ships its own fonts (Inter Variable + Office Code Pro) and a 375-icon set.
+> Every component ships with a machine-readable spec in docs/components/.
+
+Start here when building UIs with this kit:
+
+## AI direction
+
+- docs/ai/direction.md: Required foundation brief (accent, style, themes, density, sidebar data), workflow, prompt intake, and release checks
+- docs/ai/skill.md: Install and use the shared Frame Kit skill
+- docs/ai/gpt-codex.md: Codex project setup and invocation
+- docs/ai/claude.md: Claude Code project setup and invocation
+- skills/frame-kit/SKILL.md: Canonical provider-neutral skill for GPT/Codex and Claude
+
+## Docs
+
+- docs/README.md: How this documentation is organized and how to consume it
+- docs/principles.md: Design charter — density, color rules, motion, API conventions
+- docs/tokens.md: Full design-token reference (colors, type, spacing, radii, elevation)
+- docs/customization.md: Public customization order, scoped token overrides, and extension rules
+- docs/icons.md: Icon usage + the full list of 375 icon names/components
+- docs/components/: One spec per component (frontmatter + props + tokens + examples)
+
+## Rules of thumb
+
+- Import styles once: `import '@presentstandards/framekit-ui/styles.css'` (includes fonts + tokens + base).
+- Dark theme: set `data-theme="dark"` on the root element. Light is the default.
+- Style: base is the unchanged default. Use `data-style="transparent"` or
+  `applyFrameKitStyle('transparent')` for translucent panels and raised tool
+  chrome; `resetFrameKitStyle()` restores base. Keep the app canvas solid.
+- Accent: graphite by default (restrained, non-colored). Presets via
+  `data-accent="slate|sage|mauve|sand|blue|teal|violet|rose|coral|amber"`;
+  any color via `applyAccent('#hex')`
+  (re-run after theme changes); `resetAccent()` restores the preset. Never
+  hardcode a hue — use the --fk-accent* slot.
+- Style with semantic tokens (--fk-bg-_, --fk-text-_, --fk-border-_, --fk-accent_);
+  never reference raw scale steps (--fk-gray-*) or hard-coded hex values.
+- Design gaps: search exports, specs, and complete patterns first. If no component or
+  composition fits, state the gap and build a private product-specific control from
+  Frame Kit foundations, or add a reusable public component with its complete contract.
+  Small design adjustments should use documented props, theme/accent/style APIs, or scoped
+  semantic --fk-* tokens—never a divergent restyle of private component internals.
+- Component choice: create a control map before composing a new tool. Consider
+  the complete relevant catalogue and choose by value model and interaction.
+  Do not default numeric parameters to repeated Sliders; consider AxisField,
+  DragValue, Scrubber, RulerSlider, spatial, temporal, tonal, physical, and
+  graphical controls when their model fits. Group sidebars by user task,
+  dependency, frequency, and workflow order. Variety is not a quota.
+- Primary UI text is 13px (--fk-fs-2), Inter Variable. Uppercase tags, micro labels,
+  values, and code use Office Code Pro (--fk-font-mono).
+- Icons: `import { MagnifyingGlassIcon } from '@presentstandards/framekit-ui'` (tree-shakeable), or
+  `<Icon name="magnifying-glass" />` for runtime names. 15×15 grid, currentColor.
+- Input family: `Input` handles labelled single-line values; use `font="mono"`
+  and `align="end"` for measurements. `Textarea` is the multiline companion;
+  `NumberInput` provides explicit application-owned step actions; `InputComposer`
+  is a compact native submit form. Read `docs/components/input.md` before use.
+- Stepper: `Stepper` is a bounded-value control with decrement/increment actions
+  and an editable center value by default. Set `editable={false}` for display
+  steppers; the consumer owns parsing, range limits, precision, and disabled
+  action states. Read `docs/components/stepper.md` before use.
+- Slider: `Slider` is the native-range option for regular continuous values.
+  Use `RulerSlider` when a visible measurement scale helps, `DragValue` for
+  direct value-field manipulation (with optional reset and bipolar fill), and
+  `Scrubber` for compact inspector rows with rail, meter, or ruler feedback.
+  The custom controls use Arrow keys, Home/End, and PageUp/PageDown; Shift
+  selects `fineStep`, Alt selects `coarseStep`. Read the corresponding docs in
+  `docs/components/` before use.
+- Segmented switch: `SegmentedSwitch` is a compact radio group for two to four
+  short, fixed tool choices such as frame rate or aspect ratio. Pass unique
+  `{ value, label, disabled? }` options and name the group with `aria-label` or
+  `aria-labelledby`. Read `docs/components/segmented-switch.md` before use.
+- Tabs: `Tabs` switches between related workspace or panel views with
+  `underline`, `contained`, or `soft` treatments. Pass stable `{ value, label,
+content?, icon?, meta?, disabled? }` items; when every item has `content`, it
+  renders linked `tab` and `tabpanel` pairs. Read `docs/components/tabs.md`
+  before use.
+- Checks and radios: `Checkbox` provides row and inline native-checkbox
+  treatments, including an `indeterminate` state; `RadioGroup` provides native
+  stacked and inline radio options. Read `docs/components/checks-and-radios.md`
+  before use.
+- Toggle rows: `Toggle` is a native checkbox with switch semantics for a
+  standalone binary setting; `ToggleRow` adds full inspector and compact
+  menu-style labelled rows. Read `docs/components/toggle.md` before use.
+- Layer rows: `LayerRow` provides icon-led `layer` and text-led `preset`
+  variants for compact selected-item lists. Pass a short `meta` value and
+  optional icon-only `actions`, each with an accessible label. The selected row
+  exposes `aria-current` and keeps its actions visible. Read
+  `docs/components/layer-row.md` before use.
+- Frame: `Frame` renders a named artboard boundary with optional dimensions,
+  selection handles, and a controlled recording outline using `recording` plus
+  `recordingProgress` from 0 to 1. The application owns canvas coordinates and
+  interactions; compose `ContextMenu` around a focusable frame for object
+  actions. Read `docs/components/frame.md` before use.
+- Sidebar: `Sidebar` provides panel, docked, and floating inspector shells;
+  `SidebarSection` keeps group labels, spacing, and full-width dividers
+  consistent. Use `draggable` only with `variant="floating"`; movement can be
+  parent- or viewport-bounded and supports controlled persistence through
+  `position` and `onPositionChange`. To pop an individual tool out of an
+  inspector, keep its value state application-owned and render the same
+  controlled tool either in its docked `SidebarSection` or in a compact
+  floating `Sidebar`—never two active copies. Read `docs/components/sidebar.md`
+  before use.
+- Easing graph: `EasingGraph` renders a cubic-bezier curve with an optional
+  direct-manipulation mode. Pass a controlled `EasingCurve` and
+  `onValueChange`; compose it with `Dropdown` for named presets and
+  `NumberInput` for exact control-point values. Read
+  `docs/components/easing-graph.md` before use.
+- Camera path: `CameraPath` renders an ordered spatial route for camera moves
+  and framing transitions. Pass controlled `CameraPathWaypoint[]` values with
+  `onValueChange`; use `activeIndex` and `onActiveIndexChange` for the selected
+  waypoint, and `snapToGrid` only when repeatable framing is useful. Each visible
+  dot is a snap position. Compose it with `Dropdown`, `Toggle`, and `NumberInput`
+  for a complete inspector.
+  Read `docs/components/camera-path.md` before use.
+- Focus crop: `FocusCrop` is a bounded crop and focal-point field for media,
+  layout, and camera inspectors. Pass a controlled `FocusCropValue` and optional
+  `FocusCropFocalPoint`; set `aspectRatio` plus `aspectLocked` for delivery
+  framing, and use `showSafeArea` only when composition guidance is useful. The
+  crop frame, corner handles, and focal target all support direct manipulation.
+  Read `docs/components/focus-crop.md` before use.
+- Modulation strip: `ModulationStrip` previews a procedural waveform using a
+  `ModulationStripValue` with `waveform`, `phase`, `rate`, and `intensity`.
+  Rate controls visible cycle density; the direct handle adjusts phase and
+  intensity. Compose it with `SegmentedSwitch`, `NumberInput`, and `Slider`
+  for waveform selection and exact inspector values. Read
+  `docs/components/modulation-strip.md` before use.
+- Tone curve: `ToneCurve` is a histogram-backed tonal transfer editor for
+  luminance and individual RGB channels. Pass controlled `ToneCurvePoint[]`
+  values with stable ids; middle points can be added, dragged, keyboard-tuned,
+  and deleted while endpoints retain their input bounds. Pair it with
+  `Dropdown`, `SegmentedSwitch`, and `NumberInput` for presets, channel choice,
+  and exact selected values. Read `docs/components/tone-curve.md` before use.
+- Axis field: `AxisField` is a neutral two-axis value editor for paired creative
+  settings such as amount/scale or scatter/spread. Pass a controlled
+  `AxisFieldValue` and `onValueChange`; provide meaningful `xLabel` and `yLabel`,
+  and use `snapToGrid` only when repeatable values help. Compose it with
+  `Dropdown`, `Toggle`, and `NumberInput` for a complete inspector. Read
+  `docs/components/axis-field.md` before use.
+- Direction pad: `DirectionPad` selects one discrete spatial direction plus a
+  neutral center. Use the default `mode="eight-way"` for meaningful diagonals or
+  `mode="cardinal"` for axis-only actions. Pair it with `Slider`, `RulerSlider`,
+  or `NumberInput` for magnitude, strength, or distance. Read
+  `docs/components/direction-pad.md` before use.
+- Keyframe lane: `KeyframeLane` is a single-property temporal editor
+  for discrete events, a playhead, and an optional working range. Pass
+  controlled `KeyframeLaneKeyframe[]` values with stable ids and
+  `onValueChange`; use `snap` for repeatable timing. The default `diamond`
+  variant emphasizes events, `bar` makes holds visible, and `dot` supports
+  dense supporting timelines. Use `density="compact"` when stacking multiple
+  lanes with a shared playhead and range; set `showPlayhead={false}` when the
+  parent provides one shared draggable playhead. Pair a selected transition with `EasingGraph`,
+  and keep exact time values nearby with `NumberInput`. Read
+  `docs/components/keyframe-lane.md` before use.
+- Video timeline: `VideoTimeline` is a multi-track editorial timeline with
+  moving, trimming, splitting, duplication, renaming, and per-lane mute/lock.
+  Pass controlled `VideoTimelineTrack[]` with stable ids; persist
+  `sourceOffset`/`sourceDuration` alongside start and duration. `previewSrc`
+  renders native image/video previews, and audio sources are decoded once into
+  a hi-res min/max/RMS peak store (`createAudioPeakStore`) painted as true
+  per-pixel NLE-style waveforms per channel; pass `waveform` peaks only when
+  they are precomputed away from the client. Read
+  `docs/components/video-timeline.md` before use.
+- Gradient editor: `GradientEditor` edits a live colour-and-alpha ramp with
+  independent draggable `colorStops` and `alphaStops`. Its action bar can add
+  interpolated colour or opacity stops, reverse the ramp, and remove the current
+  selection while preserving two stops per lane. Use the active-segment `midpoint`
+  only to bias a blend, and pair a selected stop with `ColorInput`, `ColorPicker`,
+  or `NumberInput` for exact values. Use the 220px `GradientPicker` beside
+  `ColorPicker` in auto-sized `Popover` + `Tabs` compositions; use the wider
+  `GradientEditor` in inspectors. GradientPicker intentionally omits the inspector
+  command bar, uses smaller square stops, and pairs equal Hex/Position fields below
+  its unboxed ramp. Both retain the same stop interaction model. Read
+  `docs/components/gradient-editor.md` before use.
+- Histogram scope: `HistogramScope` is a read-only luminance and RGB
+  distribution view for exposure-aware inspectors — spotting crushed shadows
+  and clipped highlights, not adjusting them. Pair it with `Slider`,
+  `DragValue`, or `ToneCurve` for the actual correction controls. Read
+  `docs/components/histogram-scope.md` before use.
+- Dropdowns: `Dropdown` is a custom, accessible single-select list;
+  `NestedDropdown` hosts a small anchored group of normal Frame Kit controls;
+  `Disclosure` reveals optional settings inline. Read `docs/components/dropdown.md`
+  before use.
+- Popover: `Popover` attaches a non-modal, viewport-aware dialog surface to one
+  trigger for compact actions, settings, or supporting detail. Choose a
+  `placement`; it flips and clamps at viewport edges. Use `open` with
+  `onOpenChange` when nearby surfaces must coordinate. Read
+  `docs/components/popover.md` before use.
+- Context menu: `ContextMenu` attaches keyboard-complete right-click actions to
+  one focusable target. It supports shortcuts, destructive actions, separators,
+  and one shallow submenu. Read `docs/components/context-menu.md` before use.
+- Hover cards & tooltips: `Tooltip` is for one concise supporting phrase;
+  `HoverCard` is for richer optional preview detail. Both flip and clamp in the
+  viewport, open on keyboard focus, and close with Escape. Do not hide required
+  information or commands in either. Read `docs/components/hover-card.md`
+  before use.
+- Toolbar: `Toolbar` is a roving-focus group for tool buttons and rails. Use
+  its unchanged default `size="compact"` for dense surfaces or `size="large"`
+  to promote all enclosed buttons to roomier 34px targets. `ToolbarGroup`
+  supports click and press-and-hold flyouts. Read `docs/components/toolbar.md`
+  before use.
+- Accent color is a signal, not decoration.

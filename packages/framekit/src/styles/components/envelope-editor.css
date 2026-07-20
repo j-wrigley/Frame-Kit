@@ -1,0 +1,145 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Envelope editor
+   Direct ADSR shaping for audio, effects, and generative motion.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-envelope-editor {
+  min-width: 0;
+}
+
+.fk-envelope-editor__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 128;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-envelope-editor__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-envelope-editor__grid line {
+  stroke: var(--fk-border);
+  stroke-opacity: 0.18;
+  stroke-width: 0.75;
+}
+
+.fk-envelope-editor__baseline {
+  stroke: var(--fk-text-tertiary);
+  stroke-opacity: 0.42;
+  stroke-width: 0.75;
+}
+
+.fk-envelope-editor__area {
+  fill: transparent;
+}
+
+.fk-envelope-editor--audio .fk-envelope-editor__area {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.12;
+}
+
+.fk-envelope-editor--motion .fk-envelope-editor__area {
+  fill: color-mix(in srgb, var(--fk-accent-subtle) 18%, transparent);
+}
+
+.fk-envelope-editor__curve {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.78;
+  stroke-width: 1.25;
+}
+
+.fk-envelope-editor--motion .fk-envelope-editor__curve {
+  stroke-dasharray: 5 3;
+}
+
+.fk-envelope-editor__handle {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-envelope-editor__handle[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-envelope-editor__handle-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.fk-envelope-editor__handle-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 1.25;
+}
+
+.fk-envelope-editor__handle-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-text-tertiary);
+  stroke-width: 1.1;
+}
+
+.fk-envelope-editor__handle[data-dragging] .fk-envelope-editor__handle-outer {
+  fill: var(--fk-accent);
+  stroke: var(--fk-accent);
+}
+
+.fk-envelope-editor__handle:focus-visible .fk-envelope-editor__handle-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-envelope-editor__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+.fk-envelope-editor--readonly {
+  opacity: 0.64;
+}
+
+.fk-envelope-editor--compact .fk-envelope-editor__canvas {
+  aspect-ratio: 360 / 96;
+}
+
+@media (forced-colors: active) {
+  .fk-envelope-editor__surface,
+  .fk-envelope-editor__grid line,
+  .fk-envelope-editor__baseline,
+  .fk-envelope-editor__area,
+  .fk-envelope-editor__curve,
+  .fk-envelope-editor__handle-focus,
+  .fk-envelope-editor__handle-outer {
+    forced-color-adjust: none;
+  }
+
+  .fk-envelope-editor__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-envelope-editor__grid line,
+  .fk-envelope-editor__baseline {
+    stroke: CanvasText;
+  }
+
+  .fk-envelope-editor__area {
+    fill: transparent;
+  }
+
+  .fk-envelope-editor__curve,
+  .fk-envelope-editor__handle-focus,
+  .fk-envelope-editor__handle-outer {
+    stroke: Highlight;
+  }
+
+  .fk-envelope-editor__handle[data-dragging] .fk-envelope-editor__handle-outer {
+    fill: Highlight;
+  }
+}

@@ -1,0 +1,117 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Hover card & tooltip
+   Quiet, viewport-aware supporting detail for dense interfaces.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-tooltip,
+.fk-hover-card,
+.fk-floating-overlay__anchor {
+  display: inline-flex;
+}
+
+.fk-tooltip__surface,
+.fk-hover-card__surface {
+  position: fixed;
+  color: var(--fk-text-primary);
+  font-family: var(--fk-font-sans);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: normal;
+  text-transform: none;
+  background: var(--fk-bg-raised);
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+  border: 1px solid var(--fk-border-control);
+  box-shadow: var(--fk-shadow-md);
+}
+
+.fk-tooltip__surface {
+  z-index: var(--fk-z-tooltip, 1200);
+}
+
+.fk-hover-card__surface {
+  z-index: var(--fk-z-popover, 1100);
+}
+
+.fk-tooltip__surface {
+  width: max-content;
+  max-width: min(240px, calc(100vw - var(--fk-space-6)));
+  padding: 5px var(--fk-space-2);
+  pointer-events: none;
+  font-size: var(--fk-fs-1);
+  line-height: 1.35;
+  color: var(--fk-text-secondary);
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-hover-card__surface {
+  --fk-hover-card-width: 264px;
+
+  display: grid;
+  gap: var(--fk-space-3);
+  width: min(var(--fk-hover-card-width), calc(100vw - var(--fk-space-6)));
+  max-height: calc(100vh - var(--fk-space-6));
+  padding: var(--fk-space-3);
+  overflow: auto;
+  font-size: var(--fk-fs-2);
+  line-height: 1.45;
+  border-radius: var(--fk-radius-md);
+}
+
+.fk-hover-card__surface--sm {
+  --fk-hover-card-width: 208px;
+}
+
+.fk-hover-card__surface--lg {
+  --fk-hover-card-width: 336px;
+}
+
+.fk-tooltip__surface[data-side='top'],
+.fk-hover-card__surface[data-side='top'] {
+  transform-origin: center bottom;
+}
+
+.fk-tooltip__surface[data-side='right'],
+.fk-hover-card__surface[data-side='right'] {
+  transform-origin: left center;
+}
+
+.fk-tooltip__surface[data-side='bottom'],
+.fk-hover-card__surface[data-side='bottom'] {
+  transform-origin: center top;
+}
+
+.fk-tooltip__surface[data-side='left'],
+.fk-hover-card__surface[data-side='left'] {
+  transform-origin: right center;
+}
+
+.fk-tooltip__surface[data-positioned='true'],
+.fk-hover-card__surface[data-positioned='true'] {
+  animation: fk-overlay-in var(--fk-duration-fast) var(--fk-ease) both;
+}
+
+@keyframes fk-overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-tooltip__surface[data-positioned='true'],
+  .fk-hover-card__surface[data-positioned='true'] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-tooltip__surface,
+  .fk-hover-card__surface {
+    border-color: CanvasText;
+  }
+}

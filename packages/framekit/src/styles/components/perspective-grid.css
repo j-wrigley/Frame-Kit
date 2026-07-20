@@ -1,0 +1,281 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Perspective grid
+   Keystone correction with direct corner handles and restrained controls.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-perspective-grid {
+  display: grid;
+  gap: var(--fk-space-2);
+  min-width: 0;
+}
+
+.fk-perspective-grid--compact {
+  gap: var(--fk-space-2);
+}
+
+.fk-perspective-grid__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 340 / 190;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-perspective-grid__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-perspective-grid__field {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.14;
+  pointer-events: none;
+}
+
+.fk-perspective-grid__lines {
+  pointer-events: none;
+}
+
+.fk-perspective-grid__lines line {
+  stroke: var(--fk-text-tertiary);
+  stroke-opacity: 0.3;
+  stroke-width: 0.7;
+}
+
+.fk-perspective-grid__outline {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-opacity: 0.78;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.fk-perspective-grid__handle {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-perspective-grid__handle[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-perspective-grid__handle-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.fk-perspective-grid__handle-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 1.25;
+}
+
+.fk-perspective-grid__handle-square {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.25;
+}
+
+.fk-perspective-grid__handle[data-dragging] .fk-perspective-grid__handle-square {
+  fill: var(--fk-accent);
+}
+
+.fk-perspective-grid__handle:focus-visible .fk-perspective-grid__handle-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-perspective-grid__controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--fk-space-2);
+  padding-top: var(--fk-space-2);
+  border-top: 1px solid var(--fk-border-subtle);
+}
+
+.fk-perspective-grid__control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--fk-space-2);
+  min-width: 0;
+}
+
+.fk-perspective-grid__control > span,
+.fk-perspective-grid__control output {
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  line-height: 1;
+}
+
+.fk-perspective-grid__control > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-perspective-grid__control output {
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-perspective-grid__control input {
+  width: 100%;
+  min-width: 0;
+  height: 16px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  background: transparent;
+  border: 0;
+}
+
+.fk-perspective-grid__control input::-webkit-slider-runnable-track {
+  height: 3px;
+  background:
+    linear-gradient(
+      to right,
+      transparent 0 var(--fk-perspective-grid-start),
+      var(--fk-accent) var(--fk-perspective-grid-start) var(--fk-perspective-grid-end),
+      transparent var(--fk-perspective-grid-end) 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0 calc(50% - 0.5px),
+      var(--fk-text-tertiary) calc(50% - 0.5px) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px) 100%
+    ),
+    var(--fk-bg-control-hover);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-perspective-grid__control input::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  margin-top: -3.5px;
+  cursor: grab;
+  appearance: none;
+  background: var(--fk-bg-raised);
+  border: 2px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: var(--fk-shadow-sm);
+}
+
+.fk-perspective-grid__control input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  background: var(--fk-accent);
+}
+
+.fk-perspective-grid__control input::-moz-range-track {
+  height: 3px;
+  background: var(--fk-bg-control-hover);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-perspective-grid__control input::-moz-range-progress {
+  height: 3px;
+  background: var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-perspective-grid__control input::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  cursor: grab;
+  background: var(--fk-bg-raised);
+  border: 2px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: var(--fk-shadow-sm);
+}
+
+.fk-perspective-grid__control input:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 3px;
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-perspective-grid--compact .fk-perspective-grid__controls {
+  gap: var(--fk-space-2);
+  padding-top: var(--fk-space-2);
+}
+
+.fk-perspective-grid--compact .fk-perspective-grid__control > span,
+.fk-perspective-grid--compact .fk-perspective-grid__control output {
+  font-size: var(--fk-fs-0);
+}
+
+.fk-perspective-grid--readonly {
+  opacity: 0.62;
+}
+
+.fk-perspective-grid--readonly .fk-perspective-grid__handle,
+.fk-perspective-grid__control input:disabled {
+  cursor: default;
+}
+
+@media (max-width: 520px) {
+  .fk-perspective-grid__controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-perspective-grid__surface,
+  .fk-perspective-grid__field,
+  .fk-perspective-grid__lines line,
+  .fk-perspective-grid__outline,
+  .fk-perspective-grid__handle-focus,
+  .fk-perspective-grid__handle-square,
+  .fk-perspective-grid__control input::-webkit-slider-runnable-track,
+  .fk-perspective-grid__control input::-webkit-slider-thumb,
+  .fk-perspective-grid__control input::-moz-range-track,
+  .fk-perspective-grid__control input::-moz-range-progress,
+  .fk-perspective-grid__control input::-moz-range-thumb {
+    forced-color-adjust: none;
+  }
+
+  .fk-perspective-grid__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-perspective-grid__field {
+    fill: Canvas;
+  }
+
+  .fk-perspective-grid__lines line {
+    stroke: GrayText;
+  }
+
+  .fk-perspective-grid__outline,
+  .fk-perspective-grid__handle-focus,
+  .fk-perspective-grid__handle-square {
+    stroke: Highlight;
+  }
+
+  .fk-perspective-grid__handle-square,
+  .fk-perspective-grid__control input::-webkit-slider-thumb,
+  .fk-perspective-grid__control input::-moz-range-thumb {
+    fill: Canvas;
+    background: Canvas;
+    border-color: Highlight;
+  }
+
+  .fk-perspective-grid__handle[data-dragging] .fk-perspective-grid__handle-square {
+    fill: Highlight;
+  }
+
+  .fk-perspective-grid__control input::-webkit-slider-runnable-track,
+  .fk-perspective-grid__control input::-moz-range-track {
+    background: GrayText;
+  }
+
+  .fk-perspective-grid__control input::-moz-range-progress {
+    background: Highlight;
+  }
+}

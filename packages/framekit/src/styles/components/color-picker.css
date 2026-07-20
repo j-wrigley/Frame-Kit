@@ -1,0 +1,270 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — ColorPicker · ColorInput · ColorSwatch
+   Token-pure; works in light and dark. Square handles and a
+   compact hue rail — spectrum gradients and handle rings are
+   physical color by design.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-color-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fk-space-2);
+  width: 220px;
+}
+
+/* ── Saturation / brightness area ── */
+
+.fk-color-area {
+  position: relative;
+  height: 148px;
+  border-radius: var(--fk-radius-xs);
+  background:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, hsl(var(--fk-color-area-hue, 0), 100%, 50%));
+  box-shadow: inset 0 0 0 1px var(--fk-border-control);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.fk-color-area__thumb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1.5px #ffffff,
+    0 0 0 2.5px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ── Hue rail (native range, restyled: compact rail + square thumb) ── */
+
+.fk-hue-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.fk-hue-slider::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: var(--fk-radius-xs);
+  background: linear-gradient(
+    to right,
+    #f00 0%,
+    #ff0 17%,
+    #0f0 33%,
+    #0ff 50%,
+    #00f 67%,
+    #f0f 83%,
+    #f00 100%
+  );
+  box-shadow: inset 0 0 0 1px var(--fk-border-control);
+}
+
+.fk-hue-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow:
+    0 0 0 1.5px #ffffff,
+    0 0 0 2.5px rgba(0, 0, 0, 0.35);
+}
+
+.fk-hue-slider::-moz-range-track {
+  height: 10px;
+  border-radius: var(--fk-radius-xs);
+  background: linear-gradient(
+    to right,
+    #f00 0%,
+    #ff0 17%,
+    #0f0 33%,
+    #0ff 50%,
+    #00f 67%,
+    #f0f 83%,
+    #f00 100%
+  );
+  box-shadow: inset 0 0 0 1px var(--fk-border-control);
+}
+
+.fk-hue-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  box-shadow:
+    0 0 0 1.5px #ffffff,
+    0 0 0 2.5px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Hex input with swatch ── */
+
+.fk-color-input {
+  min-width: 112px;
+}
+
+.fk-color-input__swatch {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+}
+
+.fk-color-input.fk-input--disabled .fk-color-input__swatch {
+  opacity: 0.5;
+}
+
+[data-theme='dark'] .fk-color-input__swatch {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+/* Value font (mono) comes from the Input font="mono" system; only the
+   hex-specific size/weight/tracking are set here. */
+.fk-color-input > input {
+  width: 7ch;
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0.02em;
+}
+
+/* ── Swatch ──
+   16/20px chips, 2px corners, physical keyline (separates any chip color
+   from any background — theme override below). */
+
+.fk-color-swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+}
+
+[data-theme='dark'] .fk-color-swatch {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.fk-color-swatch--sm {
+  width: 16px;
+  height: 16px;
+}
+
+.fk-color-swatch--selected,
+[data-theme='dark'] .fk-color-swatch--selected {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.14),
+    0 0 0 1px var(--fk-accent);
+}
+
+.fk-color-picker__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fk-space-2);
+}
+
+/* ── ColorField: closed control + anchored popover ── */
+
+.fk-color-field {
+  position: relative;
+  display: inline-flex;
+  min-width: 112px;
+}
+
+.fk-color-field--full {
+  display: flex;
+  width: 100%;
+}
+
+.fk-color-field--full .fk-color-field__input {
+  width: auto;
+  flex: 1;
+}
+
+.fk-color-field__popover-shell {
+  flex: 0 0 30px;
+}
+
+.fk-color-field__swatch {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-right: 0;
+  border-radius: var(--fk-radius-sm) 0 0 var(--fk-radius-sm);
+  cursor: pointer;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-color-field__swatch:hover:not(:disabled),
+.fk-color-field:focus-within .fk-color-field__swatch {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-color-field__swatch:hover:not(:disabled) {
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-color-field__swatch:disabled {
+  cursor: not-allowed;
+}
+
+.fk-color-field__swatch:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: var(--fk-focus-outline);
+  outline-offset: 2px;
+}
+
+.fk-color-field--open .fk-color-field__swatch {
+  position: relative;
+  z-index: 1;
+  border-color: var(--fk-accent);
+}
+
+/* The swatch and hex field share one seam. The swatch owns no right border,
+   so the input's left edge carries the selected state while the picker is open. */
+.fk-color-field--open .fk-color-field__input {
+  border-left-color: var(--fk-accent);
+}
+
+.fk-color-field__input {
+  width: 82px;
+  min-width: 0;
+  height: 30px;
+  margin-left: -1px;
+  border-radius: 0 var(--fk-radius-sm) var(--fk-radius-sm) 0;
+}
+
+.fk-color-field--disabled .fk-color-input__swatch {
+  opacity: 0.5;
+}
+
+.fk-color-popover {
+  --fk-popover-width: 236px;
+
+  gap: var(--fk-space-2);
+  width: min(var(--fk-popover-width), calc(100vw - var(--fk-space-6)));
+  padding: var(--fk-space-2);
+  border-color: var(--fk-border-subtle);
+  box-shadow: var(--fk-shadow-lg);
+}
+
+/* Typographic treatment comes from .fk-tag. */

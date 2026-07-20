@@ -1,0 +1,105 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Segmented switch
+   Quiet mutually-exclusive choices for dense tool settings.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-segmented-switch {
+  --fk-segmented-height: 30px;
+  --fk-segmented-option-height: 24px;
+
+  position: relative;
+  display: inline-grid;
+  min-width: 0;
+  height: var(--fk-segmented-height);
+  padding: 2px;
+  gap: 2px;
+  overflow: hidden;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-segmented-switch--sm {
+  --fk-segmented-height: 24px;
+  --fk-segmented-option-height: 18px;
+}
+
+.fk-segmented-switch--full {
+  display: grid;
+  width: 100%;
+}
+
+.fk-segmented-switch::before {
+  position: absolute;
+  z-index: 0;
+  top: 2px;
+  bottom: 2px;
+  left: var(--fk-segmented-selected-left);
+  width: var(--fk-segmented-selected-width);
+  content: '';
+  background: var(--fk-bg-raised);
+  border-radius: var(--fk-radius-xs);
+  transition: left var(--fk-duration) var(--fk-ease);
+}
+
+.fk-segmented-switch__option {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  height: var(--fk-segmented-option-height);
+  padding: 0 var(--fk-space-2);
+  overflow: hidden;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-xs);
+  /* Typographic treatment (mono/uppercase/tracked) comes from .fk-tag. */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-segmented-switch__option:hover:not(:disabled):not([aria-checked='true']) {
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-segmented-switch__option[aria-checked='true'] {
+  color: var(--fk-accent-text);
+  background: transparent;
+}
+
+.fk-segmented-switch__option:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: -1px;
+}
+
+.fk-segmented-switch__option:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-segmented-switch--empty::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-segmented-switch::before {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-segmented-switch__option[aria-checked='true'] {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

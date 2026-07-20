@@ -1,0 +1,508 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Gradient editor
+   A precise two-lane editor for colour and opacity stops.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-gradient-editor {
+  min-width: 0;
+  width: 100%;
+  color: var(--fk-text-primary);
+  container-type: inline-size;
+}
+
+.fk-gradient-editor__toolbar,
+.fk-gradient-editor__actions,
+.fk-gradient-editor__summary,
+.fk-gradient-editor__lane-heading,
+.fk-gradient-editor__axis {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.fk-gradient-editor__toolbar {
+  justify-content: space-between;
+  gap: var(--fk-space-3);
+  min-height: 34px;
+  margin-bottom: var(--fk-space-2);
+}
+
+.fk-gradient-editor__summary {
+  flex: 1 1 auto;
+  gap: var(--fk-space-2);
+  overflow: hidden;
+}
+
+.fk-gradient-editor__summary > span {
+  flex: 0 0 auto;
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-gradient-editor__summary output,
+.fk-gradient-editor__lane-heading,
+.fk-gradient-editor__axis {
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+  line-height: 1;
+}
+
+.fk-gradient-editor__summary output {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-gradient-editor__actions {
+  flex: 0 0 auto;
+  gap: 2px;
+}
+
+.fk-gradient-editor__actions .fk-button {
+  min-width: 0;
+}
+
+.fk-gradient-editor__workspace {
+  min-width: 0;
+  padding: var(--fk-space-2) 10px var(--fk-space-1);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--fk-text-primary) 3%, transparent);
+}
+
+.fk-gradient-editor__lane-heading {
+  justify-content: space-between;
+  height: 14px;
+  padding: 0 1px;
+}
+
+.fk-gradient-editor__lane-heading > span:first-child,
+.fk-gradient-editor__axis > span:first-child {
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-gradient-editor__alpha-lane,
+.fk-gradient-editor__color-lane,
+.fk-gradient-editor__ramp {
+  position: relative;
+  min-width: 0;
+}
+
+.fk-gradient-editor__alpha-lane {
+  height: 24px;
+  cursor: copy;
+}
+
+.fk-gradient-editor__alpha-track {
+  position: absolute;
+  inset: 9px 0 auto;
+  height: 6px;
+  overflow: hidden;
+  background-color: var(--fk-bg-raised);
+  background-image:
+    var(--fk-gradient-editor-alpha),
+    conic-gradient(
+      from 45deg,
+      color-mix(in srgb, var(--fk-text-primary) 10%, transparent) 25%,
+      transparent 0 50%,
+      color-mix(in srgb, var(--fk-text-primary) 10%, transparent) 0 75%,
+      transparent 0
+    );
+  background-size:
+    100% 100%,
+    6px 6px;
+  border: 1px solid var(--fk-border-control);
+  border-radius: 2px;
+}
+
+.fk-gradient-editor__ramp {
+  height: 46px;
+  overflow: visible;
+  background-color: var(--fk-bg-raised);
+  background-image: conic-gradient(
+    from 45deg,
+    color-mix(in srgb, var(--fk-text-primary) 9%, transparent) 25%,
+    transparent 0 50%,
+    color-mix(in srgb, var(--fk-text-primary) 9%, transparent) 0 75%,
+    transparent 0
+  );
+  background-size: 8px 8px;
+  border: 1px solid var(--fk-border-control-hover);
+  border-radius: var(--fk-radius-xs);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--fk-bg-canvas) 22%, transparent),
+    0 1px 1px color-mix(in srgb, var(--fk-bg-canvas) 30%, transparent);
+}
+
+.fk-gradient-editor__ramp-colors {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--fk-gradient-editor-colors);
+  border-radius: calc(var(--fk-radius-xs) - 1px);
+  -webkit-mask-image: var(--fk-gradient-editor-alpha);
+  mask-image: var(--fk-gradient-editor-alpha);
+}
+
+.fk-gradient-editor__color-lane {
+  height: 30px;
+  cursor: copy;
+}
+
+.fk-gradient-editor__stop,
+.fk-gradient-editor__midpoint {
+  position: absolute;
+  left: var(--fk-gradient-editor-position);
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  cursor: grab;
+  outline: none;
+  touch-action: none;
+  transform: translateX(-50%);
+}
+
+.fk-gradient-editor--readonly .fk-gradient-editor__alpha-lane,
+.fk-gradient-editor--readonly .fk-gradient-editor__color-lane,
+.fk-gradient-editor--readonly .fk-gradient-editor__stop,
+.fk-gradient-editor--readonly .fk-gradient-editor__midpoint {
+  cursor: default;
+}
+
+.fk-gradient-editor__stop[data-dragging],
+.fk-gradient-editor__midpoint[data-dragging] {
+  cursor: grabbing;
+}
+
+/* Opacity stops sit on the upper rail and point down into the ramp. */
+.fk-gradient-editor__stop--alpha {
+  top: 2px;
+  width: 16px;
+  height: 20px;
+  background: transparent;
+  border: 0;
+}
+
+.fk-gradient-editor__stop--alpha::after {
+  position: absolute;
+  left: 5px;
+  bottom: 1px;
+  width: 6px;
+  height: 6px;
+  content: '';
+  background: var(--fk-bg-raised);
+  border-right: 1px solid var(--fk-border-control-hover);
+  border-bottom: 1px solid var(--fk-border-control-hover);
+  transform: rotate(45deg);
+}
+
+.fk-gradient-editor__stop--alpha > span {
+  position: absolute;
+  inset: 0 1px 6px;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+  background-color: var(--fk-bg-raised);
+  background-image:
+    linear-gradient(
+      rgb(20 24 32 / var(--fk-gradient-editor-stop-opacity)),
+      rgb(20 24 32 / var(--fk-gradient-editor-stop-opacity))
+    ),
+    conic-gradient(#d4d7dc 25%, #ffffff 0 50%, #d4d7dc 0 75%, #ffffff 0);
+  background-size:
+    100% 100%,
+    4px 4px;
+  border: 1px solid var(--fk-border-control-hover);
+  border-radius: 3px 3px 2px 2px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 18%);
+}
+
+/* Colour stops point up into the ramp and carry a real swatch. */
+.fk-gradient-editor__stop--color {
+  top: 0;
+  width: 18px;
+  height: 25px;
+  background: transparent;
+  border: 0;
+}
+
+.fk-gradient-editor__stop--color::before {
+  position: absolute;
+  top: 1px;
+  left: 6px;
+  width: 6px;
+  height: 6px;
+  content: '';
+  background: var(--fk-bg-raised);
+  border-top: 1px solid var(--fk-border-control-hover);
+  border-left: 1px solid var(--fk-border-control-hover);
+  transform: rotate(45deg);
+}
+
+.fk-gradient-editor__stop--color > span {
+  position: absolute;
+  inset: 5px 1px 1px;
+  z-index: 1;
+  display: block;
+  background: var(--fk-gradient-editor-stop-color);
+  border: 2px solid var(--fk-bg-raised);
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px var(--fk-border-control-hover),
+    0 1px 1px rgb(0 0 0 / 20%);
+}
+
+.fk-gradient-editor__stop--alpha[data-active] > span,
+.fk-gradient-editor__stop--color[data-active] > span {
+  box-shadow:
+    0 0 0 1px var(--fk-accent),
+    0 0 0 3px color-mix(in srgb, var(--fk-accent) 18%, transparent),
+    0 1px 1px rgb(0 0 0 / 20%);
+}
+
+.fk-gradient-editor__stop--alpha[data-active]::after,
+.fk-gradient-editor__stop--color[data-active]::before {
+  border-color: var(--fk-accent);
+}
+
+.fk-gradient-editor__midpoint {
+  top: 50%;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  background: rgb(255 255 255 / 92%);
+  border: 1px solid rgb(20 24 32 / 68%);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 28%);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.fk-gradient-editor__midpoint::after {
+  position: absolute;
+  inset: -11px -4px;
+  content: '';
+}
+
+.fk-gradient-editor__midpoint[data-dragging] {
+  background: var(--fk-accent);
+  border-color: var(--fk-accent);
+}
+
+.fk-gradient-editor__axis {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, minmax(22px, auto));
+  gap: var(--fk-space-3);
+  height: 17px;
+  padding: 0 1px;
+  text-align: right;
+}
+
+.fk-gradient-editor__axis > span:first-child {
+  text-align: left;
+}
+
+.fk-gradient-editor__stop:focus-visible > span,
+.fk-gradient-editor__midpoint:focus-visible {
+  outline: 1px solid var(--fk-accent);
+  outline-offset: 3px;
+}
+
+.fk-gradient-editor--readonly {
+  opacity: 0.58;
+}
+
+/* Compact density supports picker-width compositions without changing the
+   editor's stop model or interaction semantics. */
+.fk-gradient-editor--compact .fk-gradient-editor__toolbar {
+  justify-content: flex-end;
+  min-height: 24px;
+  margin-bottom: var(--fk-space-1);
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__summary {
+  display: none;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__actions {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__workspace {
+  padding: var(--fk-space-1) var(--fk-space-2) 2px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__lane-heading {
+  height: 12px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__lane-heading > span:last-child {
+  display: none;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__alpha-lane {
+  height: 20px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__alpha-track {
+  top: 7px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__ramp {
+  height: 36px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__color-lane {
+  height: 24px;
+}
+
+.fk-gradient-editor--compact .fk-gradient-editor__axis {
+  height: 14px;
+  gap: var(--fk-space-2);
+}
+
+/* GradientPicker matches ColorPicker's 220px physical footprint. The taller
+   ramp remains a one-dimensional gradient surface rather than implying a
+   second editing axis. */
+.fk-gradient-picker {
+  display: grid;
+  gap: var(--fk-space-2);
+  width: 220px;
+  min-width: 0;
+}
+
+.fk-gradient-picker .fk-gradient-editor--compact .fk-gradient-editor__ramp {
+  height: 130px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__workspace {
+  padding: 0 var(--fk-space-2);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.fk-gradient-picker .fk-gradient-editor__alpha-track {
+  top: 8px;
+  height: 4px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--alpha {
+  top: 3px;
+  width: 14px;
+  height: 17px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--alpha::after {
+  left: 4px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--alpha > span {
+  inset: 0 1px 6px;
+  border-radius: 2px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--color {
+  width: 16px;
+  height: 22px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--color::before {
+  left: 5px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__stop--color > span {
+  inset: 5px 1px 1px;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+.fk-gradient-picker .fk-gradient-editor__axis {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.fk-gradient-picker .fk-gradient-editor__axis > span:not(:first-child) {
+  display: none;
+}
+
+.fk-gradient-picker__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--fk-space-2);
+  min-width: 0;
+}
+
+.fk-gradient-picker__fields > *,
+.fk-gradient-picker__fields .fk-color-input,
+.fk-gradient-picker__fields .fk-input {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .fk-gradient-editor--default .fk-gradient-editor__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fk-gradient-editor--default .fk-gradient-editor__actions {
+    width: 100%;
+  }
+
+  .fk-gradient-editor--default .fk-gradient-editor__actions .fk-button:nth-child(-n + 2) {
+    flex: 1 1 auto;
+  }
+}
+
+@container (max-width: 380px) {
+  .fk-gradient-editor__summary output {
+    display: none;
+  }
+
+  .fk-gradient-editor__toolbar {
+    gap: var(--fk-space-1);
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-gradient-editor__workspace,
+  .fk-gradient-editor__alpha-track,
+  .fk-gradient-editor__ramp,
+  .fk-gradient-editor__ramp-colors,
+  .fk-gradient-editor__stop > span,
+  .fk-gradient-editor__stop::before,
+  .fk-gradient-editor__stop::after,
+  .fk-gradient-editor__midpoint {
+    forced-color-adjust: none;
+  }
+
+  .fk-gradient-editor__workspace,
+  .fk-gradient-editor__ramp {
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .fk-gradient-editor__ramp-colors {
+    background: Highlight;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .fk-gradient-editor__stop > span,
+  .fk-gradient-editor__midpoint {
+    background: Canvas;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .fk-gradient-editor__stop[data-active] > span,
+  .fk-gradient-editor__midpoint[data-dragging] {
+    outline: 2px solid Highlight;
+  }
+}

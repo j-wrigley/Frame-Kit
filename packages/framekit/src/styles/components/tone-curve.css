@@ -1,0 +1,174 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Tone curve
+   Tonal transfer editing with a quiet histogram backdrop.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-tone-curve {
+  width: 100%;
+  min-width: 0;
+}
+
+.fk-tone-curve__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 300 / 184;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-tone-curve__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-tone-curve__histogram rect {
+  fill: var(--fk-text-tertiary);
+  fill-opacity: 0.13;
+}
+
+.fk-tone-curve__grid path {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 4;
+  stroke-opacity: 0.25;
+  stroke-width: 0.75;
+}
+
+.fk-tone-curve__identity {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 5;
+  stroke-opacity: 0.34;
+  stroke-width: 1;
+}
+
+.fk-tone-curve__add-surface {
+  fill: transparent;
+  cursor: crosshair;
+}
+.fk-tone-curve--readonly .fk-tone-curve__add-surface {
+  cursor: default;
+}
+
+.fk-tone-curve__curve-shadow {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.12;
+  stroke-width: 3;
+  pointer-events: none;
+}
+
+.fk-tone-curve__curve {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.fk-tone-curve__point {
+  cursor: grab;
+  outline: none;
+}
+.fk-tone-curve__point[data-dragging] {
+  cursor: grabbing;
+}
+.fk-tone-curve__point-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+.fk-tone-curve__point-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+.fk-tone-curve__point-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+}
+.fk-tone-curve__point-center {
+  fill: var(--fk-accent);
+  pointer-events: none;
+}
+
+.fk-tone-curve__point[data-active] .fk-tone-curve__point-outer,
+.fk-tone-curve__point[data-dragging] .fk-tone-curve__point-outer {
+  fill: var(--fk-accent);
+}
+.fk-tone-curve__point[data-active] .fk-tone-curve__point-center,
+.fk-tone-curve__point[data-dragging] .fk-tone-curve__point-center {
+  fill: var(--fk-bg-raised);
+}
+.fk-tone-curve__point:focus-visible .fk-tone-curve__point-focus {
+  stroke: var(--fk-accent);
+}
+.fk-tone-curve__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+.fk-tone-curve__axis text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: 7px;
+  font-weight: var(--fk-fw-medium);
+}
+.fk-tone-curve__axis text:last-child {
+  text-anchor: end;
+}
+
+@media (forced-colors: active) {
+  .fk-tone-curve__surface,
+  .fk-tone-curve__histogram rect,
+  .fk-tone-curve__grid path,
+  .fk-tone-curve__identity,
+  .fk-tone-curve__curve-shadow,
+  .fk-tone-curve__curve,
+  .fk-tone-curve__point-focus,
+  .fk-tone-curve__point-outer,
+  .fk-tone-curve__point-center,
+  .fk-tone-curve__axis text {
+    forced-color-adjust: none;
+  }
+  .fk-tone-curve__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+  .fk-tone-curve__histogram rect {
+    fill: GrayText;
+  }
+  .fk-tone-curve__grid path,
+  .fk-tone-curve__identity,
+  .fk-tone-curve__axis text {
+    stroke: GrayText;
+    fill: GrayText;
+  }
+  .fk-tone-curve__curve-shadow,
+  .fk-tone-curve__curve,
+  .fk-tone-curve__point-focus,
+  .fk-tone-curve__point-outer,
+  .fk-tone-curve__point-center {
+    stroke: Highlight;
+  }
+  .fk-tone-curve__point-outer {
+    fill: Canvas;
+  }
+  .fk-tone-curve__point-center {
+    fill: Highlight;
+  }
+  .fk-tone-curve__point[data-active] .fk-tone-curve__point-outer,
+  .fk-tone-curve__point[data-dragging] .fk-tone-curve__point-outer {
+    fill: Highlight;
+  }
+  .fk-tone-curve__point[data-active] .fk-tone-curve__point-center,
+  .fk-tone-curve__point[data-dragging] .fk-tone-curve__point-center {
+    fill: Canvas;
+  }
+}

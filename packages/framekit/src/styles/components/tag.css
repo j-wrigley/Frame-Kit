@@ -1,0 +1,28 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Tag
+   The one uppercase micro-label treatment. Eyebrows, field labels,
+   badges, section headers all compose this class, so the tag voice
+   changes in exactly one place.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-tag {
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: var(--fk-tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--fk-text-tertiary);
+}
+
+.fk-tag--secondary {
+  color: var(--fk-text-secondary);
+}
+
+.fk-tag--primary {
+  color: var(--fk-text-primary);
+}
+
+.fk-tag--accent {
+  color: var(--fk-accent-text);
+}

@@ -1,0 +1,168 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Modulation strip
+   Direct waveform preview for procedural motion and effects.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-modulation-strip {
+  min-width: 0;
+}
+
+.fk-modulation-strip__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 112;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-modulation-strip__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-modulation-strip__guides path {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 4;
+  stroke-opacity: 0.34;
+  stroke-width: 0.75;
+}
+
+.fk-modulation-strip__guides path:nth-child(2) {
+  stroke-opacity: 0.54;
+}
+
+.fk-modulation-strip__wave-shadow {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.18;
+  stroke-width: 4;
+}
+
+.fk-modulation-strip__wave {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.fk-modulation-strip__interaction {
+  cursor: crosshair;
+}
+
+.fk-modulation-strip--readonly .fk-modulation-strip__interaction {
+  cursor: default;
+}
+
+.fk-modulation-strip__interaction-surface {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.fk-modulation-strip__handle {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-modulation-strip__interaction[data-dragging] .fk-modulation-strip__handle {
+  cursor: grabbing;
+}
+
+.fk-modulation-strip__handle-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-modulation-strip__handle-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.fk-modulation-strip__handle-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 2;
+}
+
+.fk-modulation-strip__handle-center {
+  fill: var(--fk-accent);
+}
+
+.fk-modulation-strip__interaction[data-dragging] .fk-modulation-strip__handle-outer {
+  fill: var(--fk-accent);
+}
+
+.fk-modulation-strip__interaction[data-dragging] .fk-modulation-strip__handle-center {
+  fill: var(--fk-bg-raised);
+}
+
+.fk-modulation-strip__handle:focus-visible .fk-modulation-strip__handle-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-modulation-strip__axis text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: 7px;
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-modulation-strip__axis text:last-child {
+  text-anchor: end;
+}
+
+.fk-modulation-strip__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-modulation-strip__surface,
+  .fk-modulation-strip__guides path,
+  .fk-modulation-strip__wave-shadow,
+  .fk-modulation-strip__wave,
+  .fk-modulation-strip__handle-focus,
+  .fk-modulation-strip__handle-outer,
+  .fk-modulation-strip__handle-center,
+  .fk-modulation-strip__axis text {
+    forced-color-adjust: none;
+  }
+
+  .fk-modulation-strip__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-modulation-strip__guides path,
+  .fk-modulation-strip__axis text {
+    stroke: GrayText;
+    fill: GrayText;
+  }
+
+  .fk-modulation-strip__wave-shadow,
+  .fk-modulation-strip__wave,
+  .fk-modulation-strip__handle-focus,
+  .fk-modulation-strip__handle-outer {
+    stroke: Highlight;
+  }
+
+  .fk-modulation-strip__handle-outer {
+    fill: Canvas;
+  }
+
+  .fk-modulation-strip__handle-center,
+  .fk-modulation-strip__interaction[data-dragging] .fk-modulation-strip__handle-outer {
+    fill: Highlight;
+  }
+
+  .fk-modulation-strip__interaction[data-dragging] .fk-modulation-strip__handle-center {
+    fill: Canvas;
+  }
+}

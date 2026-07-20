@@ -1,0 +1,164 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Histogram scope
+   Luminance and RGB distribution for exposure-aware creative tools.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-histogram-scope {
+  --fk-histogram-red: #df5961;
+  --fk-histogram-green: #52aa78;
+  --fk-histogram-blue: #5e8ee6;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.fk-histogram-scope__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+  overflow: visible;
+}
+
+.fk-histogram-scope__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-histogram-scope__grid line {
+  stroke: var(--fk-border);
+  stroke-opacity: 0.44;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.fk-histogram-scope__grid line:last-child {
+  stroke: var(--fk-border-control);
+  stroke-opacity: 1;
+}
+
+.fk-histogram-scope__bar {
+  shape-rendering: crispEdges;
+}
+
+.fk-histogram-scope__channel--luminance .fk-histogram-scope__bar {
+  fill: var(--fk-text-primary);
+  fill-opacity: 0.68;
+}
+
+.fk-histogram-scope__channel--red .fk-histogram-scope__bar {
+  fill: var(--fk-histogram-red);
+  fill-opacity: 0.42;
+}
+
+.fk-histogram-scope__channel--green .fk-histogram-scope__bar {
+  fill: var(--fk-histogram-green);
+  fill-opacity: 0.4;
+}
+
+.fk-histogram-scope__channel--blue .fk-histogram-scope__bar {
+  fill: var(--fk-histogram-blue);
+  fill-opacity: 0.4;
+}
+
+.fk-histogram-scope__clip {
+  fill: none;
+  stroke: var(--fk-danger);
+  stroke-linecap: square;
+  stroke-width: 2;
+}
+
+.fk-histogram-scope__interaction {
+  outline: none;
+}
+
+.fk-histogram-scope__interaction-highlight {
+  fill: transparent;
+  pointer-events: none;
+  transition: fill var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-histogram-scope__interaction-surface {
+  fill: transparent;
+  cursor: ns-resize;
+  outline: none;
+  pointer-events: all;
+}
+
+.fk-histogram-scope__interaction[data-active] .fk-histogram-scope__interaction-highlight {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.46;
+}
+
+.fk-histogram-scope__interaction[data-dragging] .fk-histogram-scope__interaction-highlight {
+  fill: var(--fk-accent-muted);
+  fill-opacity: 0.54;
+}
+
+.fk-histogram-scope__interaction:has(.fk-histogram-scope__interaction-surface:focus-visible)
+  .fk-histogram-scope__interaction-highlight {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.64;
+  stroke: var(--fk-accent);
+  stroke-width: 1;
+}
+
+.fk-histogram-scope--disabled {
+  opacity: 0.55;
+}
+
+.fk-histogram-scope__axis text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: 8px;
+  font-weight: var(--fk-fw-medium);
+  text-anchor: middle;
+}
+
+.fk-histogram-scope__axis text:first-child {
+  text-anchor: start;
+}
+
+.fk-histogram-scope__axis text:last-child {
+  text-anchor: end;
+}
+
+@media (forced-colors: active) {
+  .fk-histogram-scope__surface,
+  .fk-histogram-scope__grid line,
+  .fk-histogram-scope__bar,
+  .fk-histogram-scope__clip,
+  .fk-histogram-scope__interaction-highlight,
+  .fk-histogram-scope__axis text {
+    forced-color-adjust: none;
+  }
+
+  .fk-histogram-scope__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-histogram-scope__grid line {
+    stroke: GrayText;
+  }
+
+  .fk-histogram-scope__bar,
+  .fk-histogram-scope__clip {
+    stroke: Highlight;
+  }
+
+  .fk-histogram-scope__bar {
+    fill: Highlight;
+  }
+
+  .fk-histogram-scope__interaction[data-active] .fk-histogram-scope__interaction-highlight {
+    fill: Highlight;
+    fill-opacity: 0.35;
+    stroke: Highlight;
+  }
+
+  .fk-histogram-scope__axis text {
+    fill: CanvasText;
+  }
+}

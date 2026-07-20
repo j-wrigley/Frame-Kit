@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frame Kit"
+  short_description: "Build precise creative-tool interfaces with Frame Kit"
+  default_prompt: "Use $frame-kit to map each adjustment to the best-fit component, compose a professional task-grouped sidebar, and verify the live interface."

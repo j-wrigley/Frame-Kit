@@ -1,0 +1,74 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Figma capture mode
+
+   Element-to-design tools select the deepest DOM node under the pointer.
+   Composite controls often keep their visual chrome on an outer label/div
+   while the native input inside intentionally has no border. In capture mode,
+   a transparent hit surface makes the complete component root the selection
+   target. Normal rendering and interaction are unchanged when the attribute
+   is absent.
+   ───────────────────────────────────────────────────────────── */
+
+[data-fk-capture='figma']
+  :where(
+    .fk-input:not(.fk-number-input__field, .fk-input-composer__field, .fk-color-field__input),
+    .fk-textarea,
+    .fk-number-input,
+    .fk-input-composer,
+    .fk-slider,
+    .fk-ruler-slider,
+    .fk-ruler-readout,
+    .fk-drag-value,
+    .fk-scrubber,
+    .fk-stepper,
+    .fk-checkbox,
+    .fk-radio,
+    .fk-toggle,
+    .fk-toggle-row,
+    .fk-color-field,
+    .fk-color-picker,
+    .fk-dropdown,
+    .fk-nested-dropdown,
+    .fk-disclosure,
+    .fk-segmented-switch,
+    .fk-tabs,
+    .fk-toolbar
+  ) {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-fk-capture='figma']
+  :where(
+    .fk-input:not(.fk-number-input__field, .fk-input-composer__field, .fk-color-field__input),
+    .fk-textarea,
+    .fk-number-input,
+    .fk-input-composer,
+    .fk-slider,
+    .fk-ruler-slider,
+    .fk-ruler-readout,
+    .fk-drag-value,
+    .fk-scrubber,
+    .fk-stepper,
+    .fk-checkbox,
+    .fk-radio,
+    .fk-toggle,
+    .fk-toggle-row,
+    .fk-color-field,
+    .fk-color-picker,
+    .fk-dropdown,
+    .fk-nested-dropdown,
+    .fk-disclosure,
+    .fk-segmented-switch,
+    .fk-tabs,
+    .fk-toolbar
+  )::after {
+  position: absolute;
+  z-index: 2147483646;
+  inset: 0;
+  content: '';
+  background: transparent;
+  border-radius: inherit;
+  cursor: crosshair;
+  pointer-events: auto;
+}

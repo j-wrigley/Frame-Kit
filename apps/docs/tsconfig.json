@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vite/client"],
+    "paths": {
+      "@presentstandards/framekit-ui": ["../../packages/framekit/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

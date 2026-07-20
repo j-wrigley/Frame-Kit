@@ -1,0 +1,209 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Design Tokens
+   Light by default; dark ships alongside via [data-theme='dark'].
+   Step meanings are constant across themes (1–2 app/page bg ·
+   3–5 surfaces & controls · 6–8 borders · 9–10 muted text ·
+   11–12 text) — only the values swap. Semantic tokens are the
+   public API; components and consuming apps should never
+   reference raw scale steps.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: light;
+
+  /* ── Primitive: neutral ramp (cool graphite, light) ── */
+  --fk-gray-1: #fcfcfd;
+  --fk-gray-2: #f9f9fb;
+  --fk-gray-3: #f2f2f5;
+  --fk-gray-4: #ececf0;
+  --fk-gray-5: #e4e4e9;
+  --fk-gray-6: #dddde3;
+  --fk-gray-7: #d0d0d7;
+  --fk-gray-8: #b9bac1;
+  --fk-gray-9: #7c7d86;
+  --fk-gray-10: #666770; /* tertiary text: ≥4.5:1 on every bg through control */
+  --fk-gray-11: #54555e;
+  --fk-gray-12: #1d1e23;
+
+  /* Legacy RGB channels keep translucent semantic colors serializable as
+     rgba(). That is friendlier to code-to-canvas tools than CSS Color 4's
+     computed color(srgb …) form while rendering the same visual result. */
+  --fk-text-primary-rgb: 29, 30, 35;
+  --fk-border-rgb: 208, 208, 215;
+
+  /* ── Accent slot (default: graphite — restrained, non-colored) ──
+     A swappable seven-token slot. Presets: data-accent attr (accents.css).
+     Custom: applyAccent() from @presentstandards/framekit-ui. All values AA-verified. */
+  --fk-accent: #3f3f46; /* 10.4:1 with white text */
+  --fk-accent-hover: #575761;
+  --fk-accent-active: #303036;
+  --fk-accent-subtle: #efeff0;
+  --fk-accent-muted: #cdcdd0;
+  --fk-accent-text: #545464; /* 7.2:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+  --fk-accent-rgb: 63, 63, 70;
+
+  /* ── Semantic: backgrounds ── */
+  --fk-bg-app: var(--fk-gray-1);
+  --fk-bg-surface: var(--fk-gray-2);
+  /* Raised goes off-ramp in light: no gray step sits above the near-white
+     app bg, so cards/popovers/menus are pure white (dark stays on-ramp). */
+  --fk-bg-raised: #ffffff;
+  /* Controls fill with translucent ink tints (not opaque greys) — quiet at
+     rest, stepping 3% → 6% → 8%, and they survive any background. */
+  --fk-bg-control: rgba(var(--fk-text-primary-rgb), 0.03);
+  --fk-bg-control-hover: rgba(var(--fk-text-primary-rgb), 0.06);
+  --fk-bg-control-active: rgba(var(--fk-text-primary-rgb), 0.08);
+  --fk-bg-overlay: rgba(var(--fk-text-primary-rgb), 0.4);
+  /* Elevated surfaces opt into this filter; the transparent style replaces it. */
+  --fk-surface-backdrop-filter: none;
+  --fk-control-backdrop-filter: none;
+
+  /* ── Semantic: borders ── */
+  --fk-border-subtle: var(--fk-gray-6);
+  --fk-border: var(--fk-gray-7);
+  --fk-border-strong: var(--fk-gray-8);
+  /* Resting control border — a faint 44% wash of the border color, so
+     control chrome whispers instead of outlining. */
+  --fk-border-control: rgba(var(--fk-border-rgb), 0.44);
+  /* Hover/focus emphasis border: a wash of the accent. */
+  --fk-border-control-hover: rgba(var(--fk-accent-rgb), 0.46);
+
+  /* ── Semantic: text ── */
+  --fk-text-primary: var(--fk-gray-12);
+  --fk-text-secondary: var(--fk-gray-11);
+  --fk-text-tertiary: var(--fk-gray-10);
+  --fk-text-disabled: var(--fk-gray-8);
+
+  /* ── Semantic: status (solids shared; tints/text swap per theme) ── */
+  --fk-success: #2ead6e;
+  --fk-success-subtle: #e6f6ec;
+  --fk-success-text: #1a7a4d; /* 5.2:1 on gray-1, 4.8:1 on subtle */
+  --fk-warning: #f0a32e;
+  --fk-warning-subtle: #fbf0d9;
+  --fk-warning-text: #8f5f00; /* 5.4:1 on gray-1, 4.9:1 on subtle */
+  --fk-danger: #d5323c; /* 4.8:1 with white text */
+  --fk-danger-hover: #c62d37; /* 5.5:1 with white text */
+  --fk-danger-active: #b82730; /* 6.2:1 with white text */
+  --fk-danger-subtle: #fce8e9;
+  --fk-danger-text: #bd2830; /* 5.8:1 on gray-1, 5.1:1 on subtle */
+  /* Text on solid status fills — stable across themes (solids don't swap). */
+  --fk-text-on-success: #0e0e10; /* 6.7:1 */
+  --fk-text-on-warning: #0e0e10; /* 9.2:1 */
+  --fk-text-on-danger: #ffffff;
+
+  /* ── Typography ── */
+  --fk-font-sans:
+    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fk-font-mono:
+    'Office Code Pro', ui-monospace, 'SF Mono', Menlo, 'Cascadia Mono', Consolas, monospace;
+
+  --fk-fs-0: 11px; /* micro labels, badges */
+  --fk-fs-1: 12px; /* secondary UI, table meta */
+  --fk-fs-2: 13px; /* primary UI text — the workhorse */
+  --fk-fs-3: 15px; /* emphasized body, ledes */
+  --fk-fs-4: 18px; /* section headings */
+  --fk-fs-5: 22px; /* page headings */
+  --fk-fs-6: 28px; /* display */
+  --fk-fs-7: 32px; /* hero display */
+
+  --fk-fw-regular: 400;
+  --fk-fw-medium: 500;
+  --fk-fw-semibold: 600;
+  --fk-fw-bold: 700;
+
+  --fk-tracking-label: 0.06em; /* uppercase micro labels */
+  --fk-tracking-tight: -0.01em; /* display sizes */
+
+  /* ── Spacing (4px base grid) ── */
+  --fk-space-1: 4px;
+  --fk-space-2: 8px;
+  --fk-space-3: 12px;
+  --fk-space-4: 16px;
+  --fk-space-5: 20px;
+  --fk-space-6: 24px;
+  --fk-space-7: 32px;
+  --fk-space-8: 40px;
+  --fk-space-9: 48px;
+  --fk-space-10: 64px;
+
+  /* ── Radii (sharp, nested: controls 4 · inner elements 3) ── */
+  --fk-radius-xs: 3px; /* nested: menu items, checkboxes, tracks, chips */
+  --fk-radius-sm: 4px; /* controls: buttons, fields, toolbars */
+  --fk-radius-md: 6px; /* menus, popovers, picker panels */
+  --fk-radius-lg: 8px; /* cards, dialogs */
+  --fk-radius-full: 9999px; /* intrinsically round working parts only */
+
+  /* ── Elevation ── */
+  --fk-shadow-sm: 0 1px 2px rgba(18, 18, 23, 0.06);
+  --fk-shadow-md: 0 4px 12px rgba(18, 18, 23, 0.08), 0 1px 3px rgba(18, 18, 23, 0.05);
+  --fk-shadow-lg: 0 12px 32px rgba(18, 18, 23, 0.12), 0 2px 8px rgba(18, 18, 23, 0.06);
+
+  /* ── Overlay layers ──
+     Shared portal surfaces sit above application chrome while retaining a
+     small hierarchy between menus, rich popovers, and concise tooltips. */
+  --fk-z-menu: 1000;
+  --fk-z-popover: 1100;
+  --fk-z-tooltip: 1200;
+
+  /* ── Focus (outline-based: survives forced-colors mode, works on any surface) ── */
+  --fk-focus-outline: 2px solid var(--fk-accent);
+  --fk-focus-outline-offset: 2px;
+
+  /* ── Scrollbars ── */
+  --fk-scrollbar-thumb: var(--fk-gray-7);
+  --fk-scrollbar-thumb-hover: var(--fk-gray-8);
+
+  /* ── Motion ── */
+  --fk-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --fk-duration-fast: 120ms;
+  --fk-duration: 180ms;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* ── Primitive: neutral ramp (cool graphite, dark) ── */
+  --fk-gray-1: #0e0e10;
+  --fk-gray-2: #151517;
+  --fk-gray-3: #1b1b1e;
+  --fk-gray-4: #212125;
+  --fk-gray-5: #26262b;
+  --fk-gray-6: #2c2c32;
+  --fk-gray-7: #38383f;
+  --fk-gray-8: #4a4a54;
+  --fk-gray-9: #74747e;
+  --fk-gray-10: #8e8e98; /* tertiary text: ≥4.9:1 on every bg through control */
+  --fk-gray-11: #acacb6;
+  --fk-gray-12: #eeeef1;
+
+  --fk-text-primary-rgb: 238, 238, 241;
+  --fk-border-rgb: 56, 56, 63;
+
+  /* Raised returns to the ramp in dark: elevation = lighter. */
+  --fk-bg-raised: var(--fk-gray-3);
+
+  /* ── Accent slot, graphite dark: "paper" solid with dark text ── */
+  --fk-accent: #dfdfe2; /* 13.3:1 with dark text */
+  --fk-accent-hover: #f7f7f8;
+  --fk-accent-active: #cacace;
+  --fk-accent-subtle: #27272a;
+  --fk-accent-muted: #45454a;
+  --fk-accent-text: #bababf; /* 10.0:1 on gray-1 */
+  --fk-text-on-accent: #17181c;
+  --fk-accent-rgb: 223, 223, 226;
+
+  /* ── Status: tints and text swap for dark surfaces ── */
+  --fk-success-subtle: #12291d;
+  --fk-success-text: #55d392;
+  --fk-warning-subtle: #2b1f0c;
+  --fk-warning-text: #f5c16c;
+  --fk-danger-subtle: #2e1518;
+  --fk-danger-text: #ff8589;
+
+  /* ── Overlay & elevation: heavier in the dark ── */
+  --fk-bg-overlay: rgba(14, 14, 16, 0.65);
+  --fk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --fk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.35);
+  --fk-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+}

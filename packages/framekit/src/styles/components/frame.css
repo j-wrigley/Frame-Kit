@@ -1,0 +1,167 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Frame
+   Named canvas boundaries for creative-workspace layouts.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-frame {
+  position: relative;
+  display: block;
+  min-width: 120px;
+  min-height: 80px;
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border);
+  border-radius: var(--fk-radius-xs);
+  isolation: isolate;
+  transition:
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-frame__label {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: normal;
+  line-height: 1.2;
+  text-transform: none;
+  pointer-events: none;
+}
+
+.fk-frame__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-frame__name {
+  color: var(--fk-text-primary);
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-frame__content {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: inherit;
+  border-radius: inherit;
+}
+
+.fk-frame[data-selected] {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px var(--fk-accent);
+}
+
+.fk-frame[data-selected] .fk-frame__name {
+  color: var(--fk-accent-text);
+}
+
+.fk-frame[data-recording] {
+  border-color: transparent;
+}
+
+.fk-frame[data-recording] .fk-frame__name {
+  color: var(--fk-accent-text);
+}
+
+.fk-frame[data-recording][data-selected] {
+  box-shadow: none;
+}
+
+.fk-frame__recording {
+  position: absolute;
+  inset: -1px;
+  z-index: 3;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.fk-frame__recording-progress {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+  stroke-linecap: square;
+}
+
+.fk-frame__handles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.fk-frame__handle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-accent);
+  border-radius: 1px;
+  pointer-events: auto;
+}
+
+.fk-frame__handle--top-left {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
+
+.fk-frame__handle--top-right {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
+
+.fk-frame__handle--bottom-right {
+  right: -6px;
+  bottom: -6px;
+  cursor: nwse-resize;
+}
+
+.fk-frame__handle--bottom-left {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
+
+.fk-frame:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: var(--fk-focus-outline-offset);
+}
+
+.fk-frame[data-selected]:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-frame {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-frame[data-selected] {
+    border-color: transparent;
+    box-shadow: 0 0 0 1px Highlight;
+  }
+
+  .fk-frame__handle {
+    border-color: Highlight;
+  }
+
+  .fk-frame__recording-progress {
+    stroke: Highlight;
+  }
+}

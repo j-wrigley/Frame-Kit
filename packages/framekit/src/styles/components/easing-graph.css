@@ -1,0 +1,132 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Easing graph
+   Cubic-bezier editing for animation and creative-tool panels.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-easing-graph {
+  min-width: 0;
+}
+
+.fk-easing-graph__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 260 / 220;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-easing-graph__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-easing-graph__grid {
+  fill: none;
+  stroke: var(--fk-border);
+  stroke-opacity: 0.34;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.fk-easing-graph__diagonal {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 5;
+  stroke-opacity: 0.22;
+  stroke-width: 1;
+}
+
+.fk-easing-graph__curve {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.25;
+}
+
+.fk-easing-graph__handle-line {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 4;
+  stroke-opacity: 0.42;
+  stroke-width: 1;
+}
+
+.fk-easing-graph__handle {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-easing-graph__handle[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-easing-graph__handle-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-easing-graph__handle-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.fk-easing-graph__handle-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 2;
+}
+
+.fk-easing-graph__handle[data-dragging] .fk-easing-graph__handle-outer {
+  fill: var(--fk-accent);
+}
+
+.fk-easing-graph__handle:focus-visible .fk-easing-graph__handle-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-easing-graph__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-easing-graph__surface,
+  .fk-easing-graph__grid,
+  .fk-easing-graph__curve,
+  .fk-easing-graph__handle-line,
+  .fk-easing-graph__handle-focus,
+  .fk-easing-graph__handle-outer,
+  .fk-easing-graph__handle-hit {
+    forced-color-adjust: none;
+  }
+
+  .fk-easing-graph__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-easing-graph__grid,
+  .fk-easing-graph__diagonal,
+  .fk-easing-graph__handle-line {
+    stroke: GrayText;
+  }
+
+  .fk-easing-graph__curve,
+  .fk-easing-graph__handle-focus,
+  .fk-easing-graph__handle-outer {
+    stroke: Highlight;
+  }
+
+  .fk-easing-graph__handle-outer {
+    fill: Canvas;
+  }
+
+  .fk-easing-graph__handle[data-dragging] .fk-easing-graph__handle-outer {
+    fill: Highlight;
+  }
+}

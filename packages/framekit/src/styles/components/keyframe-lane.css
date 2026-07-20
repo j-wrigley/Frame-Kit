@@ -1,0 +1,212 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Keyframe lane
+   Compact temporal editing for motion and effect inspectors.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-keyframe-lane {
+  min-width: 0;
+}
+
+.fk-keyframe-lane__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 360 / 112;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-keyframe-lane--compact .fk-keyframe-lane__canvas {
+  aspect-ratio: 720 / 48;
+}
+
+.fk-keyframe-lane__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-keyframe-lane__ticks path {
+  stroke: var(--fk-border);
+  stroke-opacity: 0.62;
+  stroke-width: 1;
+}
+
+.fk-keyframe-lane__ticks text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: 7px;
+  text-anchor: middle;
+}
+
+.fk-keyframe-lane__interaction {
+  cursor: crosshair;
+}
+
+.fk-keyframe-lane--readonly .fk-keyframe-lane__interaction {
+  cursor: default;
+}
+
+.fk-keyframe-lane__interaction-surface {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.fk-keyframe-lane__range {
+  fill: var(--fk-accent-subtle);
+}
+
+.fk-keyframe-lane__bar-segment {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.fk-keyframe-lane__bar-segment[data-active] {
+  fill: var(--fk-accent-subtle);
+  stroke: var(--fk-accent-muted);
+}
+
+.fk-keyframe-lane__track {
+  fill: none;
+  stroke: var(--fk-border-control-hover);
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.fk-keyframe-lane__playhead path {
+  stroke: var(--fk-accent);
+  stroke-opacity: 0.8;
+  stroke-width: 1;
+}
+
+.fk-keyframe-lane__playhead circle {
+  fill: var(--fk-accent);
+}
+
+.fk-keyframe-lane__marker {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-keyframe-lane__marker[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-keyframe-lane--readonly .fk-keyframe-lane__marker {
+  cursor: default;
+}
+
+.fk-keyframe-lane__marker-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-keyframe-lane__marker-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.fk-keyframe-lane__marker-shape {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-text-tertiary);
+  stroke-width: 1.25;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    fill 150ms ease,
+    stroke 150ms ease;
+  will-change: transform;
+}
+
+.fk-keyframe-lane--bar .fk-keyframe-lane__track {
+  stroke-opacity: 0.48;
+}
+
+.fk-keyframe-lane--dot .fk-keyframe-lane__marker-shape {
+  stroke-width: 1.5;
+}
+
+.fk-keyframe-lane__marker[data-active] .fk-keyframe-lane__marker-shape,
+.fk-keyframe-lane__marker[data-dragging] .fk-keyframe-lane__marker-shape {
+  fill: var(--fk-accent);
+  stroke: var(--fk-accent);
+}
+
+@media (hover: hover) {
+  .fk-keyframe-lane:not(.fk-keyframe-lane--readonly)
+    .fk-keyframe-lane__marker:hover
+    .fk-keyframe-lane__marker-shape {
+    transform: scale(1.16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-keyframe-lane__marker-shape {
+    transition: none;
+  }
+}
+
+.fk-keyframe-lane__marker:focus-visible .fk-keyframe-lane__marker-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-keyframe-lane__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-keyframe-lane__surface,
+  .fk-keyframe-lane__ticks path,
+  .fk-keyframe-lane__ticks text,
+  .fk-keyframe-lane__range,
+  .fk-keyframe-lane__bar-segment,
+  .fk-keyframe-lane__track,
+  .fk-keyframe-lane__playhead path,
+  .fk-keyframe-lane__playhead circle,
+  .fk-keyframe-lane__marker-focus,
+  .fk-keyframe-lane__marker-shape {
+    forced-color-adjust: none;
+  }
+
+  .fk-keyframe-lane__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-keyframe-lane__ticks path,
+  .fk-keyframe-lane__ticks text,
+  .fk-keyframe-lane__track,
+  .fk-keyframe-lane__marker-shape {
+    fill: GrayText;
+    stroke: GrayText;
+  }
+
+  .fk-keyframe-lane__range {
+    fill: Highlight;
+  }
+
+  .fk-keyframe-lane__bar-segment {
+    fill: Canvas;
+    stroke: GrayText;
+  }
+
+  .fk-keyframe-lane__bar-segment[data-active] {
+    fill: Highlight;
+    stroke: Highlight;
+  }
+
+  .fk-keyframe-lane__playhead path,
+  .fk-keyframe-lane__playhead circle,
+  .fk-keyframe-lane__marker-focus,
+  .fk-keyframe-lane__marker[data-active] .fk-keyframe-lane__marker-shape,
+  .fk-keyframe-lane__marker[data-dragging] .fk-keyframe-lane__marker-shape {
+    fill: Highlight;
+    stroke: Highlight;
+  }
+}

@@ -1,0 +1,157 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Context menu
+   Canvas and layer actions with quiet hierarchy and precise focus.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-context-menu {
+  display: contents;
+}
+
+.fk-context-menu__surface,
+.fk-context-menu__submenu-panel {
+  z-index: var(--fk-z-popover, 1100);
+  display: grid;
+  min-width: 208px;
+  max-width: min(280px, calc(100vw - 16px));
+  gap: 2px;
+  padding: 4px;
+  background: var(--fk-bg-raised);
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+  box-shadow: var(--fk-shadow-md);
+}
+
+.fk-context-menu__surface {
+  position: fixed;
+  animation: fk-context-menu-in var(--fk-duration-fast) var(--fk-ease) both;
+}
+
+.fk-context-menu__item-wrap,
+.fk-context-menu__submenu {
+  display: block;
+}
+
+.fk-context-menu__item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  min-height: 30px;
+  gap: var(--fk-space-2);
+  padding: 0 7px;
+  color: var(--fk-text-secondary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-xs);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-align: left;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-context-menu__item:hover:not(:disabled),
+.fk-context-menu__item:focus-visible {
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control);
+  outline: none;
+}
+
+.fk-context-menu__item--danger:hover:not(:disabled),
+.fk-context-menu__item--danger:focus-visible {
+  color: var(--fk-danger-text);
+  background: var(--fk-danger-subtle);
+}
+
+.fk-context-menu__item:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-context-menu__icon {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+
+.fk-context-menu__icon svg,
+.fk-context-menu__submenu-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-context-menu__item-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-context-menu__shortcut {
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-regular);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fk-context-menu__item--danger .fk-context-menu__shortcut {
+  color: currentColor;
+  opacity: 0.7;
+}
+
+.fk-context-menu__submenu-chevron {
+  color: var(--fk-text-tertiary);
+}
+
+.fk-context-menu__separator {
+  display: block;
+  height: 1px;
+  margin: 3px 2px;
+  background: var(--fk-border-subtle);
+}
+
+.fk-context-menu__submenu {
+  position: relative;
+}
+
+.fk-context-menu__submenu-panel {
+  position: absolute;
+  top: -4px;
+  left: calc(100% + 4px);
+}
+
+@keyframes fk-context-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-context-menu__surface,
+  .fk-context-menu__item {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-context-menu__item:focus-visible {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

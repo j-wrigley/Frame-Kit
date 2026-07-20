@@ -1,0 +1,166 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Spring response
+   Physics-based settling preview with direct parameter controls.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-spring-response {
+  display: grid;
+  min-width: 0;
+  gap: var(--fk-space-2);
+}
+
+.fk-spring-response__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 1;
+  overflow: visible;
+}
+
+.fk-spring-response__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-spring-response__grid line {
+  stroke: var(--fk-border);
+  stroke-opacity: 0.42;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.fk-spring-response__target {
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 3 4;
+  stroke-opacity: 0.6;
+  stroke-width: 1;
+}
+
+.fk-spring-response__area {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.7;
+}
+
+.fk-spring-response__curve {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.fk-spring-response__axis text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: 8px;
+  font-weight: var(--fk-fw-medium);
+}
+
+.fk-spring-response__axis text:last-child {
+  text-anchor: end;
+}
+
+.fk-spring-response__summary {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--fk-space-2);
+  padding: 0 var(--fk-space-1);
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  line-height: 1.2;
+}
+
+.fk-spring-response__summary output {
+  color: var(--fk-text-primary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  white-space: nowrap;
+}
+
+.fk-spring-response__summary > span:last-child {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.fk-spring-response__controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--fk-space-2);
+}
+
+.fk-spring-response__controls .fk-input {
+  min-width: 0;
+}
+
+.fk-spring-response--compact {
+  gap: var(--fk-space-1);
+}
+
+.fk-spring-response--compact .fk-spring-response__summary {
+  padding-right: 0;
+  padding-left: 0;
+  flex-wrap: wrap;
+  row-gap: var(--fk-space-1);
+}
+
+.fk-spring-response--compact .fk-spring-response__summary > span:last-child {
+  margin-left: 0;
+}
+
+.fk-spring-response--compact .fk-spring-response__canvas {
+  aspect-ratio: 360 / 154;
+}
+
+.fk-spring-response--compact .fk-spring-response__axis text {
+  font-size: 7px;
+}
+
+.fk-spring-response--readonly {
+  opacity: 0.72;
+}
+
+.fk-spring-response--disabled {
+  opacity: 0.55;
+}
+
+@media (max-width: 360px) {
+  .fk-spring-response__controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-spring-response__surface,
+  .fk-spring-response__grid line,
+  .fk-spring-response__target,
+  .fk-spring-response__area,
+  .fk-spring-response__curve,
+  .fk-spring-response__axis text {
+    forced-color-adjust: none;
+  }
+
+  .fk-spring-response__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-spring-response__grid line,
+  .fk-spring-response__target {
+    stroke: GrayText;
+  }
+
+  .fk-spring-response__area {
+    fill: transparent;
+  }
+
+  .fk-spring-response__curve {
+    stroke: Highlight;
+  }
+
+  .fk-spring-response__axis text {
+    fill: CanvasText;
+  }
+}

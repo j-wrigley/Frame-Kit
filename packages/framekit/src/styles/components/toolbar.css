@@ -1,0 +1,164 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Toolbar
+   Compact grouped controls for canvas and inspector tool UIs.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-toolbar {
+  --fk-toolbar-gap: 2px;
+  --fk-toolbar-pad: 2px;
+  --fk-toolbar-separator-length: 16px;
+  --fk-toolbar-separator-margin: 1px;
+  --fk-toolbar-flyout-offset: 2px;
+  --fk-toolbar-flyout-cross-offset: -3px;
+  --fk-toolbar-trigger-corner-offset: 3px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fk-toolbar-gap);
+  width: max-content;
+  max-width: 100%;
+  padding: var(--fk-toolbar-pad);
+  background: var(--fk-bg-control);
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-toolbar--large {
+  --fk-toolbar-gap: 4px;
+  --fk-toolbar-pad: 4px;
+  --fk-toolbar-separator-length: 20px;
+  --fk-toolbar-separator-margin: 2px;
+  --fk-toolbar-flyout-offset: 4px;
+  --fk-toolbar-flyout-cross-offset: -5px;
+  --fk-toolbar-trigger-corner-offset: 4px;
+}
+
+.fk-toolbar--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.fk-toolbar--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.fk-toolbar .fk-button {
+  flex: none;
+}
+
+/* Large toolbars deliberately promote nested controls together. A consumer can
+   keep using Button size="sm" in markup and change the toolbar density once. */
+.fk-toolbar--large .fk-button {
+  --fk-button-height: 34px;
+  --fk-button-pad: var(--fk-space-3);
+  --fk-button-gap: var(--fk-space-2);
+  --fk-button-icon: 15px;
+}
+
+.fk-toolbar .fk-button[aria-pressed='true'] {
+  background: var(--fk-bg-raised);
+  color: var(--fk-text-primary);
+  box-shadow: inset 0 0 0 1px var(--fk-border-subtle);
+}
+
+.fk-toolbar--ghost .fk-button[aria-pressed='true'] {
+  background: var(--fk-bg-control);
+}
+
+.fk-toolbar__separator {
+  display: block;
+  flex: none;
+  background: var(--fk-border-subtle);
+}
+
+.fk-toolbar__separator--vertical {
+  width: 1px;
+  height: var(--fk-toolbar-separator-length);
+  margin: 0 var(--fk-toolbar-separator-margin);
+}
+
+.fk-toolbar__separator--horizontal {
+  width: var(--fk-toolbar-separator-length);
+  height: 1px;
+  margin: var(--fk-toolbar-separator-margin) 0;
+}
+
+/* A rail divider should read as a full rule across its compact control well. */
+.fk-toolbar--vertical .fk-toolbar__separator--horizontal {
+  width: 100%;
+}
+
+.fk-toolbar__group {
+  position: relative;
+  display: flex;
+  flex: none;
+}
+
+.fk-toolbar__group > [data-toolbar-trigger] {
+  position: relative;
+}
+
+.fk-toolbar__group > [data-toolbar-trigger]::after {
+  position: absolute;
+  right: var(--fk-toolbar-trigger-corner-offset);
+  bottom: var(--fk-toolbar-trigger-corner-offset);
+  width: 4px;
+  height: 4px;
+  content: '';
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  opacity: 0.52;
+}
+
+.fk-toolbar__group[data-state='open'] > [data-toolbar-trigger] {
+  background: var(--fk-bg-raised);
+  color: var(--fk-text-primary);
+  box-shadow: inset 0 0 0 1px var(--fk-border-subtle);
+}
+
+.fk-toolbar__flyout {
+  --fk-toolbar-gap: 2px;
+  --fk-toolbar-pad: 2px;
+
+  position: fixed;
+  z-index: var(--fk-z-menu, 1000);
+  display: inline-flex;
+  gap: var(--fk-toolbar-gap);
+  padding: var(--fk-toolbar-pad);
+  background: var(--fk-bg-raised);
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  box-shadow: var(--fk-shadow-md);
+}
+
+.fk-toolbar__flyout--large {
+  --fk-toolbar-gap: 4px;
+  --fk-toolbar-pad: 4px;
+}
+
+.fk-toolbar__flyout[data-positioned] {
+  animation: fk-toolbar-flyout-in var(--fk-duration) var(--fk-ease) both;
+}
+
+@keyframes fk-toolbar-flyout-in {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-toolbar__flyout[data-positioned] {
+    animation: none;
+  }
+}

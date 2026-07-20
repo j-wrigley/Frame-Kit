@@ -1,0 +1,117 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Base
+   Minimal reset + app-level defaults for tool UIs.
+   ───────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--fk-bg-app);
+  color: var(--fk-text-primary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-2);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--fk-accent-text);
+}
+
+/* Links in flowing text need a non-color cue (WCAG 1.4.1); component-styled
+   links (nav items, buttons-as-links) opt out by carrying a class. */
+a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a[class] {
+  text-decoration: none;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--fk-font-mono);
+}
+
+::selection {
+  background: var(--fk-accent-muted);
+  color: var(--fk-text-primary);
+}
+
+:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: var(--fk-focus-outline-offset);
+}
+
+/* Slim, quiet scrollbars — tool aesthetic */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fk-scrollbar-thumb) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--fk-scrollbar-thumb);
+  border-radius: var(--fk-radius-full);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--fk-scrollbar-thumb-hover);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Motion is a courtesy, never a requirement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

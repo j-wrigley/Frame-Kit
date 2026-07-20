@@ -1,0 +1,351 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Node canvas
+   Contained patching graph for creative workflows.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-node-canvas {
+  display: grid;
+  min-width: 0;
+  gap: var(--fk-space-2);
+}
+
+.fk-node-canvas__viewport {
+  overflow: auto;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  scrollbar-color: var(--fk-border-control-hover) transparent;
+}
+
+.fk-node-canvas__workspace {
+  position: relative;
+  min-width: 100%;
+  overflow: hidden;
+  background-image:
+    linear-gradient(var(--fk-border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fk-border-subtle) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: 24px 24px;
+}
+
+.fk-node-canvas__connections {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.fk-node-canvas__connection path {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.fk-node-canvas__connection circle {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.25;
+}
+
+.fk-node-canvas__connection--interactive {
+  pointer-events: all;
+  cursor: pointer;
+  outline: none;
+}
+
+.fk-node-canvas__connection-hit {
+  stroke: transparent;
+  stroke-width: 14;
+}
+
+.fk-node-canvas__connection--interactive:hover path:not(.fk-node-canvas__connection-hit),
+.fk-node-canvas__connection--interactive[data-active] path:not(.fk-node-canvas__connection-hit) {
+  stroke-width: 2.25;
+}
+
+.fk-node-canvas__connection--interactive[data-active] circle {
+  fill: var(--fk-accent);
+}
+
+.fk-node-canvas__connection--interactive:focus-visible path:not(.fk-node-canvas__connection-hit) {
+  stroke: var(--fk-text-primary);
+  stroke-width: 2.5;
+}
+
+.fk-node-canvas__connection--preview path {
+  stroke-dasharray: 4 4;
+  stroke-opacity: 0.78;
+}
+
+.fk-node-canvas__connection--preview circle:last-child {
+  fill: var(--fk-accent);
+}
+
+.fk-node-canvas__node {
+  position: absolute;
+  z-index: 1;
+  width: 148px;
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control-hover);
+  border-radius: var(--fk-radius-sm);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 12%);
+  transition:
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-node-canvas__node:hover,
+.fk-node-canvas__node[data-active] {
+  border-color: var(--fk-accent-muted);
+}
+
+.fk-node-canvas__node[data-active] {
+  box-shadow:
+    0 0 0 1px var(--fk-accent),
+    0 4px 14px rgb(0 0 0 / 14%);
+}
+
+.fk-node-canvas__node[data-dragging] {
+  z-index: 2;
+  cursor: grabbing;
+  transition: none;
+}
+
+.fk-node-canvas--readonly .fk-node-canvas__node {
+  cursor: default;
+}
+
+.fk-node-canvas__node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  gap: var(--fk-space-2);
+  padding: 0 var(--fk-space-2);
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-surface);
+  border-bottom: 1px solid var(--fk-border-subtle);
+  cursor: grab;
+  user-select: none;
+}
+
+.fk-node-canvas--readonly .fk-node-canvas__node-header {
+  cursor: default;
+}
+
+.fk-node-canvas__node-title {
+  overflow: hidden;
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-node-canvas__node-kind {
+  flex: none;
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: 8px;
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: var(--fk-tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.fk-node-canvas__ports {
+  display: grid;
+  padding: 8px;
+}
+
+.fk-node-canvas__node-content {
+  box-sizing: border-box;
+  padding: 6px;
+  background: var(--fk-bg-surface);
+  border-top: 1px solid var(--fk-border-subtle);
+}
+
+.fk-node-canvas__node-content > * {
+  min-width: 0;
+}
+
+.fk-node-canvas__port-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 22px;
+}
+
+.fk-node-canvas__port {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 5px;
+  padding: 0;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  line-height: 1.2;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: crosshair;
+}
+
+.fk-node-canvas__port:disabled {
+  cursor: default;
+}
+
+.fk-node-canvas__port--output {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.fk-node-canvas__port-dot {
+  display: block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-text-tertiary);
+  border-radius: 999px;
+  box-sizing: border-box;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-node-canvas__port--output .fk-node-canvas__port-dot {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.fk-node-canvas__port:hover .fk-node-canvas__port-dot,
+.fk-node-canvas__port:focus-visible .fk-node-canvas__port-dot,
+.fk-node-canvas__port[aria-pressed='true'] .fk-node-canvas__port-dot,
+.fk-node-canvas__port[data-connection-target] .fk-node-canvas__port-dot {
+  background: var(--fk-accent);
+  border-color: var(--fk-accent);
+  transform: scale(1.16);
+}
+
+.fk-node-canvas__port[data-connection-target] .fk-node-canvas__port-dot {
+  box-shadow: 0 0 0 3px var(--fk-accent-subtle);
+}
+
+.fk-node-canvas--patching .fk-node-canvas__port--input:not([data-connection-target]) {
+  opacity: 0.72;
+}
+
+.fk-node-canvas__port:focus-visible {
+  outline: none;
+}
+
+.fk-node-canvas__port:focus-visible > span:last-child,
+.fk-node-canvas__port:focus-visible > span:first-child:not(.fk-node-canvas__port-dot) {
+  color: var(--fk-accent);
+}
+
+.fk-node-canvas__node--accent .fk-node-canvas__node-header {
+  box-shadow: inset 2px 0 0 var(--fk-accent);
+}
+
+.fk-node-canvas__node--success .fk-node-canvas__node-header {
+  box-shadow: inset 2px 0 0 var(--fk-success);
+}
+
+.fk-node-canvas__node--warning .fk-node-canvas__node-header {
+  box-shadow: inset 2px 0 0 var(--fk-warning);
+}
+
+.fk-node-canvas__node--danger .fk-node-canvas__node-header {
+  box-shadow: inset 2px 0 0 var(--fk-danger);
+}
+
+.fk-node-canvas__status {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--fk-space-2);
+  padding: 0 var(--fk-space-1);
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  line-height: 1.25;
+}
+
+.fk-node-canvas__status > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-node-canvas__disconnect {
+  flex: none;
+  margin-left: auto;
+  padding: 0;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1.25;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.fk-node-canvas__disconnect:hover,
+.fk-node-canvas__disconnect:focus-visible {
+  color: var(--fk-danger);
+}
+
+.fk-node-canvas__disconnect:focus-visible {
+  outline: 1px solid var(--fk-accent);
+  outline-offset: 2px;
+}
+
+.fk-node-canvas--disabled {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-node-canvas__viewport,
+  .fk-node-canvas__workspace,
+  .fk-node-canvas__connection path,
+  .fk-node-canvas__connection circle,
+  .fk-node-canvas__node,
+  .fk-node-canvas__node-header,
+  .fk-node-canvas__port-dot {
+    forced-color-adjust: none;
+  }
+
+  .fk-node-canvas__viewport,
+  .fk-node-canvas__workspace,
+  .fk-node-canvas__node,
+  .fk-node-canvas__node-header {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .fk-node-canvas__connection path,
+  .fk-node-canvas__connection circle {
+    stroke: Highlight;
+  }
+
+  .fk-node-canvas__connection circle,
+  .fk-node-canvas__port-dot {
+    fill: Canvas;
+  }
+
+  .fk-node-canvas__port-dot {
+    border-color: CanvasText;
+  }
+
+  .fk-node-canvas__node[data-active] {
+    box-shadow: 0 0 0 2px Highlight;
+  }
+}

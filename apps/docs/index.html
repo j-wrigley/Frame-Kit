@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Frame Kit — a precision UI kit for creative and productivity tools."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5v-2a2 2 0 0 1 2-2h2M10.5 1.5h2a2 2 0 0 1 2 2v2M14.5 10.5v2a2 2 0 0 1-2 2h-2M5.5 14.5h-2a2 2 0 0 1-2-2v-2' fill='none' stroke='%233f3f46' stroke-width='1.6' stroke-linecap='round'/%3E%3Crect x='6.25' y='6.25' width='3.5' height='3.5' rx='1' fill='%231d1e23'/%3E%3C/svg%3E"
+    />
+    <title>Frame Kit</title>
+    <script>
+      // Apply the saved theme and accent preset before first paint.
+      // (Custom accents are theme-derived and re-apply after mount.)
+      try {
+        if (localStorage.getItem('fk-theme') === 'dark') {
+          document.documentElement.dataset.theme = 'dark';
+        }
+        var fkAccent = localStorage.getItem('fk-accent');
+        if (fkAccent && fkAccent !== 'graphite') {
+          document.documentElement.dataset.accent = fkAccent;
+        }
+        // Style previews intentionally start in Base on every fresh load.
+        localStorage.removeItem('fk-style');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

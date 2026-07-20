@@ -1,0 +1,90 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Popover
+   Viewport-aware, non-modal panels for compact tool controls.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-popover {
+  display: inline-flex;
+}
+
+.fk-popover__anchor {
+  display: inline-flex;
+}
+
+.fk-popover__surface {
+  --fk-popover-width: 264px;
+
+  position: fixed;
+  z-index: var(--fk-z-popover, 1100);
+  display: flex;
+  flex-direction: column;
+  gap: var(--fk-space-3);
+  width: min(var(--fk-popover-width), calc(100vw - var(--fk-space-6)));
+  max-height: calc(100vh - var(--fk-space-6));
+  padding: var(--fk-space-3);
+  overflow: auto;
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-raised);
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+  box-shadow: var(--fk-shadow-md);
+}
+
+.fk-popover__surface--sm {
+  --fk-popover-width: 192px;
+}
+
+.fk-popover__surface--lg {
+  --fk-popover-width: 340px;
+}
+
+.fk-popover__surface--auto {
+  width: max-content;
+  max-width: calc(100vw - var(--fk-space-6));
+}
+
+.fk-popover__surface[data-side='top'] {
+  transform-origin: center bottom;
+}
+
+.fk-popover__surface[data-side='right'] {
+  transform-origin: left center;
+}
+
+.fk-popover__surface[data-side='bottom'] {
+  transform-origin: center top;
+}
+
+.fk-popover__surface[data-side='left'] {
+  transform-origin: right center;
+}
+
+.fk-popover__surface[data-positioned='true'] {
+  animation: fk-popover-in var(--fk-duration) var(--fk-ease) both;
+}
+
+@keyframes fk-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-popover__surface[data-positioned='true'] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-popover__surface {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,313 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Color balance wheels
+   Three-way tonal balance with compact lift, gamma, and gain controls.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-color-balance {
+  --fk-color-balance-wheel-size: 112px;
+  display: grid;
+  gap: var(--fk-space-3);
+  min-width: 0;
+}
+
+.fk-color-balance--compact {
+  --fk-color-balance-wheel-size: 82px;
+  gap: var(--fk-space-2);
+}
+
+.fk-color-balance__wheels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--fk-space-3);
+}
+
+.fk-color-balance__tone {
+  display: grid;
+  justify-items: center;
+  gap: var(--fk-space-2);
+  min-width: 0;
+}
+
+.fk-color-balance__wheel {
+  position: relative;
+  width: var(--fk-color-balance-wheel-size);
+  height: var(--fk-color-balance-wheel-size);
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--fk-bg-raised) 88%, transparent) 0 4%,
+      color-mix(in srgb, var(--fk-bg-raised) 68%, transparent) 9%,
+      color-mix(in srgb, var(--fk-bg-raised) 22%, transparent) 19%,
+      transparent 30%
+    ),
+    conic-gradient(from -90deg, #e77272, #e4bc63, #82bc76, #60babb, #7894d6, #a278c8, #e77272);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-full);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--fk-text-primary) 8%, transparent),
+    inset 0 0 0 9px color-mix(in srgb, var(--fk-bg-control) 16%, transparent);
+  cursor: crosshair;
+  outline: none;
+  touch-action: none;
+}
+
+.fk-color-balance__wheel::before {
+  position: absolute;
+  inset: 16%;
+  display: block;
+  content: '';
+  border: 1px solid color-mix(in srgb, var(--fk-text-primary) 12%, transparent);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.fk-color-balance__axis {
+  display: none;
+}
+
+.fk-color-balance__axis--horizontal {
+  width: 62%;
+  height: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.fk-color-balance__axis--vertical {
+  width: 1px;
+  height: 62%;
+  transform: translate(-50%, -50%);
+}
+
+.fk-color-balance__neutral {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: color-mix(in srgb, var(--fk-bg-raised) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fk-text-primary) 40%, transparent);
+  border-radius: var(--fk-radius-full);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.fk-color-balance__handle {
+  position: absolute;
+  top: var(--fk-color-balance-y);
+  left: var(--fk-color-balance-x);
+  width: 10%;
+  height: 10%;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--fk-bg-raised) 94%, transparent);
+  border: 1.5px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--fk-bg-control) 86%, transparent);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-color-balance__wheel:hover:not([data-disabled]) .fk-color-balance__handle {
+  background: color-mix(in srgb, var(--fk-accent-muted) 72%, var(--fk-bg-raised));
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.fk-color-balance__wheel[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-color-balance__wheel[data-dragging] .fk-color-balance__handle {
+  background: var(--fk-bg-raised);
+  transform: translate(-50%, -50%) scale(0.96);
+}
+
+.fk-color-balance__wheel:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 3px;
+}
+
+.fk-color-balance__tone-label,
+.fk-color-balance__level > span {
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  line-height: 1.2;
+  text-transform: capitalize;
+}
+
+.fk-color-balance__levels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--fk-space-3);
+  padding-top: var(--fk-space-3);
+  border-top: 1px solid var(--fk-border-subtle);
+}
+
+.fk-color-balance__level {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--fk-space-2);
+  min-width: 0;
+}
+
+.fk-color-balance__level input {
+  width: 100%;
+  height: 16px;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  background: transparent;
+  border: 0;
+}
+
+.fk-color-balance__level input::-webkit-slider-runnable-track {
+  height: 3px;
+  background:
+    linear-gradient(
+      to right,
+      transparent 0 var(--fk-color-balance-level-start),
+      var(--fk-accent) var(--fk-color-balance-level-start) var(--fk-color-balance-level-end),
+      transparent var(--fk-color-balance-level-end) 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0 calc(50% - 0.5px),
+      var(--fk-text-tertiary) calc(50% - 0.5px) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px) 100%
+    ),
+    var(--fk-bg-control-hover);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-color-balance__level input::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  margin-top: -3.5px;
+  cursor: grab;
+  appearance: none;
+  background: var(--fk-bg-raised);
+  border: 2px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: var(--fk-shadow-sm);
+}
+
+.fk-color-balance__level input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  background: var(--fk-accent);
+}
+
+.fk-color-balance__level input::-moz-range-track {
+  height: 3px;
+  background: var(--fk-bg-control-hover);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-color-balance__level input::-moz-range-progress {
+  height: 3px;
+  background: var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+}
+
+.fk-color-balance__level input::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  cursor: grab;
+  background: var(--fk-bg-raised);
+  border: 2px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: var(--fk-shadow-sm);
+}
+
+.fk-color-balance__level input:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 3px;
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-color-balance__level output {
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1;
+}
+
+.fk-color-balance--compact .fk-color-balance__wheels,
+.fk-color-balance--compact .fk-color-balance__levels {
+  gap: var(--fk-space-2);
+}
+
+.fk-color-balance--compact .fk-color-balance__levels {
+  padding-top: var(--fk-space-2);
+}
+
+.fk-color-balance--compact .fk-color-balance__tone-label,
+.fk-color-balance--compact .fk-color-balance__level > span,
+.fk-color-balance--compact .fk-color-balance__level output {
+  font-size: var(--fk-fs-0);
+}
+
+.fk-color-balance--readonly {
+  opacity: 0.62;
+}
+
+.fk-color-balance--readonly .fk-color-balance__wheel,
+.fk-color-balance__level input:disabled {
+  cursor: default;
+}
+
+@media (max-width: 440px) {
+  .fk-color-balance {
+    --fk-color-balance-wheel-size: 80px;
+  }
+
+  .fk-color-balance__levels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-color-balance__wheel,
+  .fk-color-balance__axis,
+  .fk-color-balance__neutral,
+  .fk-color-balance__handle,
+  .fk-color-balance__level input::-webkit-slider-runnable-track,
+  .fk-color-balance__level input::-webkit-slider-thumb,
+  .fk-color-balance__level input::-moz-range-track,
+  .fk-color-balance__level input::-moz-range-progress,
+  .fk-color-balance__level input::-moz-range-thumb {
+    forced-color-adjust: none;
+  }
+
+  .fk-color-balance__wheel {
+    background: Canvas;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .fk-color-balance__axis {
+    background: CanvasText;
+  }
+
+  .fk-color-balance__neutral,
+  .fk-color-balance__handle,
+  .fk-color-balance__level input::-webkit-slider-thumb,
+  .fk-color-balance__level input::-moz-range-thumb {
+    background: Canvas;
+    border-color: Highlight;
+  }
+
+  .fk-color-balance__level input::-webkit-slider-runnable-track,
+  .fk-color-balance__level input::-moz-range-track {
+    background: GrayText;
+  }
+
+  .fk-color-balance__level input::-moz-range-progress {
+    background: Highlight;
+  }
+}

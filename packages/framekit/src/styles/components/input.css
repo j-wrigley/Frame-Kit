@@ -1,0 +1,496 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Input family
+   Shared field chrome for inspectors and dense tool surfaces.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-input {
+  --fk-input-height: 30px;
+  --fk-input-pad: var(--fk-space-2);
+  --fk-input-font: var(--fk-font-sans);
+  --fk-input-font-size: var(--fk-fs-2);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--fk-space-2);
+  width: 100%;
+  min-width: 0;
+  height: var(--fk-input-height);
+  padding: 0 var(--fk-input-pad);
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  cursor: text;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-input--sm {
+  --fk-input-height: 24px;
+  --fk-input-pad: 6px;
+  --fk-input-font-size: var(--fk-fs-0);
+  gap: var(--fk-space-1);
+}
+
+.fk-input--lg {
+  --fk-input-height: 34px;
+  --fk-input-pad: var(--fk-space-3);
+}
+
+.fk-input--mono {
+  --fk-input-font: var(--fk-font-mono);
+}
+
+.fk-input--bare {
+  background: transparent;
+}
+
+.fk-input:hover:not(.fk-input--disabled),
+.fk-input:focus-within {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-input:focus-within {
+  background: var(--fk-bg-control);
+}
+
+/* Typographic treatment comes from .fk-tag; these add layout only. */
+.fk-input__label,
+.fk-input__prefix,
+.fk-input__suffix {
+  flex-shrink: 0;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.fk-input__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fk-input > input {
+  width: 100%;
+  min-width: 0;
+  height: calc(var(--fk-input-height) - 2px);
+  padding: 0;
+  color: var(--fk-text-primary);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--fk-input-font);
+  font-size: var(--fk-input-font-size);
+  font-weight: var(--fk-fw-regular);
+  line-height: 1;
+}
+
+.fk-input--align-end > input {
+  text-align: end;
+}
+
+.fk-input > input::placeholder {
+  color: var(--fk-text-tertiary);
+  opacity: 1;
+}
+
+.fk-input > input:focus {
+  outline: none;
+}
+
+.fk-input > input[type='number'] {
+  appearance: textfield;
+}
+
+.fk-input > input[type='number']::-webkit-outer-spin-button,
+.fk-input > input[type='number']::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.fk-input--disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-input--disabled > input {
+  color: var(--fk-text-disabled);
+  cursor: inherit;
+}
+
+/* ── Search field ── */
+
+.fk-search-field {
+  color: var(--fk-text-tertiary);
+}
+
+.fk-search-field__icon {
+  display: inline-flex;
+  flex: none;
+  color: inherit;
+}
+
+.fk-search-field__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-search-field.fk-input--sm .fk-search-field__icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.fk-search-field:focus-within .fk-search-field__icon {
+  color: var(--fk-accent-text);
+}
+
+.fk-search-field > input[type='search']::-webkit-search-decoration,
+.fk-search-field > input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* ── Inline rename ── */
+
+.fk-inline-rename {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--fk-space-2);
+  width: 100%;
+  min-width: 0;
+  min-height: 30px;
+  padding: 0 var(--fk-space-2);
+  color: var(--fk-text-primary);
+  text-align: start;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+button.fk-inline-rename {
+  cursor: text;
+}
+
+button.fk-inline-rename:hover:not(:disabled) {
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-inline-rename:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 2px;
+}
+
+.fk-inline-rename--editing {
+  background: var(--fk-bg-control);
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-inline-rename__icon {
+  display: inline-flex;
+  color: var(--fk-text-tertiary);
+}
+
+.fk-inline-rename__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-inline-rename__value,
+.fk-inline-rename__meta {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--fk-font-sans);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.fk-inline-rename__value {
+  font-size: var(--fk-fs-2);
+}
+
+.fk-inline-rename__meta {
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-1);
+}
+
+.fk-inline-rename > input {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 0;
+  color: var(--fk-text-primary);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-2);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.fk-inline-rename > input::placeholder {
+  color: var(--fk-text-tertiary);
+  opacity: 1;
+}
+
+.fk-inline-rename > input:focus {
+  outline: none;
+}
+
+button.fk-inline-rename:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ── Textarea ── */
+
+.fk-textarea {
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--fk-space-1);
+  width: 100%;
+  min-width: 0;
+  padding: 7px var(--fk-space-2);
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  cursor: text;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-textarea--bare {
+  background: transparent;
+}
+
+.fk-textarea:hover:not(.fk-textarea--disabled),
+.fk-textarea:focus-within {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-textarea:focus-within {
+  background: var(--fk-bg-control);
+}
+
+/* Typographic treatment comes from .fk-tag; this adds layout only. */
+.fk-textarea__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-textarea > textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0;
+  color: var(--fk-text-primary);
+  resize: vertical;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-2);
+  font-weight: var(--fk-fw-regular);
+  line-height: 1.45;
+}
+
+.fk-textarea--mono > textarea {
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-1);
+}
+
+.fk-textarea > textarea::placeholder {
+  color: var(--fk-text-tertiary);
+  opacity: 1;
+}
+
+.fk-textarea > textarea:focus {
+  outline: none;
+}
+
+.fk-textarea--disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-textarea--disabled > textarea {
+  color: var(--fk-text-disabled);
+  cursor: inherit;
+}
+
+/* ── Number input ── */
+
+.fk-number-input {
+  --fk-number-input-height: 30px;
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: var(--fk-number-input-height) minmax(0, 1fr) var(--fk-number-input-height);
+  width: 100%;
+  min-width: 0;
+  height: var(--fk-number-input-height);
+  overflow: hidden;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-number-input--sm {
+  --fk-number-input-height: 24px;
+}
+
+.fk-number-input--lg {
+  --fk-number-input-height: 34px;
+}
+
+.fk-number-input:hover:not(.fk-number-input--disabled),
+.fk-number-input:focus-within {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-number-input:focus-within {
+  background: var(--fk-bg-control);
+}
+
+/* Shared affix-button chrome: icon actions attached to a field
+   (stepper buttons, composer submit). Consumers add only geometry. */
+.fk-affix-button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-affix-button:hover:not(:disabled) {
+  color: var(--fk-accent-text);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-affix-button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: var(--fk-focus-outline);
+  outline-offset: -2px;
+}
+
+.fk-affix-button:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-affix-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-number-input__button {
+  width: var(--fk-number-input-height);
+  height: var(--fk-number-input-height);
+}
+
+.fk-number-input__button svg {
+  width: 13px;
+  height: 13px;
+}
+
+.fk-number-input__field {
+  height: var(--fk-number-input-height);
+  padding: 0 var(--fk-space-2);
+  background: transparent;
+  border-width: 0 1px;
+  border-color: var(--fk-border-control);
+  border-radius: 0;
+}
+
+.fk-number-input__field:hover,
+.fk-number-input__field:focus-within {
+  background: transparent;
+  border-color: var(--fk-border-control);
+}
+
+.fk-number-input--sm .fk-number-input__field {
+  padding: 0 6px;
+}
+
+.fk-number-input--disabled {
+  cursor: not-allowed;
+}
+
+/* ── Input composer ── */
+
+.fk-input-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+}
+
+.fk-input-composer__field {
+  height: 34px;
+  border-radius: var(--fk-radius-sm) 0 0 var(--fk-radius-sm);
+}
+
+.fk-input-composer__field:hover,
+.fk-input-composer__field:focus-within {
+  position: relative;
+  z-index: 1;
+}
+
+/* Adds a segmented surface + geometry on top of .fk-affix-button. */
+.fk-input-composer__button {
+  width: 34px;
+  height: 34px;
+  margin-left: -1px;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: 0 var(--fk-radius-sm) var(--fk-radius-sm) 0;
+}
+
+.fk-input-composer:hover:not(.fk-input-composer--disabled) .fk-input-composer__button,
+.fk-input-composer:focus-within .fk-input-composer__button {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-input-composer--disabled {
+  cursor: not-allowed;
+}
+
+.fk-input-composer--disabled .fk-input-composer__button {
+  cursor: inherit;
+}
+
+@media (forced-colors: active) {
+  .fk-input:focus-within,
+  .fk-textarea:focus-within,
+  .fk-number-input:focus-within,
+  .fk-input-composer:focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}

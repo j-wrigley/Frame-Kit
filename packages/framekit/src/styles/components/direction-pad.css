@@ -1,0 +1,131 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Direction pad
+   Compact compass controls for spatial and motion decisions.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-direction-pad {
+  --fk-direction-pad-cell: 32px;
+  --fk-direction-pad-gap: 2px;
+  display: inline-grid;
+  grid-template-columns: repeat(3, var(--fk-direction-pad-cell));
+  grid-template-rows: repeat(3, var(--fk-direction-pad-cell));
+  gap: var(--fk-direction-pad-gap);
+  padding: var(--fk-direction-pad-gap);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+}
+
+.fk-direction-pad--sm {
+  --fk-direction-pad-cell: 24px;
+}
+
+.fk-direction-pad--md {
+  --fk-direction-pad-cell: 32px;
+}
+
+.fk-direction-pad__button,
+.fk-direction-pad__empty {
+  grid-column: auto;
+  grid-row: auto;
+  width: var(--fk-direction-pad-cell);
+  height: var(--fk-direction-pad-cell);
+}
+
+.fk-direction-pad__button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--fk-radius-sm);
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-direction-pad__button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-direction-pad__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fk-direction-pad__icon--up-left {
+  transform: rotate(-45deg);
+}
+
+.fk-direction-pad__icon--up-right {
+  transform: rotate(45deg);
+}
+
+.fk-direction-pad__icon--down-left {
+  transform: rotate(45deg);
+}
+
+.fk-direction-pad__icon--down-right {
+  transform: rotate(-45deg);
+}
+
+.fk-direction-pad__button:hover:not(:disabled) {
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-direction-pad__button[data-selected] {
+  color: var(--fk-accent);
+  background: var(--fk-accent-subtle);
+  border-color: var(--fk-accent-muted);
+}
+
+.fk-direction-pad__button:focus-visible {
+  z-index: 1;
+  color: var(--fk-text-primary);
+  outline: var(--fk-focus-outline);
+  outline-offset: -2px;
+}
+
+.fk-direction-pad__button[data-selected]:focus-visible {
+  color: var(--fk-accent);
+}
+
+.fk-direction-pad--disabled {
+  opacity: 0.58;
+}
+
+.fk-direction-pad__button:disabled {
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .fk-direction-pad,
+  .fk-direction-pad__button {
+    forced-color-adjust: none;
+  }
+
+  .fk-direction-pad {
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .fk-direction-pad__button {
+    color: CanvasText;
+  }
+
+  .fk-direction-pad__button[data-selected] {
+    color: HighlightText;
+    background: Highlight;
+    border-color: Highlight;
+  }
+
+  .fk-direction-pad__button:focus-visible {
+    outline-color: Highlight;
+  }
+}

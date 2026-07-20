@@ -1,0 +1,210 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Orbit dial
+   Compass-based yaw and elevation control for spatial tools.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-orbit-dial {
+  --fk-orbit-dial-size: 184px;
+  display: inline-block;
+  flex: none;
+  min-width: 0;
+}
+
+.fk-orbit-dial--sm {
+  --fk-orbit-dial-size: 136px;
+}
+
+.fk-orbit-dial--md {
+  --fk-orbit-dial-size: 184px;
+}
+
+.fk-orbit-dial--lg {
+  --fk-orbit-dial-size: 236px;
+}
+
+.fk-orbit-dial__canvas {
+  display: block;
+  width: var(--fk-orbit-dial-size);
+  height: var(--fk-orbit-dial-size);
+  overflow: visible;
+  outline: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-orbit-dial__canvas[data-editable] {
+  cursor: crosshair;
+}
+
+.fk-orbit-dial__canvas[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-orbit-dial__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-orbit-dial__light-wash {
+  fill: var(--fk-accent-subtle);
+  fill-opacity: 0.54;
+}
+
+.fk-orbit-dial--light .fk-orbit-dial__ring {
+  stroke: var(--fk-accent-muted);
+}
+
+.fk-orbit-dial__ring,
+.fk-orbit-dial__inner-ring {
+  fill: none;
+  stroke: var(--fk-border);
+  stroke-width: 1;
+}
+
+.fk-orbit-dial__inner-ring {
+  stroke-opacity: 0.65;
+  stroke-dasharray: 2 3;
+}
+
+.fk-orbit-dial__tick {
+  stroke: var(--fk-border);
+  stroke-width: 1;
+  stroke-opacity: 0.7;
+}
+
+.fk-orbit-dial__tick[data-major] {
+  stroke: var(--fk-text-tertiary);
+  stroke-opacity: 0.9;
+}
+
+.fk-orbit-dial__cardinals text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: 9px;
+  font-weight: var(--fk-fw-medium);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.fk-orbit-dial__spoke {
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-opacity: 0.7;
+}
+
+.fk-orbit-dial__handle-halo {
+  fill: var(--fk-accent-subtle);
+  stroke: transparent;
+}
+
+.fk-orbit-dial__handle {
+  fill: var(--fk-accent);
+  stroke: var(--fk-bg-raised);
+  stroke-width: 2;
+}
+
+.fk-orbit-dial__light-rays line {
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.fk-orbit-dial__readout-disc {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-orbit-dial__readout text {
+  fill: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: 7px;
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0.04em;
+  text-anchor: middle;
+}
+
+.fk-orbit-dial__readout .fk-orbit-dial__elevation-value {
+  fill: var(--fk-text-primary);
+  font-family: var(--fk-font-sans);
+  font-size: 15px;
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0;
+}
+
+.fk-orbit-dial__readout .fk-orbit-dial__yaw-value {
+  fill: var(--fk-text-secondary);
+  font-size: 6px;
+}
+
+.fk-orbit-dial__canvas:focus-visible .fk-orbit-dial__surface {
+  stroke: var(--fk-accent);
+  stroke-width: 2;
+}
+
+.fk-orbit-dial__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-orbit-dial__surface,
+  .fk-orbit-dial__light-wash,
+  .fk-orbit-dial__ring,
+  .fk-orbit-dial__inner-ring,
+  .fk-orbit-dial__tick,
+  .fk-orbit-dial__cardinals text,
+  .fk-orbit-dial__spoke,
+  .fk-orbit-dial__handle-halo,
+  .fk-orbit-dial__handle,
+  .fk-orbit-dial__light-rays line,
+  .fk-orbit-dial__readout-disc,
+  .fk-orbit-dial__readout text {
+    forced-color-adjust: none;
+  }
+
+  .fk-orbit-dial__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-orbit-dial__ring,
+  .fk-orbit-dial__inner-ring,
+  .fk-orbit-dial__tick,
+  .fk-orbit-dial__readout-disc {
+    stroke: CanvasText;
+  }
+
+  .fk-orbit-dial__cardinals text,
+  .fk-orbit-dial__readout text,
+  .fk-orbit-dial__readout .fk-orbit-dial__elevation-value,
+  .fk-orbit-dial__readout .fk-orbit-dial__yaw-value {
+    fill: CanvasText;
+  }
+
+  .fk-orbit-dial__spoke {
+    stroke: Highlight;
+  }
+
+  .fk-orbit-dial__light-rays line {
+    stroke: Highlight;
+  }
+
+  .fk-orbit-dial__handle-halo,
+  .fk-orbit-dial__handle {
+    fill: Highlight;
+  }
+
+  .fk-orbit-dial__readout-disc {
+    fill: Canvas;
+  }
+
+  .fk-orbit-dial__handle {
+    stroke: Canvas;
+  }
+
+  .fk-orbit-dial__canvas:focus-visible .fk-orbit-dial__surface {
+    stroke: Highlight;
+  }
+}

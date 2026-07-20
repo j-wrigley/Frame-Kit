@@ -1,0 +1,286 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Stepper
+   Compact bounded-value controls for tool surfaces.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-stepper {
+  --fk-stepper-height: 30px;
+  --fk-stepper-button-width: 30px;
+  --fk-stepper-font: var(--fk-font-mono);
+  --fk-stepper-font-size: var(--fk-fs-1);
+  --fk-stepper-flip-duration: 160ms;
+  --fk-stepper-flip-ease: cubic-bezier(0.2, 0.75, 0.2, 1);
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: var(--fk-stepper-button-width) minmax(0, 1fr) auto var(
+      --fk-stepper-button-width
+    );
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  height: var(--fk-stepper-height);
+  overflow: hidden;
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-stepper--sm {
+  --fk-stepper-height: 24px;
+  --fk-stepper-button-width: 24px;
+  --fk-stepper-font-size: var(--fk-fs-0);
+}
+
+.fk-stepper--lg {
+  --fk-stepper-height: 34px;
+  --fk-stepper-button-width: 34px;
+  --fk-stepper-font-size: var(--fk-fs-2);
+}
+
+.fk-stepper--sans {
+  --fk-stepper-font: var(--fk-font-sans);
+}
+
+.fk-stepper:hover:not(.fk-stepper--disabled),
+.fk-stepper:focus-within {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-stepper:focus-within {
+  background: var(--fk-bg-control);
+}
+
+.fk-stepper__button {
+  display: grid;
+  place-items: center;
+  width: var(--fk-stepper-button-width);
+  height: var(--fk-stepper-height);
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-stepper__button--decrement {
+  grid-column: 1;
+}
+
+.fk-stepper__button--increment {
+  grid-column: 4;
+}
+
+.fk-stepper__button:hover:not(:disabled) {
+  color: var(--fk-accent-text);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-stepper__button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: var(--fk-focus-outline);
+  outline-offset: -2px;
+}
+
+.fk-stepper__button:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-stepper__button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-stepper--sm .fk-stepper__button svg {
+  width: 12px;
+  height: 12px;
+}
+
+.fk-stepper__value {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  height: calc(var(--fk-stepper-height) - 2px);
+  padding: 0 var(--fk-space-1);
+  overflow: hidden;
+  color: var(--fk-text-primary);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--fk-stepper-font);
+  font-size: var(--fk-stepper-font-size);
+  font-weight: var(--fk-fw-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  line-height: calc(var(--fk-stepper-height) - 2px);
+}
+
+.fk-stepper__value-slot {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.fk-stepper__value--display {
+  display: block;
+}
+
+/* The native input remains the accessible source of truth. During a stepped
+   update its text is briefly covered by this aria-hidden counter transition. */
+.fk-stepper[data-flipping] .fk-stepper__value {
+  color: transparent;
+  caret-color: transparent;
+}
+
+.fk-stepper__value-flip {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 48px;
+}
+
+.fk-stepper__value-flip > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--fk-text-primary);
+  font-family: var(--fk-stepper-font);
+  font-size: var(--fk-stepper-font-size);
+  font-weight: var(--fk-fw-medium);
+  font-variant-numeric: tabular-nums;
+  line-height: calc(var(--fk-stepper-height) - 2px);
+  backface-visibility: hidden;
+}
+
+.fk-stepper__value-flip--up .fk-stepper__value-flip-out {
+  transform-origin: center top;
+  animation: fk-stepper-value-out-up var(--fk-stepper-flip-duration) var(--fk-stepper-flip-ease)
+    both;
+}
+
+.fk-stepper__value-flip--up .fk-stepper__value-flip-in {
+  transform-origin: center bottom;
+  animation: fk-stepper-value-in-up var(--fk-stepper-flip-duration) var(--fk-stepper-flip-ease) both;
+}
+
+.fk-stepper__value-flip--down .fk-stepper__value-flip-out {
+  transform-origin: center bottom;
+  animation: fk-stepper-value-out-down var(--fk-stepper-flip-duration) var(--fk-stepper-flip-ease)
+    both;
+}
+
+.fk-stepper__value-flip--down .fk-stepper__value-flip-in {
+  transform-origin: center top;
+  animation: fk-stepper-value-in-down var(--fk-stepper-flip-duration) var(--fk-stepper-flip-ease)
+    both;
+}
+
+@keyframes fk-stepper-value-out-up {
+  to {
+    opacity: 0;
+    transform: translateY(-54%) rotateX(46deg);
+  }
+}
+
+@keyframes fk-stepper-value-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(54%) rotateX(-46deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+@keyframes fk-stepper-value-out-down {
+  to {
+    opacity: 0;
+    transform: translateY(54%) rotateX(-46deg);
+  }
+}
+
+@keyframes fk-stepper-value-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-54%) rotateX(46deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+input.fk-stepper__value:focus {
+  outline: none;
+}
+
+input.fk-stepper__value::placeholder {
+  color: var(--fk-text-tertiary);
+  opacity: 1;
+}
+
+.fk-stepper__suffix {
+  grid-column: 3;
+  min-width: 0;
+  padding-right: var(--fk-space-1);
+  overflow: hidden;
+  color: var(--fk-accent-text);
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: var(--fk-tracking-label);
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.fk-stepper--sans .fk-stepper__suffix {
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.fk-stepper--disabled {
+  color: var(--fk-text-disabled);
+  background: var(--fk-bg-control);
+}
+
+.fk-stepper--disabled .fk-stepper__value,
+.fk-stepper--disabled .fk-stepper__suffix {
+  color: var(--fk-text-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-stepper[data-flipping] .fk-stepper__value {
+    color: var(--fk-text-primary);
+    caret-color: auto;
+  }
+
+  .fk-stepper__value-flip {
+    display: none;
+  }
+}

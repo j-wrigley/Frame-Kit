@@ -1,0 +1,346 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Checks and radios
+   Native selection controls for compact inspector choices.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-checkbox {
+  --fk-choice-solid: var(--fk-accent);
+  --fk-choice-text: var(--fk-accent-text);
+
+  position: relative;
+  color: var(--fk-text-secondary);
+  cursor: pointer;
+}
+
+.fk-checkbox--danger {
+  --fk-choice-solid: var(--fk-danger);
+  --fk-choice-text: var(--fk-danger-text);
+}
+
+.fk-checkbox__input,
+.fk-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fk-checkbox__box {
+  display: grid;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  place-items: center;
+  color: var(--fk-text-on-accent);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-xs);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-checkbox__box svg {
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transition: opacity var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-checkbox__input:checked + .fk-checkbox__box {
+  background: var(--fk-choice-solid);
+  border-color: var(--fk-choice-solid);
+}
+
+.fk-checkbox__input:checked + .fk-checkbox__box svg,
+.fk-checkbox__input:indeterminate + .fk-checkbox__box svg {
+  opacity: 1;
+}
+
+.fk-checkbox__input:indeterminate + .fk-checkbox__box {
+  color: var(--fk-bg-raised);
+  background: var(--fk-text-primary);
+  border-color: var(--fk-text-primary);
+}
+
+.fk-checkbox__input:focus-visible + .fk-checkbox__box,
+.fk-radio__input:focus-visible + .fk-radio__dot {
+  outline: var(--fk-focus-outline);
+  outline-offset: 2px;
+}
+
+.fk-checkbox--row {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  min-height: 38px;
+  gap: var(--fk-space-2);
+  padding: 5px var(--fk-space-2);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-checkbox--row:hover:not([data-disabled]),
+.fk-checkbox--row:has(.fk-checkbox__input:checked),
+.fk-checkbox--row:has(.fk-checkbox__input:indeterminate) {
+  background: var(--fk-bg-raised);
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-checkbox__content,
+.fk-radio__content {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+}
+
+.fk-checkbox__label,
+.fk-radio__label {
+  overflow: hidden;
+  color: var(--fk-text-primary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-checkbox__description,
+.fk-radio__description {
+  overflow: hidden;
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-checkbox__meta {
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-regular);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.fk-checkbox--row:has(.fk-checkbox__input:checked) .fk-checkbox__label,
+.fk-checkbox--row:has(.fk-checkbox__input:indeterminate) .fk-checkbox__label {
+  color: var(--fk-choice-text);
+}
+
+.fk-checkbox--inline {
+  display: inline-grid;
+  grid-template-columns: 13px minmax(0, 1fr);
+  align-items: center;
+  min-height: 26px;
+  gap: 5px;
+  padding: 0 var(--fk-space-2) 0 6px;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-checkbox--inline .fk-checkbox__box {
+  width: 13px;
+  height: 13px;
+}
+
+.fk-checkbox--inline .fk-checkbox__box svg {
+  width: 9px;
+  height: 9px;
+}
+
+.fk-checkbox--inline .fk-checkbox__content {
+  display: flex;
+  align-items: center;
+  min-height: 13px;
+}
+
+.fk-checkbox--inline .fk-checkbox__label {
+  line-height: 1;
+}
+
+.fk-checkbox--inline .fk-checkbox__description,
+.fk-checkbox--inline .fk-checkbox__meta {
+  display: none;
+}
+
+.fk-checkbox--inline:hover:not([data-disabled]),
+.fk-checkbox--inline:has(.fk-checkbox__input:checked),
+.fk-checkbox--inline:has(.fk-checkbox__input:indeterminate) {
+  background: var(--fk-bg-raised);
+  border-color: var(--fk-choice-solid);
+}
+
+.fk-checkbox--inline:has(.fk-checkbox__input:checked) .fk-checkbox__label,
+.fk-checkbox--inline:has(.fk-checkbox__input:indeterminate) .fk-checkbox__label {
+  color: var(--fk-choice-text);
+}
+
+.fk-checkbox[data-disabled],
+.fk-radio[data-disabled] {
+  cursor: not-allowed;
+}
+
+.fk-checkbox[data-disabled] {
+  color: var(--fk-text-disabled);
+  background: transparent;
+  border-color: var(--fk-border-subtle);
+}
+
+.fk-checkbox[data-disabled] .fk-checkbox__box {
+  color: var(--fk-text-disabled);
+  background: transparent;
+  border-color: var(--fk-border-subtle);
+}
+
+.fk-checkbox[data-disabled] .fk-checkbox__label,
+.fk-checkbox[data-disabled] .fk-checkbox__description,
+.fk-checkbox[data-disabled] .fk-checkbox__meta {
+  color: var(--fk-text-disabled);
+}
+
+/* ── Radio group ── */
+
+.fk-radio-group {
+  display: grid;
+  width: 100%;
+  gap: 2px;
+  padding: 2px;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-radio-group--inline {
+  display: inline-grid;
+  width: max-content;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(58px, auto);
+}
+
+.fk-radio {
+  position: relative;
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  align-items: center;
+  min-height: 38px;
+  gap: var(--fk-space-2);
+  padding: 5px 6px;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  border-radius: var(--fk-radius-xs);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-radio:hover:not([data-disabled]),
+.fk-radio:has(.fk-radio__input:checked) {
+  background: var(--fk-bg-raised);
+}
+
+.fk-radio__dot {
+  display: grid;
+  width: 12px;
+  height: 12px;
+  place-items: center;
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-full);
+  transition:
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-radio__dot::after {
+  width: 4px;
+  height: 4px;
+  content: '';
+  background: var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  opacity: 0;
+  transition: opacity var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-radio__input:checked + .fk-radio__dot {
+  border-color: var(--fk-accent);
+}
+
+.fk-radio__input:checked + .fk-radio__dot::after {
+  opacity: 1;
+}
+
+.fk-radio:has(.fk-radio__input:checked) .fk-radio__label {
+  color: var(--fk-accent-text);
+}
+
+.fk-radio-group--inline .fk-radio {
+  grid-template-columns: 10px minmax(0, 1fr);
+  min-height: 26px;
+  gap: 5px;
+  padding: 0 var(--fk-space-2);
+}
+
+.fk-radio-group--inline .fk-radio__dot {
+  width: 10px;
+  height: 10px;
+}
+
+.fk-radio-group--inline .fk-radio__dot::after {
+  width: 3px;
+  height: 3px;
+}
+
+.fk-radio-group--inline .fk-radio__content {
+  display: block;
+}
+
+.fk-radio-group--inline .fk-radio__description {
+  display: none;
+}
+
+.fk-radio[data-disabled] {
+  color: var(--fk-text-disabled);
+  background: transparent;
+}
+
+.fk-radio[data-disabled] .fk-radio__dot {
+  border-color: var(--fk-border-subtle);
+}
+
+.fk-radio[data-disabled] .fk-radio__label,
+.fk-radio[data-disabled] .fk-radio__description {
+  color: var(--fk-text-disabled);
+}
+
+@media (forced-colors: active) {
+  .fk-checkbox__input:checked + .fk-checkbox__box,
+  .fk-radio__input:checked + .fk-radio__dot {
+    border-color: Highlight;
+  }
+
+  .fk-checkbox__input:checked + .fk-checkbox__box {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .fk-radio__input:checked + .fk-radio__dot::after {
+    background: Highlight;
+  }
+}

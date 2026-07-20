@@ -1,0 +1,183 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Focus crop
+   Compact crop framing with safe-area guides and focal placement.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-focus-crop {
+  min-width: 0;
+}
+
+.fk-focus-crop__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 320 / 200;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-focus-crop__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-focus-crop__mask rect {
+  fill: var(--fk-bg-overlay);
+  fill-opacity: 0.68;
+  pointer-events: none;
+}
+
+.fk-focus-crop__safe-area {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 4;
+  stroke-opacity: 0.55;
+  stroke-width: 0.75;
+  pointer-events: none;
+}
+
+.fk-focus-crop__safe-area--inner {
+  stroke-opacity: 0.34;
+}
+
+.fk-focus-crop__frame-hit {
+  fill: transparent;
+  cursor: move;
+  outline: none;
+}
+
+.fk-focus-crop--readonly .fk-focus-crop__frame-hit {
+  cursor: default;
+}
+
+.fk-focus-crop__frame-outline {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.fk-focus-crop__frame-hit:focus-visible {
+  stroke: var(--fk-accent);
+  stroke-dasharray: 2 2;
+  stroke-width: 2;
+}
+
+.fk-focus-crop__resize-handle,
+.fk-focus-crop__focal-point {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-focus-crop__frame[data-dragging] .fk-focus-crop__resize-handle,
+.fk-focus-crop__frame[data-dragging] .fk-focus-crop__focal-point {
+  cursor: grabbing;
+}
+
+.fk-focus-crop--readonly .fk-focus-crop__resize-handle,
+.fk-focus-crop--readonly .fk-focus-crop__focal-point {
+  cursor: default;
+}
+
+.fk-focus-crop__resize-hit,
+.fk-focus-crop__focal-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-focus-crop__resize-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 1.5;
+}
+
+.fk-focus-crop__resize-square {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+}
+
+.fk-focus-crop__resize-handle:focus-visible .fk-focus-crop__resize-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-focus-crop__focal-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 1.5;
+}
+
+.fk-focus-crop__focal-ring {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.5;
+}
+
+.fk-focus-crop__focal-center {
+  fill: var(--fk-accent);
+}
+
+.fk-focus-crop__focal-point:focus-visible .fk-focus-crop__focal-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-focus-crop__frame[data-dragging='focal'] .fk-focus-crop__focal-ring,
+.fk-focus-crop__frame[data-dragging='focal'] .fk-focus-crop__focal-center {
+  fill: var(--fk-accent);
+}
+
+.fk-focus-crop__frame[data-dragging='focal'] .fk-focus-crop__focal-center {
+  fill: var(--fk-bg-raised);
+}
+
+.fk-focus-crop__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-focus-crop__surface,
+  .fk-focus-crop__mask rect,
+  .fk-focus-crop__safe-area,
+  .fk-focus-crop__frame-outline,
+  .fk-focus-crop__resize-focus,
+  .fk-focus-crop__resize-square,
+  .fk-focus-crop__focal-focus,
+  .fk-focus-crop__focal-ring,
+  .fk-focus-crop__focal-center {
+    forced-color-adjust: none;
+  }
+
+  .fk-focus-crop__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-focus-crop__mask rect {
+    fill: Canvas;
+    fill-opacity: 0.68;
+  }
+
+  .fk-focus-crop__safe-area {
+    stroke: GrayText;
+  }
+
+  .fk-focus-crop__frame-outline,
+  .fk-focus-crop__resize-focus,
+  .fk-focus-crop__resize-square,
+  .fk-focus-crop__focal-focus,
+  .fk-focus-crop__focal-ring {
+    stroke: Highlight;
+  }
+
+  .fk-focus-crop__resize-square,
+  .fk-focus-crop__focal-ring {
+    fill: Canvas;
+  }
+
+  .fk-focus-crop__focal-center {
+    fill: Highlight;
+  }
+}

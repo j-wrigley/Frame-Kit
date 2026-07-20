@@ -1,0 +1,62 @@
+{
+  "name": "@presentstandards/framekit-ui",
+  "version": "0.1.0",
+  "description": "Precision UI kit for creative and productivity tools. Light and dark themes, token-driven, documented for humans and AI.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "docs",
+    "skills",
+    "llms.txt"
+  ],
+  "types": "./dist/index.d.ts",
+  "module": "./dist/framekit.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/framekit.js",
+      "default": "./dist/framekit.js"
+    },
+    "./styles.css": "./dist/styles/index.css",
+    "./tokens.css": "./dist/styles/tokens.css",
+    "./fonts.css": "./dist/styles/fonts.css",
+    "./fonts/*": "./dist/fonts/*",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vite build && node scripts/copy-styles.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run typecheck",
+    "typecheck": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "keywords": [
+    "ui",
+    "design-system",
+    "react",
+    "components",
+    "creative-tools",
+    "electron",
+    "icons",
+    "theming"
+  ],
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "vite": "^8.1.4",
+    "vite-plugin-dts": "^5.0.3"
+  }
+}

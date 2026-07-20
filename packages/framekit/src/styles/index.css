@@ -1,0 +1,53 @@
+/* Frame Kit — single stylesheet entry.
+   Consumers: import '@presentstandards/framekit-ui/styles.css' once at app root. */
+
+@import './fonts.css';
+@import './tokens.css';
+@import './accents.css';
+@import './surface-styles.css';
+@import './base.css';
+
+/* Components — one import per element as it lands.
+   tag.css first: the shared micro-label recipe other components compose. */
+@import './components/tag.css';
+@import './components/button.css';
+@import './components/loader.css';
+@import './components/drop-zone.css';
+@import './components/segmented-switch.css';
+@import './components/tabs.css';
+@import './components/checks-and-radios.css';
+@import './components/toggle.css';
+@import './components/layer-row.css';
+@import './components/frame.css';
+@import './components/sidebar.css';
+@import './components/easing-graph.css';
+@import './components/camera-path.css';
+@import './components/focus-crop.css';
+@import './components/modulation-strip.css';
+@import './components/loop-composer.css';
+@import './components/tone-curve.css';
+@import './components/orbit-dial.css';
+@import './components/envelope-editor.css';
+@import './components/color-balance-wheels.css';
+@import './components/perspective-grid.css';
+@import './components/value-graph.css';
+@import './components/node-canvas.css';
+@import './components/axis-field.css';
+@import './components/direction-pad.css';
+@import './components/keyframe-lane.css';
+@import './components/video-timeline.css';
+@import './components/gradient-editor.css';
+@import './components/histogram-scope.css';
+@import './components/dropdown.css';
+@import './components/context-menu.css';
+@import './components/hover-card.css';
+@import './components/popover.css';
+@import './components/input.css';
+@import './components/stepper.css';
+@import './components/value-controls.css';
+@import './components/spring-response.css';
+@import './components/color-picker.css';
+@import './components/toolbar.css';
+
+/* Optional export/capture compatibility helpers. */
+@import './capture.css';

@@ -1,0 +1,173 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Tabs
+   View navigation for related workspace, panel, and inspector content.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-tabs {
+  --fk-tabs-height: 34px;
+  --fk-tabs-pad-inline: var(--fk-space-3);
+
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fk-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.fk-tabs--sm {
+  --fk-tabs-height: 28px;
+  --fk-tabs-pad-inline: var(--fk-space-2);
+}
+
+.fk-tabs--full {
+  width: 100%;
+}
+
+.fk-tabs--full .fk-tabs__tab {
+  flex: 1 1 0;
+}
+
+.fk-tabs__tab {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  height: var(--fk-tabs-height);
+  padding: 0 var(--fk-tabs-pad-inline);
+  color: var(--fk-text-tertiary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-sm);
+  cursor: pointer;
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-tabs__tab:hover:not(:disabled):not([aria-selected='true']) {
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-tabs__tab:focus-visible {
+  z-index: 1;
+  outline: var(--fk-focus-outline);
+  outline-offset: -1px;
+}
+
+.fk-tabs__tab:disabled {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-tabs__icon {
+  display: inline-flex;
+  flex: none;
+  color: currentColor;
+}
+
+.fk-tabs__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fk-tabs__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fk-tabs__meta {
+  flex: none;
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1;
+}
+
+.fk-tabs__tab[aria-selected='true'] {
+  color: var(--fk-text-primary);
+}
+
+.fk-tabs__tab[aria-selected='true'] .fk-tabs__meta {
+  color: var(--fk-accent-text);
+}
+
+/* Underline is the default for adjacent workspace or editor views. */
+.fk-tabs--underline {
+  gap: 4px;
+  border-bottom: 1px solid var(--fk-border-subtle);
+}
+
+.fk-tabs--underline .fk-tabs__tab {
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--fk-radius-sm) var(--fk-radius-sm) 0 0;
+}
+
+.fk-tabs--underline .fk-tabs__tab[aria-selected='true'] {
+  color: var(--fk-accent-text);
+  border-bottom-color: var(--fk-accent);
+}
+
+/* Contained tabs recreate the compact panel treatment from the original kit,
+   but with clearer selected elevation and a full keyboard interaction model. */
+.fk-tabs--contained {
+  padding: 2px;
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+}
+
+.fk-tabs--contained .fk-tabs__tab {
+  height: calc(var(--fk-tabs-height) - 4px);
+  border-radius: var(--fk-radius-xs);
+}
+
+.fk-tabs--contained .fk-tabs__tab[aria-selected='true'] {
+  background: var(--fk-bg-raised);
+  box-shadow:
+    inset 0 0 0 1px var(--fk-border-subtle),
+    var(--fk-shadow-sm);
+}
+
+/* Soft tabs deliberately avoid a shared outer shell, so they can settle into
+   an inspector header or an existing card without adding another border. */
+.fk-tabs--soft .fk-tabs__tab[aria-selected='true'] {
+  color: var(--fk-accent-text);
+  background: var(--fk-accent-subtle);
+}
+
+.fk-tabs__panel {
+  min-width: 0;
+  outline: none;
+}
+
+.fk-tabs__panel[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .fk-tabs__tab[aria-selected='true'] {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

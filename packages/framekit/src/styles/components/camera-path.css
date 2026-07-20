@@ -1,0 +1,142 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Camera path
+   Spatial camera-route editing for creative-tool inspectors.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-camera-path {
+  width: 100%;
+  min-width: 0;
+}
+
+.fk-camera-path__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 280 / 180;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-camera-path__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-camera-path__snap-dot {
+  fill: var(--fk-border);
+  fill-opacity: 0.7;
+}
+
+.fk-camera-path__route {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.7;
+  stroke-width: 2;
+}
+
+.fk-camera-path__waypoint {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-camera-path__waypoint[data-dragging] {
+  cursor: grabbing;
+}
+
+.fk-camera-path--readonly .fk-camera-path__waypoint {
+  cursor: default;
+}
+
+.fk-camera-path__waypoint-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-camera-path__waypoint-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.fk-camera-path__waypoint-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 1.25;
+}
+
+.fk-camera-path__waypoint-label {
+  fill: var(--fk-text-secondary);
+  font-family: var(--fk-font-mono);
+  font-size: 10px;
+  font-weight: var(--fk-fw-bold);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.fk-camera-path__waypoint[data-active] .fk-camera-path__waypoint-outer,
+.fk-camera-path__waypoint[data-dragging] .fk-camera-path__waypoint-outer {
+  fill: var(--fk-accent);
+}
+
+.fk-camera-path__waypoint[data-active] .fk-camera-path__waypoint-label,
+.fk-camera-path__waypoint[data-dragging] .fk-camera-path__waypoint-label {
+  fill: var(--fk-text-on-accent);
+}
+
+.fk-camera-path__waypoint:focus-visible .fk-camera-path__waypoint-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-camera-path__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-camera-path__surface,
+  .fk-camera-path__snap-dot,
+  .fk-camera-path__route,
+  .fk-camera-path__waypoint-focus,
+  .fk-camera-path__waypoint-outer,
+  .fk-camera-path__waypoint-label {
+    forced-color-adjust: none;
+  }
+
+  .fk-camera-path__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-camera-path__snap-dot {
+    fill: GrayText;
+  }
+
+  .fk-camera-path__route,
+  .fk-camera-path__waypoint-focus,
+  .fk-camera-path__waypoint-outer {
+    stroke: Highlight;
+  }
+
+  .fk-camera-path__waypoint-outer {
+    fill: Canvas;
+  }
+
+  .fk-camera-path__waypoint-label {
+    fill: CanvasText;
+  }
+
+  .fk-camera-path__waypoint[data-active] .fk-camera-path__waypoint-outer,
+  .fk-camera-path__waypoint[data-dragging] .fk-camera-path__waypoint-outer {
+    fill: Highlight;
+  }
+
+  .fk-camera-path__waypoint[data-active] .fk-camera-path__waypoint-label,
+  .fk-camera-path__waypoint[data-dragging] .fk-camera-path__waypoint-label {
+    fill: HighlightText;
+  }
+}

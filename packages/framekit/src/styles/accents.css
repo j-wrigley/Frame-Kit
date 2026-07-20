@@ -1,0 +1,230 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Accent presets
+   Set <html data-accent="…"> to swap the accent slot. Graphite
+   (the default) lives in tokens.css. All values AA-verified:
+   light solids carry white text; dark solids are "paper" tints
+   carrying dark text (blue keeps white in both). For arbitrary
+   colors use applyAccent() from @presentstandards/framekit-ui.
+   ───────────────────────────────────────────────────────────── */
+
+[data-accent='slate'] {
+  --fk-accent: #363c4e; /* 11.0:1 with white text */
+  --fk-accent-rgb: 54, 60, 78;
+  --fk-accent-hover: #4b536c;
+  --fk-accent-active: #2a2e3c;
+  --fk-accent-subtle: #eeeff2;
+  --fk-accent-muted: #c8cbd5;
+  --fk-accent-text: #485270; /* 7.5:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='slate'] {
+  --fk-accent: #dcdee5; /* 13.2:1 with dark text */
+  --fk-accent-rgb: 220, 222, 229;
+  --fk-accent-hover: #f6f7f9;
+  --fk-accent-active: #c5c8d3;
+  --fk-accent-subtle: #23262f;
+  --fk-accent-muted: #3d4251;
+  --fk-accent-text: #b3b8c6; /* 9.7:1 on gray-1 */
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='sage'] {
+  --fk-accent: #394c41; /* 9.2:1 with white text */
+  --fk-accent-rgb: 57, 76, 65;
+  --fk-accent-hover: #4f695a;
+  --fk-accent-active: #2c3a32;
+  --fk-accent-subtle: #eef2ef;
+  --fk-accent-muted: #c9d4ce;
+  --fk-accent-text: #4b6c59; /* 5.7:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='sage'] {
+  --fk-accent: #dde4e0; /* 13.7:1 with dark text */
+  --fk-accent-rgb: 221, 228, 224;
+  --fk-accent-hover: #f7f8f7;
+  --fk-accent-active: #c6d2cb;
+  --fk-accent-subtle: #242e28;
+  --fk-accent-muted: #3f5046;
+  --fk-accent-text: #b5c5bb; /* 10.7:1 on gray-1 */
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='mauve'] {
+  --fk-accent: #4a3b4a; /* 10.4:1 with white text */
+  --fk-accent-rgb: 74, 59, 74;
+  --fk-accent-hover: #665266;
+  --fk-accent-active: #392d39;
+  --fk-accent-subtle: #f1eef1;
+  --fk-accent-muted: #d3cad3;
+  --fk-accent-text: #6a4e6a; /* 7.0:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='mauve'] {
+  --fk-accent: #e3dee3; /* 13.4:1 with dark text */
+  --fk-accent-rgb: 227, 222, 227;
+  --fk-accent-hover: #f8f7f8;
+  --fk-accent-active: #d1c7d1;
+  --fk-accent-subtle: #2c252c;
+  --fk-accent-muted: #4e414e;
+  --fk-accent-text: #c3b7c3; /* 10.0:1 on gray-1 */
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='sand'] {
+  --fk-accent: #4c4539; /* 9.5:1 with white text */
+  --fk-accent-rgb: 76, 69, 57;
+  --fk-accent-hover: #695f4f;
+  --fk-accent-active: #3a352c;
+  --fk-accent-subtle: #f2f0ee;
+  --fk-accent-muted: #d4d0c9;
+  --fk-accent-text: #6c614b; /* 5.9:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='sand'] {
+  --fk-accent: #e4e2dd; /* 13.7:1 with dark text */
+  --fk-accent-rgb: 228, 226, 221;
+  --fk-accent-hover: #f8f8f7;
+  --fk-accent-active: #d2cec6;
+  --fk-accent-subtle: #2e2a24;
+  --fk-accent-muted: #504a3f;
+  --fk-accent-text: #c5bfb5; /* 10.6:1 on gray-1 */
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='blue'] {
+  --fk-accent: #3b67de; /* 5.0:1 with white text */
+  --fk-accent-rgb: 59, 103, 222;
+  --fk-accent-hover: #2352d2; /* 6.5:1 with white text */
+  --fk-accent-active: #2c4db8;
+  --fk-accent-subtle: #eef3fe;
+  --fk-accent-muted: #c4d3f9;
+  --fk-accent-text: #2c4db8; /* 7.2:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='blue'] {
+  --fk-accent: #3b67de;
+  --fk-accent-rgb: 59, 103, 222;
+  --fk-accent-hover: #2352d2; /* 6.5:1 with white text */
+  --fk-accent-active: #2c4db8;
+  --fk-accent-subtle: #16213d;
+  --fk-accent-muted: #223766;
+  --fk-accent-text: #8cb0ff; /* 8.0:1 on gray-1 */
+  --fk-text-on-accent: #ffffff;
+}
+
+/* Extended hue range — each keeps the same seven-token accent contract. */
+
+[data-accent='teal'] {
+  --fk-accent: #146b68;
+  --fk-accent-rgb: 20, 107, 104;
+  --fk-accent-hover: #0e4d4b;
+  --fk-accent-active: #105a57;
+  --fk-accent-subtle: #eaf6f4;
+  --fk-accent-muted: #bde4de;
+  --fk-accent-text: #176965;
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='teal'] {
+  --fk-accent: #71d1c8;
+  --fk-accent-rgb: 113, 209, 200;
+  --fk-accent-hover: #94dcd5;
+  --fk-accent-active: #55b8b0;
+  --fk-accent-subtle: #123d3a;
+  --fk-accent-muted: #205e59;
+  --fk-accent-text: #8be5dc;
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='violet'] {
+  --fk-accent: #6146b7;
+  --fk-accent-rgb: 97, 70, 183;
+  --fk-accent-hover: #533c9d;
+  --fk-accent-active: #50399a;
+  --fk-accent-subtle: #f1eefc;
+  --fk-accent-muted: #d9d0f7;
+  --fk-accent-text: #5b3ead;
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='violet'] {
+  --fk-accent: #c1b2f6;
+  --fk-accent-rgb: 193, 178, 246;
+  --fk-accent-hover: #e2dbfb;
+  --fk-accent-active: #a895e6;
+  --fk-accent-subtle: #29234b;
+  --fk-accent-muted: #443b73;
+  --fk-accent-text: #ccc1ff;
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='rose'] {
+  --fk-accent: #b63d63;
+  --fk-accent-rgb: 182, 61, 99;
+  --fk-accent-hover: #9b3454;
+  --fk-accent-active: #96334f;
+  --fk-accent-subtle: #fbf0f3;
+  --fk-accent-muted: #f2c9d6;
+  --fk-accent-text: #a93459;
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='rose'] {
+  --fk-accent: #f2a9bd;
+  --fk-accent-rgb: 242, 169, 189;
+  --fk-accent-hover: #f8d1dc;
+  --fk-accent-active: #dd8da5;
+  --fk-accent-subtle: #41202c;
+  --fk-accent-muted: #6e3548;
+  --fk-accent-text: #ffb8ca;
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='coral'] {
+  --fk-accent: #b94a38;
+  --fk-accent-rgb: 185, 74, 56;
+  --fk-accent-hover: #9e3f30;
+  --fk-accent-active: #963a2c;
+  --fk-accent-subtle: #fcefeb;
+  --fk-accent-muted: #f5cbc1;
+  --fk-accent-text: #a93f2e;
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='coral'] {
+  --fk-accent: #f5af9b;
+  --fk-accent-rgb: 245, 175, 155;
+  --fk-accent-hover: #f9d0c5;
+  --fk-accent-active: #df9684;
+  --fk-accent-subtle: #46241f;
+  --fk-accent-muted: #733c32;
+  --fk-accent-text: #ffc0b0;
+  --fk-text-on-accent: #17181c;
+}
+
+[data-accent='amber'] {
+  --fk-accent: #ae5711;
+  --fk-accent-rgb: 174, 87, 17;
+  --fk-accent-hover: #8d470e;
+  --fk-accent-active: #8b460d;
+  --fk-accent-subtle: #fcf1e5;
+  --fk-accent-muted: #f2ceab;
+  --fk-accent-text: #96500f;
+  --fk-text-on-accent: #ffffff;
+}
+
+[data-theme='dark'][data-accent='amber'] {
+  --fk-accent: #f5c47a;
+  --fk-accent-rgb: 245, 196, 122;
+  --fk-accent-hover: #f8d7a5;
+  --fk-accent-active: #dda960;
+  --fk-accent-subtle: #442c17;
+  --fk-accent-muted: #704820;
+  --fk-accent-text: #ffd08c;
+  --fk-text-on-accent: #17181c;
+}

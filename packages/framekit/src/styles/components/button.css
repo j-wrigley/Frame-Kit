@@ -1,0 +1,214 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Button
+   The command button. Token-pure; works in light and dark.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-button {
+  --fk-button-height: 30px;
+  --fk-button-pad: 10px;
+  --fk-button-font: var(--fk-fs-2);
+  --fk-button-gap: 6px;
+  --fk-button-icon: 14px;
+  --fk-button-hover-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fk-button-gap);
+  height: var(--fk-button-height);
+  padding: 0 var(--fk-button-pad);
+  border: 1px solid transparent;
+  border-radius: var(--fk-radius-sm);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-button-font);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transform-origin: center;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-button-hover-ease);
+}
+
+.fk-button__content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fk-button-gap);
+  min-width: 0;
+  transition:
+    opacity var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-button-hover-ease);
+}
+
+.fk-button__label {
+  /* Slightly looser than the button's line-height: 1 so descenders (g, y, p)
+     aren't clipped by the ellipsis overflow. Geometry is unchanged — the label
+     is centered in a fixed-height button. */
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.fk-button__icon svg {
+  width: var(--fk-button-icon);
+  height: var(--fk-button-icon);
+}
+
+/* ── Sizes ── */
+
+.fk-button--sm {
+  --fk-button-height: 24px;
+  --fk-button-pad: var(--fk-space-2);
+  --fk-button-font: var(--fk-fs-1);
+  --fk-button-gap: var(--fk-space-1);
+  --fk-button-icon: 13px;
+}
+
+.fk-button--lg {
+  --fk-button-height: 34px;
+  --fk-button-pad: var(--fk-space-3);
+  --fk-button-icon: 15px;
+}
+
+.fk-button--full {
+  width: 100%;
+}
+
+/* Icon-only: square, no label. Caller supplies an aria-label. */
+.fk-button--icon {
+  width: var(--fk-button-height);
+  padding: 0;
+}
+
+/* ── Variant: secondary (default) ── */
+
+.fk-button--secondary {
+  background: var(--fk-bg-control);
+  border-color: var(--fk-border-control);
+  color: var(--fk-text-primary);
+}
+
+.fk-button--secondary:hover {
+  background: var(--fk-bg-control-hover);
+  border-color: color-mix(in srgb, var(--fk-border-control) 70%, var(--fk-border-control-hover));
+}
+
+.fk-button--secondary:active {
+  background: var(--fk-bg-control-active);
+}
+
+/* ── Variant: primary ── */
+
+.fk-button--primary {
+  background: var(--fk-accent);
+  color: var(--fk-text-on-accent);
+}
+
+.fk-button--primary:hover {
+  background: var(--fk-accent-hover);
+}
+
+.fk-button--primary:active {
+  background: var(--fk-accent-active);
+}
+
+/* ── Variant: ghost ── */
+
+.fk-button--ghost {
+  background: transparent;
+  color: var(--fk-text-secondary);
+}
+
+.fk-button--ghost:hover {
+  background: var(--fk-bg-control-hover);
+  color: var(--fk-text-primary);
+}
+
+.fk-button--ghost:active {
+  background: var(--fk-bg-control-active);
+}
+
+/* ── Variant: danger ── */
+
+.fk-button--danger {
+  background: var(--fk-danger);
+  color: var(--fk-text-on-danger);
+}
+
+.fk-button--danger:hover {
+  background: var(--fk-danger-hover);
+}
+
+.fk-button--danger:active {
+  background: var(--fk-danger-active);
+}
+
+/* Hover remains deliberately flat: variants provide the acknowledgement
+   through their colour and border tokens, without visual elevation. */
+.fk-button:not(:disabled):not([data-loading]):active {
+  transform: scale(0.985);
+  transition-duration: var(--fk-duration-fast);
+}
+
+/* ── Disabled (real disable only — loading keeps its colors) ── */
+
+.fk-button:disabled:not([data-loading]) {
+  background: var(--fk-bg-control);
+  border-color: var(--fk-border-control);
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+}
+
+.fk-button--ghost:disabled:not([data-loading]) {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* ── Loading ── */
+
+.fk-button[data-loading] {
+  cursor: default;
+  /* Suppress hover/active feedback while inert; keyboard focus is retained. */
+  pointer-events: none;
+}
+
+/* opacity (not visibility/display) so the label keeps its width AND stays in
+   the accessibility tree — the button keeps its accessible name while loading. */
+.fk-button[data-loading] .fk-button__content {
+  opacity: 0;
+  transform: scale(0.985);
+}
+
+.fk-button .fk-button__loader {
+  --fk-loader-size: var(--fk-button-icon);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  animation: fk-button-loader-in var(--fk-duration-fast) var(--fk-button-hover-ease) both;
+}
+
+@keyframes fk-button-loader-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -42%) scale(0.82);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

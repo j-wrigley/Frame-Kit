@@ -1,0 +1,91 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Surface styles
+   Base stays unchanged. The transparent option only changes the
+   opacity of semantic surfaces and structural borders.
+   ───────────────────────────────────────────────────────────── */
+
+[data-style='transparent'] {
+  --fk-bg-surface: rgba(255, 255, 255, 0.32);
+  --fk-bg-raised: rgba(255, 255, 255, 0.48);
+  --fk-bg-control: rgba(var(--fk-text-primary-rgb), 0.05);
+  --fk-bg-control-hover: rgba(var(--fk-text-primary-rgb), 0.09);
+  --fk-bg-control-active: rgba(var(--fk-text-primary-rgb), 0.13);
+  --fk-border-subtle: rgba(var(--fk-text-primary-rgb), 0.11);
+  --fk-border: rgba(var(--fk-text-primary-rgb), 0.17);
+  --fk-border-strong: rgba(var(--fk-text-primary-rgb), 0.24);
+  --fk-border-control: rgba(var(--fk-text-primary-rgb), 0.1);
+  --fk-border-control-hover: rgba(var(--fk-accent-rgb), 0.32);
+  --fk-surface-backdrop-filter: blur(12px) saturate(1.24);
+  --fk-control-backdrop-filter: blur(6px) saturate(1.16);
+}
+
+[data-theme='dark'][data-style='transparent'] {
+  --fk-bg-surface: rgba(14, 14, 16, 0.38);
+  --fk-bg-raised: rgba(21, 21, 23, 0.52);
+}
+
+/* Full glass surfaces. These are the component regions that sit over an app
+   canvas or other content and need to soften that backdrop as one layer. */
+[data-style='transparent']
+  :where(
+    .fk-sidebar,
+    .fk-frame,
+    .fk-node-canvas__node,
+    .fk-dropdown__menu,
+    .fk-nested-dropdown__panel,
+    .fk-disclosure__content,
+    .fk-context-menu__surface,
+    .fk-context-menu__submenu-panel,
+    .fk-tooltip__surface,
+    .fk-hover-card__surface,
+    .fk-popover__surface,
+    .fk-toolbar,
+    .fk-toolbar__flyout,
+    .fk-axis-field,
+    .fk-camera-path,
+    .fk-easing-graph,
+    .fk-envelope-editor,
+    .fk-focus-crop,
+    .fk-histogram-scope,
+    .fk-keyframe-lane,
+    .fk-modulation-strip,
+    .fk-orbit-dial,
+    .fk-perspective-grid,
+    .fk-spring-response,
+    .fk-tone-curve,
+    .fk-value-graph,
+    .fk-color-balance,
+    .fk-gradient-editor,
+    .fk-loop-composer,
+    .fk-node-canvas,
+    .fk-direction-pad,
+    .fk-video-timeline
+  ) {
+  -webkit-backdrop-filter: var(--fk-surface-backdrop-filter);
+  backdrop-filter: var(--fk-surface-backdrop-filter);
+}
+
+/* Nested controls keep a smaller blur radius so labels, values, and handles
+   stay crisp while their fill still responds to artwork underneath. */
+[data-style='transparent']
+  :where(
+    .fk-button,
+    .fk-input,
+    .fk-drop-zone,
+    .fk-dropdown__trigger,
+    .fk-nested-dropdown__trigger,
+    .fk-segmented-switch,
+    .fk-stepper,
+    .fk-tabs--contained,
+    .fk-toggle-row,
+    .fk-checkbox--row,
+    .fk-radio,
+    .fk-layer-row
+  ) {
+  -webkit-backdrop-filter: var(--fk-control-backdrop-filter);
+  backdrop-filter: var(--fk-control-backdrop-filter);
+}
+
+[data-style='transparent'] .fk-sidebar {
+  isolation: auto;
+}

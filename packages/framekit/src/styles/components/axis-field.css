@@ -1,0 +1,138 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Axis field
+   A compact, neutral two-axis editor for paired creative values.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-axis-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.fk-axis-field__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 280 / 190;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+
+.fk-axis-field__surface {
+  fill: var(--fk-bg-control);
+  stroke: var(--fk-border-control);
+  stroke-width: 1;
+}
+
+.fk-axis-field__dot {
+  fill: var(--fk-text-tertiary);
+}
+
+.fk-axis-field__interaction {
+  cursor: crosshair;
+}
+
+.fk-axis-field__interaction-surface {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.fk-axis-field--readonly .fk-axis-field__interaction {
+  cursor: default;
+}
+
+.fk-axis-field__crosshair {
+  fill: none;
+  stroke: var(--fk-text-tertiary);
+  stroke-dasharray: 2 4;
+  stroke-opacity: 0.44;
+  stroke-width: 1;
+}
+
+.fk-axis-field__handle {
+  cursor: grab;
+  outline: none;
+}
+
+.fk-axis-field__interaction[data-dragging] .fk-axis-field__handle {
+  cursor: grabbing;
+}
+
+.fk-axis-field__handle-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+
+.fk-axis-field__handle-focus {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 2;
+}
+
+.fk-axis-field__handle-outer {
+  fill: var(--fk-bg-raised);
+  stroke: var(--fk-accent);
+  stroke-width: 2;
+}
+
+.fk-axis-field__handle-center {
+  fill: var(--fk-accent);
+}
+
+.fk-axis-field__interaction[data-dragging] .fk-axis-field__handle-outer {
+  fill: var(--fk-accent);
+}
+
+.fk-axis-field__interaction[data-dragging] .fk-axis-field__handle-center {
+  fill: var(--fk-bg-raised);
+}
+
+.fk-axis-field__handle:focus-visible .fk-axis-field__handle-focus {
+  stroke: var(--fk-accent);
+}
+
+.fk-axis-field__canvas[data-disabled] {
+  opacity: 0.55;
+}
+
+@media (forced-colors: active) {
+  .fk-axis-field__surface,
+  .fk-axis-field__dot,
+  .fk-axis-field__crosshair,
+  .fk-axis-field__handle-focus,
+  .fk-axis-field__handle-outer,
+  .fk-axis-field__handle-center,
+  .fk-axis-field__handle-hit {
+    forced-color-adjust: none;
+  }
+
+  .fk-axis-field__surface {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .fk-axis-field__dot,
+  .fk-axis-field__crosshair {
+    fill: GrayText;
+    stroke: GrayText;
+  }
+
+  .fk-axis-field__handle-focus,
+  .fk-axis-field__handle-outer {
+    stroke: Highlight;
+  }
+
+  .fk-axis-field__handle-outer {
+    fill: Canvas;
+  }
+
+  .fk-axis-field__handle-center,
+  .fk-axis-field__interaction[data-dragging] .fk-axis-field__handle-outer {
+    fill: Highlight;
+  }
+
+  .fk-axis-field__interaction[data-dragging] .fk-axis-field__handle-center {
+    fill: Canvas;
+  }
+}
