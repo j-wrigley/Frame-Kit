@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "dev": "npm run dev -w @framekit/docs",
-    "build": "npm run build -w @presentstandards/framekit-ui && npm run build -w @framekit/docs",
+    "build": "npm run build:docs",
+    "build:all": "npm run build:kit && npm run build:docs",
     "build:kit": "npm run build -w @presentstandards/framekit-ui",
     "build:docs": "npm run build -w @framekit/docs",
     "typecheck": "npm run typecheck --workspaces --if-present",
