@@ -3,6 +3,7 @@ import { hasSpec } from './specs';
 export type PageId =
   | 'introduction'
   | 'locally'
+  | 'npm'
   | 'ai-direction'
   | 'frame-kit-skill'
   | 'gpt-codex'
@@ -83,7 +84,10 @@ export const NAV: NavSection[] = [
   },
   {
     title: 'Start up',
-    items: [{ id: 'locally', label: 'Locally' }],
+    items: [
+      { id: 'locally', label: 'Locally' },
+      { id: 'npm', label: 'NPM' },
+    ],
   },
   {
     title: 'AI Direction',

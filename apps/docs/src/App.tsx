@@ -5,6 +5,7 @@ import { hashForRoute, pageTitle, routeFromHash, type PageId, type Route } from 
 import { SpecPage } from './pages/Spec';
 import { Introduction } from './pages/Introduction';
 import { LocalSetup } from './pages/LocalSetup';
+import { NpmSetup } from './pages/NpmSetup';
 import {
   AIDirection,
   ClaudeDirection,
@@ -71,6 +72,7 @@ import { reapplyAccentForTheme } from './lib/accent-store';
 const PAGES: Record<PageId, () => JSX.Element> = {
   introduction: Introduction,
   locally: LocalSetup,
+  npm: NpmSetup,
   'ai-direction': AIDirection,
   'frame-kit-skill': FrameKitSkill,
   'gpt-codex': GPTCodexDirection,

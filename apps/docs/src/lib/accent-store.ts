@@ -12,9 +12,26 @@ import {
 
 const PRESET_KEY = 'fk-accent';
 const CUSTOM_KEY = 'fk-accent-custom';
+const DEFAULT_FAVICON_COLOR = '#0e0e10';
 
 export type AccentSelection =
   { kind: 'preset'; preset: AccentPreset } | { kind: 'custom'; hex: string };
+
+function syncAccentFavicon(selection: AccentSelection): void {
+  const favicon = document.querySelector<HTMLLinkElement>('#frame-kit-favicon');
+  if (!favicon) return;
+
+  const usesDefaultGraphite = selection.kind === 'preset' && selection.preset === 'graphite';
+  const computedAccent = getComputedStyle(document.documentElement)
+    .getPropertyValue('--fk-accent')
+    .trim();
+  const color = usesDefaultGraphite
+    ? DEFAULT_FAVICON_COLOR
+    : computedAccent || (selection.kind === 'custom' ? selection.hex : DEFAULT_FAVICON_COLOR);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="6" fill="${color}"/></svg>`;
+
+  favicon.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
 
 export function getAccentSelection(): AccentSelection {
   try {
@@ -42,6 +59,7 @@ export function selectPresetAccent(preset: AccentPreset): void {
   } catch {
     // theme just won't persist
   }
+  syncAccentFavicon({ kind: 'preset', preset });
 }
 
 export function selectCustomAccent(hex: string): void {
@@ -54,6 +72,7 @@ export function selectCustomAccent(hex: string): void {
   } catch {
     // theme just won't persist
   }
+  syncAccentFavicon({ kind: 'custom', hex: applied });
 }
 
 /** Custom accents derive from the active theme — re-run after mount and
@@ -61,4 +80,5 @@ export function selectCustomAccent(hex: string): void {
 export function reapplyAccentForTheme(): void {
   const selection = getAccentSelection();
   if (selection.kind === 'custom') applyAccent(selection.hex);
+  syncAccentFavicon(selection);
 }

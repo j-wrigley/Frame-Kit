@@ -9,9 +9,7 @@ import {
 import { PageHeader, Section } from '../components/Page';
 import { useCopyFeedback } from '../lib/use-copy-feedback';
 
-// Add the public repository URL here once Frame Kit is on GitHub. Keeping it
-// empty gives the docs an honest, non-navigating state until then.
-const GITHUB_REPOSITORY_URL = '';
+const GITHUB_REPOSITORY_URL = 'https://github.com/j-wrigley/Frame-Kit';
 
 const LOCAL_SETUP_PROMPT = `I am setting up Frame Kit in this project.
 
@@ -110,7 +108,7 @@ export function LocalSetup() {
       <PageHeader
         eyebrow="Start up"
         title="Use Frame Kit locally."
-        lede="Download Frame Kit from GitHub, then point your app at its local package folder. The kit stays on your machine while the public npm release is being prepared."
+        lede="Clone or download the public GitHub repository, build Frame Kit on your machine, then point an app at that local package. Use this route when inspecting the source, contributing, or testing work that has not been released to npm."
       />
 
       <Section title="Get the source">
@@ -119,17 +117,15 @@ export function LocalSetup() {
             <Tag tone="accent">GitHub</Tag>
             <h3>Keep a local copy of the Frame Kit project.</h3>
             <p>
-              When the repository is public, download the project as a ZIP or clone it, then move
-              the complete Frame Kit folder somewhere stable, such as your Projects folder. This
-              button will become the download and source link when GitHub is ready.
+              Clone the repository to keep its history and receive updates with Git, or use
+              GitHub&apos;s Download ZIP option for a standalone copy. Keep the complete Frame Kit
+              folder somewhere stable, such as your Projects folder.
             </p>
+            <pre className="code-block">
+              <code>git clone https://github.com/j-wrigley/Frame-Kit.git</code>
+            </pre>
           </div>
-          <Button
-            variant="secondary"
-            iconStart={<GithubLogoIcon />}
-            disabled={!GITHUB_REPOSITORY_URL}
-            onClick={openRepository}
-          >
+          <Button variant="secondary" iconStart={<GithubLogoIcon />} onClick={openRepository}>
             View on GitHub
           </Button>
         </div>
@@ -183,8 +179,9 @@ export function LocalSetup() {
 
       <Section title="Install from the downloaded folder">
         <p className="section-intro">
-          Install the package directory into your app by its path. npm connects to that local
-          folder; Frame Kit is neither downloaded from nor published to the npm registry.
+          Install the package directory into your app by its path. npm connects to that local folder
+          instead of downloading the published registry version. For most applications, the{' '}
+          <a href="#/npm">npm package setup</a> is the simpler option.
         </p>
         <ol className="startup-steps">
           <li>
