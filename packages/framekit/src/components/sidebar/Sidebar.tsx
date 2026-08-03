@@ -30,8 +30,11 @@ export interface SidebarProps extends Omit<HTMLAttributes<HTMLElement>, 'childre
    * the header favours title and description to preserve a two-level hierarchy.
    */
   eyebrow?: ReactNode;
-  /** Primary sidebar name. */
-  title: ReactNode;
+  /**
+   * Primary sidebar name. Required for a visible header; when `headerless` is
+   * used, it is retained as the sidebar's accessible name without rendering.
+   */
+  title?: ReactNode;
   /** Optional supporting context below the title. Prefer this over an eyebrow when both repeat context. */
   description?: ReactNode;
   /** Header actions aligned opposite the title. */
@@ -42,6 +45,12 @@ export interface SidebarProps extends Omit<HTMLAttributes<HTMLElement>, 'childre
   footer?: ReactNode;
   /** Surface relationship to the surrounding workspace. @default 'panel' */
   variant?: SidebarVariant;
+  /**
+   * Hides the visible header while preserving the selected surface variant.
+   * Header-only content such as eyebrow, description, and actions is omitted.
+   * @default false
+   */
+  headerless?: boolean;
   /** Attached edge for a docked sidebar. @default 'left' */
   side?: SidebarSide;
   /** Internal spacing density. @default 'default' */
@@ -107,6 +116,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
     children,
     footer,
     variant = 'panel',
+    headerless = false,
     side = 'left',
     density = 'default',
     width = 288,
@@ -136,6 +146,9 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   const onPositionChangeRef = useRef(onPositionChange);
   const instructionId = useId();
   const canDrag = variant === 'floating' && draggable;
+  const showHeader =
+    !headerless &&
+    (canDrag || eyebrow != null || title != null || description != null || actions != null);
 
   currentPositionRef.current = currentPosition;
   isControlledRef.current = isControlled;
@@ -294,6 +307,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
     `fk-sidebar--${variant}`,
     `fk-sidebar--${side}`,
     `fk-sidebar--${density}`,
+    headerless && 'fk-sidebar--headerless',
     className,
   ]
     .filter(Boolean)
@@ -315,6 +329,7 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
       style={rootStyle}
       aria-label={accessibleName}
       data-variant={variant}
+      data-headerless={headerless || undefined}
       data-side={side}
       data-density={density}
       data-draggable={canDrag || undefined}
@@ -323,26 +338,40 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
       data-x={variant === 'floating' ? Math.round(currentPosition.x) : undefined}
       data-y={variant === 'floating' ? Math.round(currentPosition.y) : undefined}
     >
-      <header className="fk-sidebar__header">
-        {canDrag && (
-          <button
-            type="button"
-            className="fk-sidebar__drag-handle"
-            aria-label={dragLabel}
-            aria-describedby={instructionId}
-            onPointerDown={handlePointerDown}
-            onKeyDown={handleDragKeyDown}
-          >
-            <DragHandleDots2Icon size={14} aria-hidden="true" />
-          </button>
-        )}
-        <div className="fk-sidebar__identity">
-          {headerEyebrow != null && <span className="fk-sidebar__eyebrow">{headerEyebrow}</span>}
-          <strong className="fk-sidebar__title">{title}</strong>
-          {description != null && <span className="fk-sidebar__description">{description}</span>}
-        </div>
-        {actions != null && <div className="fk-sidebar__actions">{actions}</div>}
-      </header>
+      {showHeader && (
+        <header className="fk-sidebar__header">
+          {canDrag && (
+            <button
+              type="button"
+              className="fk-sidebar__drag-handle"
+              aria-label={dragLabel}
+              aria-describedby={instructionId}
+              onPointerDown={handlePointerDown}
+              onKeyDown={handleDragKeyDown}
+            >
+              <DragHandleDots2Icon size={14} aria-hidden="true" />
+            </button>
+          )}
+          <div className="fk-sidebar__identity">
+            {headerEyebrow != null && <span className="fk-sidebar__eyebrow">{headerEyebrow}</span>}
+            {title != null && <strong className="fk-sidebar__title">{title}</strong>}
+            {description != null && <span className="fk-sidebar__description">{description}</span>}
+          </div>
+          {actions != null && <div className="fk-sidebar__actions">{actions}</div>}
+        </header>
+      )}
+      {canDrag && headerless && (
+        <button
+          type="button"
+          className="fk-sidebar__drag-handle fk-sidebar__drag-handle--headerless"
+          aria-label={dragLabel}
+          aria-describedby={instructionId}
+          onPointerDown={handlePointerDown}
+          onKeyDown={handleDragKeyDown}
+        >
+          <DragHandleDots2Icon size={14} aria-hidden="true" />
+        </button>
+      )}
       <div className="fk-sidebar__body">{children}</div>
       {footer != null && <footer className="fk-sidebar__footer">{footer}</footer>}
       {canDrag && (

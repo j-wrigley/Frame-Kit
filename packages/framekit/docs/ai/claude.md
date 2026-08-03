@@ -10,14 +10,27 @@ since: 0.1.0
 
 ## Install
 
-Run from the consuming project after installing Frame Kit:
+One command from the consuming project after installing Frame Kit:
+
+```sh
+npx framekit-agents
+```
+
+This copies the complete skill (with its `references/`) into `.claude/skills/frame-kit`, stamps it
+with the installed kit version, and writes a managed Frame Kit section into `CLAUDE.md` — so Claude
+Code loads the project context automatically at session start, before any prompt mentions the kit.
+Rerun it after upgrading the package; `npx framekit-agents --check` reports staleness.
+
+Manual fallback (identical result, minus the version stamp and CLAUDE.md section):
 
 ```sh
 mkdir -p .claude/skills
 cp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit .claude/skills/frame-kit
 ```
 
-Claude Code discovers project skills from `.claude/skills`. Copy the complete folder so the progressive reference files remain available beside `SKILL.md`.
+Claude Code discovers project skills from `.claude/skills`. The `CLAUDE.md` section matters as much
+as the skill: skills activate on invocation or description match, while `CLAUDE.md` is read every
+session — it is what lets Claude start building with Frame Kit without being told to.
 
 ## Invoke
 
@@ -63,4 +76,4 @@ and visually verify the live interface before handing it back.
 
 ## Official reference
 
-- [Anthropic: Extend Claude with skills](https://code.claude.com/docs/en/slash-commands)
+- [Anthropic: Extend Claude with skills](https://code.claude.com/docs/en/skills)

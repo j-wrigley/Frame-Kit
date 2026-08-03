@@ -14,6 +14,7 @@ export const sidebarEntry: CatalogEntry = {
   specPage: 'simple-sidebar',
   options: [
     { key: 'title', label: 'Title', type: 'text', defaultValue: 'Mini inspector' },
+    { key: 'headerless', label: 'Headerless', type: 'toggle', defaultValue: false },
     { key: 'eyebrow', label: 'Eyebrow', type: 'text', defaultValue: 'Panel' },
     {
       key: 'variant',
@@ -54,8 +55,9 @@ export const sidebarEntry: CatalogEntry = {
       side={props.side as 'left' | 'right'}
       density={props.density as 'default' | 'compact'}
       width="100%"
-      eyebrow={String(props.eyebrow) || undefined}
-      title={String(props.title)}
+      headerless={Boolean(props.headerless)}
+      eyebrow={Boolean(props.headerless) ? undefined : String(props.eyebrow) || undefined}
+      title={String(props.title) || undefined}
       draggable={Boolean(props.draggable)}
     >
       <SidebarSection label="Appearance">
@@ -75,8 +77,9 @@ export const sidebarEntry: CatalogEntry = {
       props.side !== 'left' ? `  side="${props.side}"` : null,
       props.density !== 'default' ? `  density="${props.density}"` : null,
       '  width="100%"',
-      String(props.eyebrow) ? `  eyebrow=${jsxString(props.eyebrow)}` : null,
-      `  title=${jsxString(props.title)}`,
+      props.headerless ? '  headerless' : null,
+      !props.headerless && String(props.eyebrow) ? `  eyebrow=${jsxString(props.eyebrow)}` : null,
+      String(props.title) ? `  title=${jsxString(props.title)}` : null,
       props.draggable ? '  draggable' : null,
       '>',
       '  <SidebarSection label="Appearance">',

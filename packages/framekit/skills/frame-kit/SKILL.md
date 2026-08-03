@@ -11,6 +11,8 @@ Use Frame Kit as the source of truth for the interface language and the user's b
 
 Find the active Frame Kit package before editing. Prefer the workspace package when the repository contains one; otherwise locate `node_modules/@presentstandards/framekit-ui/package.json`. Treat that directory as `FRAMEKIT_ROOT`.
 
+Without filesystem access to the package, use the hosted mirrors instead: `https://framekit.presentstandards.studio/llms.txt` (index), `/llms-full.txt` (every doc in one fetch), and `/ai/components/<name>.md` (individual specs). They are generated from the same package docs on every release.
+
 Read these files before implementation:
 
 1. Repository instructions and package scripts.

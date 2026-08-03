@@ -16,7 +16,9 @@ The npm package ships the complete skill at:
 node_modules/@presentstandards/framekit-ui/skills/frame-kit/
 ```
 
-Copy the complete folder, including `references/` and `agents/`, into the project discovery path for the active agent.
+Install it with one command — `npx framekit-agents` copies the complete folder (including
+`references/` and `agents/`) into both discovery paths below, stamps the kit version, and writes
+managed `CLAUDE.md`/`AGENTS.md` sections. Or copy manually:
 
 | Agent       | Project destination         | Explicit invocation |
 | ----------- | --------------------------- | ------------------- |

@@ -72,3 +72,79 @@
   cursor: crosshair;
   pointer-events: auto;
 }
+
+/* Native range chrome is rendered through browser pseudo-elements, which
+   element-to-design tools generally cannot serialise. In capture mode the
+   native input stays in the DOM for semantics while these ordinary elements
+   provide an equivalent, exportable track, fill, and thumb. */
+[data-fk-capture='figma'] .fk-slider__input {
+  opacity: 0;
+}
+
+[data-fk-capture='figma'] .fk-slider__capture {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+[data-fk-capture='figma'] .fk-slider__capture-track {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: var(--fk-slider-track-height);
+  overflow: hidden;
+  background: var(--fk-bg-control-active);
+  border-radius: var(--fk-radius-full);
+  transform: translateY(-50%);
+}
+
+[data-fk-capture='figma'] .fk-slider__capture-fill {
+  display: block;
+  width: var(--fk-slider-progress);
+  height: 100%;
+  background: var(--fk-accent);
+  border-radius: inherit;
+}
+
+[data-fk-capture='figma'] .fk-slider__capture-thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--fk-slider-progress);
+  box-sizing: border-box;
+  width: var(--fk-slider-thumb-size);
+  height: var(--fk-slider-thumb-size);
+  background: var(--fk-bg-raised);
+  border: 2px solid var(--fk-accent);
+  border-radius: var(--fk-radius-full);
+  box-shadow: var(--fk-shadow-sm);
+  transform: translate(var(--fk-slider-thumb-offset), -50%);
+}
+
+/* Ruler lines use color-mix during normal rendering for their deliberately
+   quiet contrast. The Figma importer can omit those mixed backgrounds, so
+   capture mode swaps each line for a direct token-backed colour instead. */
+[data-fk-capture='figma'] .fk-ruler-readout__axis {
+  background: var(--fk-border-strong);
+}
+
+[data-fk-capture='figma'] .fk-ruler-readout__mark {
+  background: var(--fk-border);
+}
+
+[data-fk-capture='figma'] .fk-ruler-readout__mark--major {
+  background: var(--fk-text-tertiary);
+  opacity: 0.68;
+}
+
+[data-fk-capture='figma'] .fk-ruler-readout__origin {
+  background: var(--fk-text-secondary);
+  opacity: 0.58;
+}
+
+[data-fk-capture='figma'] .fk-ruler-readout__indicator {
+  background: var(--fk-accent);
+  box-shadow: none;
+}

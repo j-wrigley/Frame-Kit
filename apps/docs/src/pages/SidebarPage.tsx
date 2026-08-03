@@ -70,7 +70,7 @@ export function SidebarPage() {
       <PageHeader
         eyebrow="Components"
         title="Sidebar"
-        lede="A reusable inspector shell for creative tools, with consistent header, section, scrolling, and footer structure. Use it as a simple panel, attach it to either workspace edge, or let users reposition a bounded floating sidebar."
+        lede="A reusable inspector shell for creative tools, with a structured header when needed plus consistent sections, scrolling, and footer structure. Use it as a simple panel, attach it to either workspace edge, or let users reposition a bounded floating sidebar."
       />
 
       <Section title="Panel sidebar">
@@ -114,6 +114,43 @@ export function SidebarPage() {
                 value={opacity}
                 onValueChange={setOpacity}
                 formatValue={(value) => `${Math.round(value)}%`}
+              />
+            </SidebarSection>
+          </FrameKitSidebar>
+        </div>
+      </Section>
+
+      <Section title="Headerless sidebar">
+        <p className="section-intro">
+          Use <code>headerless</code> when the content already identifies itself: an embedded
+          property group, a compact search panel, or a focused tool. It composes with the panel,
+          docked, and floating placements. A supplied title remains the accessible name without
+          creating a visible header.
+        </p>
+        <div className="demo sidebar-headerless-demo">
+          <FrameKitSidebar
+            headerless
+            title="Quick appearance controls"
+            density="compact"
+            width={272}
+            footer={
+              <Button size="sm" variant="ghost" fullWidth>
+                Reset appearance
+              </Button>
+            }
+          >
+            <SidebarSection label="Appearance">
+              <Slider
+                size="sm"
+                label="Opacity"
+                value={opacity}
+                onValueChange={setOpacity}
+                formatValue={(value) => `${Math.round(value)}%`}
+              />
+              <ToggleRow
+                label="Clip content"
+                checked={visible}
+                onChange={(event) => setVisible(event.target.checked)}
               />
             </SidebarSection>
           </FrameKitSidebar>

@@ -2,10 +2,18 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["vite/client"],
+    "types": [
+      "vite/client"
+    ],
     "paths": {
-      "@presentstandards/framekit-ui": ["../../packages/framekit/src/index.ts"]
-    }
+      "@presentstandards/framekit-ui": [
+        "../../packages/framekit/src/index.ts"
+      ]
+    },
+    "resolveJsonModule": true
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@presentstandards/framekit-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Precision UI kit for creative and productivity tools. Light and dark themes, token-driven, documented for humans and AI.",
   "homepage": "https://framekit.presentstandards.studio/",
   "repository": {
@@ -20,6 +20,7 @@
     "dist",
     "docs",
     "skills",
+    "bin",
     "llms.txt"
   ],
   "types": "./dist/index.d.ts",
@@ -69,5 +70,8 @@
     "typescript": "^7.0.2",
     "vite": "^8.1.4",
     "vite-plugin-dts": "^5.0.3"
+  },
+  "bin": {
+    "framekit-agents": "bin/framekit-agents.mjs"
   }
 }

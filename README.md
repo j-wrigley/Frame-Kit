@@ -71,14 +71,22 @@ applyAccent('#DE3B3B');
 
 ## Learn more
 
-- [Component documentation](./packages/framekit/docs/components/)
-- [Tokens and theming](./packages/framekit/docs/tokens.md)
-- [Customisation guide](./packages/framekit/docs/customization.md)
-- [AI Direction](./packages/framekit/docs/ai/direction.md)
+- [Documentation site](https://framekit.presentstandards.studio/) — every component, live and themeable
+- [Component documentation](https://framekit.presentstandards.studio/#/components)
+- [Tokens and theming](https://framekit.presentstandards.studio/#/spec/colors)
+- [Customisation guide](https://framekit.presentstandards.studio/ai/customization.md)
+- [AI Direction](https://framekit.presentstandards.studio/#/ai-direction)
 
 Frame Kit also includes a skill for Claude and GPT/Codex. It helps an AI agent
-choose suitable components and compose a professional tool UI. Follow the
-[AI setup guide](./packages/framekit/README.md#build-with-an-ai-agent) to use it.
+choose suitable components and compose a professional tool UI. One command sets
+it up in a consuming project:
+
+```sh
+npx framekit-agents
+```
+
+See the [AI Direction guide](https://framekit.presentstandards.studio/#/ai-direction) for the full workflow, or
+point file-less agents at [llms.txt](https://framekit.presentstandards.studio/llms.txt).
 
 ## Work on Frame Kit
 
@@ -93,5 +101,5 @@ The documentation site starts at `http://localhost:5180`.
 
 ## License
 
-[MIT](./packages/framekit/LICENSE). Inter and Office Code Pro are bundled under
+[MIT](https://github.com/j-wrigley/Frame-Kit/blob/main/packages/framekit/LICENSE). Inter and Office Code Pro are bundled under
 the SIL Open Font License; Radix Icons are bundled under the MIT License.

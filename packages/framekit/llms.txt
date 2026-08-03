@@ -1,5 +1,9 @@
 # Frame Kit (@presentstandards/framekit-ui)
 
+> Setup in a consuming repo: `npx framekit-agents` installs this skill for Claude Code and
+> Codex and writes CLAUDE.md/AGENTS.md context. Hosted mirrors of all docs:
+> https://framekit.presentstandards.studio/llms.txt and /llms-full.txt.
+
 > Precision React UI kit for creative and productivity tools — panels, inspectors,
 > canvases, timelines. Light by default with a first-class dark theme, token-driven.
 > Ships its own fonts (Inter Variable + Office Code Pro) and a 375-icon set.

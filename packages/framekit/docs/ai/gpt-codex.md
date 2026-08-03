@@ -10,14 +10,26 @@ since: 0.1.0
 
 ## Install
 
-Run from the consuming project after installing Frame Kit:
+One command from the consuming project after installing Frame Kit:
+
+```sh
+npx framekit-agents
+```
+
+This copies the complete skill into `.agents/skills/frame-kit`, stamps it with the installed kit
+version, and writes a managed Frame Kit section into `AGENTS.md`. Codex reads `AGENTS.md` before
+every task with no invocation needed — that section is what makes Codex reach for Frame Kit
+unprompted. Rerun after upgrading; `npx framekit-agents --check` reports staleness.
+
+Manual fallback (identical result, minus the version stamp and AGENTS.md section):
 
 ```sh
 mkdir -p .agents/skills
 cp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit .agents/skills/frame-kit
 ```
 
-Codex discovers repository skills from `.agents/skills`. Commit the copied folder when every contributor and remote task should receive the same Frame Kit workflow.
+Commit both the copied folder and `AGENTS.md` when every contributor and remote Codex task should
+receive the same Frame Kit workflow.
 
 ## Invoke
 

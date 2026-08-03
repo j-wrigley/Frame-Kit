@@ -159,10 +159,27 @@
 }
 
 .fk-sidebar__body {
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
   overflow: auto;
   overscroll-behavior: contain;
+}
+
+.fk-sidebar__drag-handle--headerless {
+  position: absolute;
+  top: var(--fk-space-2);
+  right: var(--fk-space-2);
+  z-index: 1;
+  margin: 0;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-subtle);
+  box-shadow: var(--fk-shadow-sm);
+}
+
+.fk-sidebar--compact .fk-sidebar__drag-handle--headerless {
+  top: 6px;
+  right: 6px;
 }
 
 .fk-sidebar__section {
@@ -232,7 +249,8 @@
   .fk-sidebar--docked.fk-sidebar--right,
   .fk-sidebar__header,
   .fk-sidebar__section + .fk-sidebar__section,
-  .fk-sidebar__footer {
+  .fk-sidebar__footer,
+  .fk-sidebar__drag-handle--headerless {
     border-color: CanvasText;
   }
 }

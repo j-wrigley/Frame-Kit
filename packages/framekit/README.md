@@ -4,6 +4,9 @@ Precision UI kit for creative and productivity tools — panels, inspectors,
 canvases, timelines. Light by default with a first-class dark theme,
 token-driven, and documented for humans and AI agents alike.
 
+**[Documentation](https://framekit.presentstandards.studio/)** · **[GitHub](https://github.com/j-wrigley/Frame-Kit)** ·
+**[llms.txt for agents](https://framekit.presentstandards.studio/llms.txt)**
+
 > **Status: v0.1 baseline.** The current foundations, components, creative
 > controls, Ready Made examples, human documentation, and AI direction form
 > the stable base standard. Work beyond this baseline targets v0.2.
@@ -82,9 +85,18 @@ site exposes the same mode through the cursor button beside the theme switch.
 
 ## Build with an AI agent
 
-Frame Kit ships one provider-neutral skill for GPT/Codex and Claude. After
-installing the package, copy the complete skill folder to the location your
-agent discovers:
+Frame Kit ships one provider-neutral skill for GPT/Codex and Claude, plus a
+setup command that wires everything at once:
+
+```sh
+npx framekit-agents
+```
+
+That installs the skill into `.claude/skills/frame-kit` (Claude Code) and
+`.agents/skills/frame-kit` (Codex), and writes managed Frame Kit sections into
+`CLAUDE.md` and `AGENTS.md` — both agents then start on Frame Kit rails with no
+prompting. Rerun it after upgrading (`npx framekit-agents --check` reports
+staleness). Manual fallback:
 
 ```sh
 # GPT / Codex
@@ -96,25 +108,30 @@ mkdir -p .claude/skills
 cp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit .claude/skills/frame-kit
 ```
 
-Invoke it with `$frame-kit` in Codex or `/frame-kit` in Claude Code. Start with
-[the human AI Direction guide](./docs/ai/direction.md), establish the exact
+Invoke it with `$frame-kit` in Codex or `/frame-kit` in Claude Code. Agents
+without repository access can use the hosted mirrors instead:
+[framekit.presentstandards.studio/llms.txt](https://framekit.presentstandards.studio/llms.txt) (index) and
+[/llms-full.txt](https://framekit.presentstandards.studio/llms-full.txt) (all docs in one fetch). Start with
+[the AI Direction guide](https://framekit.presentstandards.studio/#/ai-direction), establish the exact
 accent, style, themes, density, and optional JSON copied from the beta Sidebar Builder,
 then ask the agent to map every parameter to the best-fit Frame Kit component
 and professional sidebar group before using the provider setup notes below.
 
 ## Documentation
 
-- [docs/README.md](./docs/README.md) — how the docs are organized
-- [docs/principles.md](./docs/principles.md) — the design charter
-- [docs/tokens.md](./docs/tokens.md) — full token reference
-- [docs/icons.md](./docs/icons.md) — icon usage + the full name list
-- [docs/ai/direction.md](./docs/ai/direction.md) — foundation brief, agent workflow, prompt intake, and quality gates
-- [docs/ai/gpt-codex.md](./docs/ai/gpt-codex.md) — GPT / Codex setup
-- [docs/ai/claude.md](./docs/ai/claude.md) — Claude Code setup
-- [skills/frame-kit/SKILL.md](./skills/frame-kit/SKILL.md) — packaged shared skill
-- [llms.txt](./llms.txt) — entry point for AI agents
+Everything below also ships inside this package under `docs/` and `skills/`.
+
+- [Documentation site](https://framekit.presentstandards.studio/) — every component, live and themeable
+- [Design principles](https://framekit.presentstandards.studio/#/spec/introduction) — the design charter
+- [Token reference](https://framekit.presentstandards.studio/#/spec/colors) — the full `--fk-*` token API
+- [Icons](https://framekit.presentstandards.studio/#/icons) — all 375, searchable
+- [AI Direction](https://framekit.presentstandards.studio/#/ai-direction) — foundation brief, agent workflow, prompt intake, and quality gates
+- [GPT / Codex setup](https://framekit.presentstandards.studio/#/gpt-codex) · [Claude Code setup](https://framekit.presentstandards.studio/#/claude)
+- [The shared skill](https://framekit.presentstandards.studio/#/frame-kit-skill) — what agents receive ([raw SKILL.md](https://framekit.presentstandards.studio/ai/SKILL.md))
+- [llms.txt](https://framekit.presentstandards.studio/llms.txt) — entry point for AI agents ([llms-full.txt](https://framekit.presentstandards.studio/llms-full.txt) for one-fetch ingestion)
+- [Repository docs layout](https://github.com/j-wrigley/Frame-Kit/blob/main/packages/framekit/docs/README.md)
 
 ## License
 
-[MIT](./LICENSE). Bundled assets: Inter and Office Code Pro (SIL OFL — licenses
+[MIT](https://github.com/j-wrigley/Frame-Kit/blob/main/packages/framekit/LICENSE). Bundled assets: Inter and Office Code Pro (SIL OFL — licenses
 ship in `dist/fonts/`), icon artwork from Radix Icons (MIT © WorkOS).

@@ -4371,6 +4371,13 @@ body {
   background: var(--fk-bg-surface);
 }
 
+.sidebar-headerless-demo {
+  display: grid;
+  place-items: start;
+  padding: var(--fk-space-5);
+  background: var(--fk-bg-surface);
+}
+
 [data-style='transparent'] .sidebar-panel-demo {
   position: relative;
   overflow: hidden;
@@ -4398,6 +4405,16 @@ body {
 
 [data-style='transparent'] .sidebar-panel-demo > .fk-sidebar {
   z-index: 1;
+}
+
+[data-style='transparent'] .sidebar-headerless-demo {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--fk-bg-app);
+  background-image:
+    linear-gradient(var(--fk-border-control) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fk-border-control) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .sidebar-demo__input-grid {
@@ -4743,8 +4760,14 @@ body {
     padding: var(--fk-space-3);
   }
 
-  .sidebar-panel-demo .fk-sidebar {
+  .sidebar-panel-demo .fk-sidebar,
+  .sidebar-headerless-demo .fk-sidebar {
     width: 100%;
+  }
+
+  .sidebar-headerless-demo {
+    place-items: stretch;
+    padding: var(--fk-space-3);
   }
 
   .sidebar-floating-demo {

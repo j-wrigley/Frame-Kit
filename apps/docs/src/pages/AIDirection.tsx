@@ -638,6 +638,24 @@ export function AIDirection() {
         <GuidanceTable columns={['Gate', 'The agent must confirm']} rows={QUALITY_GATES} />
       </Section>
 
+      <Section title="One command, every agent">
+        <p className="section-intro">
+          <code>npx framekit-agents</code> in a consuming repo sets up the whole surface at once:
+          the skill for Claude Code (<code>.claude/skills/frame-kit</code>) and Codex
+          (<code>.agents/skills/frame-kit</code>), plus managed sections in <code>CLAUDE.md</code>{' '}
+          and <code>AGENTS.md</code> — the files both agents read automatically at session start.
+          That last part is what removes the guidance burden: the agent reaches for Frame Kit
+          before you mention it.
+        </p>
+        <p className="section-intro">
+          Agents without repository access use the hosted mirrors, regenerated from the package
+          docs on every release: <a href="/llms.txt">/llms.txt</a> (index),{' '}
+          <a href="/llms-full.txt">/llms-full.txt</a> (every doc in one fetch), and{' '}
+          <code>/ai/components/&lt;name&gt;.md</code> per component. Point Cursor, Windsurf, or
+          ChatGPT browsing at those URLs and the same specs apply.
+        </p>
+      </Section>
+
       <Section title="Give the agent the right direction">
         <div className="ai-direction-links">
           <DirectionLink
@@ -678,7 +696,7 @@ export function AIDirection() {
             external
           />
           <DirectionLink
-            href="https://code.claude.com/docs/en/slash-commands"
+            href="https://code.claude.com/docs/en/skills"
             label="Official"
             title="Claude Code skills"
             body="Current Claude conventions for project skills, invocation, and supporting resources."
@@ -826,10 +844,18 @@ export function GPTCodexDirection() {
           <li>
             <Tag tone="tertiary">02</Tag>
             <div>
-              <h3>Copy the shared skill</h3>
+              <h3>Set up the agent surface</h3>
               <pre className="code-block">
-                <code>{`mkdir -p .agents/skills\ncp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit .agents/skills/frame-kit`}</code>
+                <code>npx framekit-agents</code>
               </pre>
+              <p className="ai-step-note">
+                Installs the skill into <code>.agents/skills/frame-kit</code> and writes a managed
+                Frame Kit section into <code>AGENTS.md</code> — Codex reads it before every task, so
+                it starts on Frame Kit without being told. Rerun after upgrades
+                (<code>--check</code> reports staleness). Manual fallback:{' '}
+                <code>cp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit
+                .agents/skills/frame-kit</code>
+              </p>
             </div>
           </li>
           <li>
@@ -919,10 +945,18 @@ export function ClaudeDirection() {
           <li>
             <Tag tone="tertiary">02</Tag>
             <div>
-              <h3>Copy the shared skill</h3>
+              <h3>Set up the agent surface</h3>
               <pre className="code-block">
-                <code>{`mkdir -p .claude/skills\ncp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit .claude/skills/frame-kit`}</code>
+                <code>npx framekit-agents</code>
               </pre>
+              <p className="ai-step-note">
+                Installs the skill into <code>.claude/skills/frame-kit</code> and writes a managed
+                Frame Kit section into <code>CLAUDE.md</code> — loaded at every session start, so
+                Claude builds with Frame Kit unprompted. Rerun after upgrades
+                (<code>--check</code> reports staleness). Manual fallback:{' '}
+                <code>cp -R node_modules/@presentstandards/framekit-ui/skills/frame-kit
+                .claude/skills/frame-kit</code>
+              </p>
             </div>
           </li>
           <li>
@@ -978,7 +1012,7 @@ and visually verify the live interface before handing it back.`}</code>
 
       <Section title="Official reference">
         <DirectionLink
-          href="https://code.claude.com/docs/en/slash-commands"
+          href="https://code.claude.com/docs/en/skills"
           label="Anthropic"
           title="Extend Claude with skills"
           body="The official reference for project skill locations, automatic or direct invocation, and supporting files."

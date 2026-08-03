@@ -14,6 +14,21 @@ Build the requested tool as a coherent Frame Kit interface. Use the kit as the s
 
 Do not treat a visually plausible screenshot as completion. A result is complete only when the live interactions, responsive layout, themes, accessibility, repository checks, and public documentation are verified in proportion to the change.
 
+## Setup channels
+
+Frame Kit reaches agents through three channels; use whichever the environment supports:
+
+1. **Project setup (best):** `npx framekit-agents` in the consuming repo installs the skill for
+   Claude Code (`.claude/skills/frame-kit`) and Codex (`.agents/skills/frame-kit`) and writes
+   managed Frame Kit sections into `CLAUDE.md` and `AGENTS.md`. Those files are read at session
+   start with no invocation, so the agent starts on Frame Kit rails unprompted.
+2. **Package files:** everything ships in the npm package — `llms.txt`, `docs/`, and
+   `skills/frame-kit/` under `node_modules/@presentstandards/framekit-ui/`.
+3. **Hosted mirrors (no file access):** `https://framekit.presentstandards.studio/llms.txt`
+   (index), `/llms-full.txt` (single fetch), `/ai/components/<name>.md` (per-component specs) —
+   regenerated from the package docs on every release. Works for Cursor, Windsurf, ChatGPT
+   browsing, and any retrieval-capable agent.
+
 ## Source order
 
 Read sources in this order before implementing:

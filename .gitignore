@@ -8,6 +8,11 @@ coverage/
 *.tsbuildinfo
 icons-drafts
 
+# Generated from the package's canonical AI docs before each documentation build.
+/apps/docs/public/ai/
+/apps/docs/public/llms.txt
+/apps/docs/public/llms-full.txt
+
 # Local AI assistant configuration
 .agents/
 .claude/

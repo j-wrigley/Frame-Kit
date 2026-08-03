@@ -3,7 +3,9 @@ import { PageHeader, Section } from '../components/Page';
 import { useCopyFeedback } from '../lib/use-copy-feedback';
 
 const NPM_PACKAGE_URL = 'https://www.npmjs.com/package/@presentstandards/framekit-ui';
-const CURRENT_PACKAGE_VERSION = '0.1.1';
+import pkg from '../../../../packages/framekit/package.json';
+
+const CURRENT_PACKAGE_VERSION = pkg.version;
 
 const NPM_SETUP_PROMPT = `Set up this project to use Frame Kit from npm.
 
