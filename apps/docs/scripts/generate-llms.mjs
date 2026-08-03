@@ -15,6 +15,13 @@ const KIT = resolve(HERE, '../../../packages/framekit');
 const PUBLIC = resolve(HERE, '../public');
 const SITE = 'https://framekit.presentstandards.studio';
 
+const summarize = (value, limit = 200) => {
+  const text = value.replace(/\s+/g, ' ').trim();
+  if (text.length <= limit) return text;
+  const boundary = text.lastIndexOf(' ', limit - 1);
+  return `${text.slice(0, boundary > 0 ? boundary : limit).trimEnd()}…`;
+};
+
 const AI_DIR = join(PUBLIC, 'ai');
 rmSync(AI_DIR, { recursive: true, force: true });
 mkdirSync(join(AI_DIR, 'components'), { recursive: true });
@@ -37,7 +44,7 @@ const lede = (path) => {
       i += 1;
     }
     const joined = quote.join(' ').trim();
-    if (!/GENERATED FILE/i.test(joined)) return joined;
+    if (!/GENERATED FILE/i.test(joined)) return summarize(joined);
   }
   // Fall back to the first body paragraph after the H1.
   const afterH1 = text.slice(text.indexOf('\n', text.indexOf('# ')) + 1);
@@ -45,7 +52,7 @@ const lede = (path) => {
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .find((p) => p && !p.startsWith('#') && !p.startsWith('|') && !p.startsWith('```'));
-  return (paragraph ?? '').replace(/\n/g, ' ').slice(0, 200);
+  return summarize(paragraph ?? '');
 };
 
 const linkLine = (label, url, path) => {
