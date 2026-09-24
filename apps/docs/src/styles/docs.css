@@ -2838,6 +2838,22 @@ body {
   gap: var(--fk-space-2);
 }
 
+/* Inspector-width column with a real gutter, so the plain variant's row can
+   extend into it the way it does in a product sidebar. */
+.dropdown-showcase--inspector {
+  width: min(100%, 288px);
+  gap: 0;
+  padding: var(--fk-space-2) var(--fk-space-3);
+  background: var(--fk-bg-surface);
+  border: 1px solid var(--fk-border-subtle);
+  border-radius: var(--fk-radius-md);
+}
+
+.dropdown-showcase--soft {
+  gap: var(--fk-space-2);
+  align-self: start;
+}
+
 .dropdown-panel-label {
   padding: 0 var(--fk-space-1);
 }

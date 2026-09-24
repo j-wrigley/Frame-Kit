@@ -197,6 +197,7 @@ export {
   Dropdown,
   NestedDropdown,
   type DisclosureProps,
+  type DisclosureVariant,
   type DropdownAlign,
   type DropdownOption,
   type DropdownProps,

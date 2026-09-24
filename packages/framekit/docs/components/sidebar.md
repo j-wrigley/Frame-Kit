@@ -73,10 +73,18 @@ application styles should not replace the root `transform`.
 | ---------- | ----------- | ------- | --------------------------------------------- |
 | `label`    | `ReactNode` | —       | Optional uppercase section label.             |
 | `actions`  | `ReactNode` | —       | Optional compact action opposite the label.   |
+| `divided`  | `boolean`   | `true`  | Draw the rule to a neighbouring section.      |
 | `children` | `ReactNode` | —       | Controls or application content in the group. |
 
 `SidebarSection` forwards standard `<section>` attributes. Consecutive
 sections draw their divider across the full panel width.
+
+Set `divided={false}` on consecutive sections that carry their own surface, such
+as a `Disclosure` with `variant="soft"`. Two undivided neighbours drop the rule
+and share one `--fk-space-2` gap, so the surfaced groups stack like a list. An
+undivided section with a `label` keeps an extra `--fk-space-3` above its header
+so the label reads as the start of a new group. A divided section next to an
+undivided one still draws its rule.
 
 ## Positioning and bounds
 

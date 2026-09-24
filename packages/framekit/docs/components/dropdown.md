@@ -69,6 +69,24 @@ Compose its children from Frame Kit controls such as `SegmentedSwitch`,
 | `open`         | `boolean`                 | —       | Controlled disclosure state.           |
 | `defaultOpen`  | `boolean`                 | `false` | Initial uncontrolled disclosure state. |
 | `onOpenChange` | `(open: boolean) => void` | —       | Called after a requested state change. |
+| `variant`      | `'contained' \| 'plain' \| 'soft'` | `'contained'` | Visual treatment (see below). |
+
+### Disclosure variants
+
+- `contained` — the bordered card. Use it for a standalone disclosure on an open
+  surface.
+- `plain` — no border or fill. A clean heading row (semibold label, summary, then
+  a chevron at the end that points right when closed and down when open). Use it
+  for top-level inspector sections that already sit between section rules. Its
+  row extends one `--fk-space-2` into the gutter on each side so the hover
+  surface frames the label while the label stays flush with the controls below.
+- `soft` — a borderless filled group (`--fk-bg-control`, `--fk-radius-md`). Use it
+  for inspector sections that should read as filled groups rather than headings
+  (wrap each in `SidebarSection divided={false}` so they stack without rules), or
+  for a disclosure nested inside a `plain` section.
+
+`plain` and `soft` content fades in (3px lift, `--fk-duration-fast`), disabled
+under `prefers-reduced-motion`.
 
 ## Keyboard & accessibility
 
@@ -107,5 +125,7 @@ import { Disclosure, Dropdown, NestedDropdown } from '@presentstandards/framekit
 - **Do** keep custom option labels concise and descriptions supplemental.
 - **Do** keep an anchored panel shallow and focused on one related setting area.
 - **Do** use disclosure when layout continuity matters more than overlay space.
+- **Do** pick one section treatment per inspector: `plain` headings between rules, or `soft` filled groups in undivided sections.
+- **Don't** nest a `contained` disclosure inside a `plain` section; the border reintroduces the chrome `plain` removes.
 - **Don't** use a dropdown for a binary setting; use `Toggle` or `ToggleRow`.
 - **Don't** make a menu look like a persistent card while it is closed.

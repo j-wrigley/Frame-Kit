@@ -185,8 +185,10 @@ content?, icon?, meta?, disabled? }` items; when every item has `content`, it
   `docs/components/histogram-scope.md` before use.
 - Dropdowns: `Dropdown` is a custom, accessible single-select list;
   `NestedDropdown` hosts a small anchored group of normal Frame Kit controls;
-  `Disclosure` reveals optional settings inline. Read `docs/components/dropdown.md`
-  before use.
+  `Disclosure` reveals optional settings inline (`variant="plain"` borderless
+  section headings, `"soft"` borderless filled groups — pair with
+  `SidebarSection divided={false}` to stack them without rules — default
+  `"contained"` card). Read `docs/components/dropdown.md` before use.
 - Popover: `Popover` attaches a non-modal, viewport-aware dialog surface to one
   trigger for compact actions, settings, or supporting detail. Choose a
   `placement`; it flips and clamps at viewport edges. Use `open` with

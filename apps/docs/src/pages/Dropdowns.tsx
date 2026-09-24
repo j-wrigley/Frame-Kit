@@ -29,6 +29,8 @@ export function Dropdowns() {
   const [responseOpen, setResponseOpen] = useState(true);
   const [soften, setSoften] = useState(true);
   const [preserve, setPreserve] = useState(false);
+  const [plainOpen, setPlainOpen] = useState(true);
+  const [softOpen, setSoftOpen] = useState(true);
 
   return (
     <>
@@ -127,6 +129,63 @@ export function Dropdowns() {
                 checked={preserve}
                 onChange={(event) => setPreserve(event.target.checked)}
               />
+            </Disclosure>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Disclosure variants">
+        <p className="section-intro">
+          <code>plain</code> drops the border and fill for top-level inspector sections: a clean
+          heading row with the chevron at the end. <code>soft</code> is a borderless filled group: use
+          it nested inside a plain section, or as the sections themselves (right), stacked in
+          <code>SidebarSection divided=&#123;false&#125;</code> so no rules sit between them.
+        </p>
+        <div className="demo">
+          <div className="dropdown-showcase dropdown-showcase--inspector">
+            <Disclosure
+              variant="plain"
+              label="Transform"
+              open={plainOpen}
+              onOpenChange={setPlainOpen}
+            >
+              <ToggleRow
+                variant="compact"
+                label="Soften corners"
+                checked={soften}
+                onChange={(event) => setSoften(event.target.checked)}
+              />
+              <Disclosure
+                variant="soft"
+                label="Response"
+                summary={preserve ? 'Preserved' : 'Off'}
+                open={softOpen}
+                onOpenChange={setSoftOpen}
+              >
+                <ToggleRow
+                  variant="compact"
+                  label="Preserve velocity"
+                  checked={preserve}
+                  onChange={(event) => setPreserve(event.target.checked)}
+                />
+              </Disclosure>
+            </Disclosure>
+            <Disclosure variant="plain" label="Lighting" summary="Studio">
+              <ToggleRow variant="compact" label="Soft shadows" defaultChecked />
+            </Disclosure>
+            <Disclosure variant="plain" label="Timing">
+              <ToggleRow variant="compact" label="Loop" defaultChecked />
+            </Disclosure>
+          </div>
+          <div className="dropdown-showcase dropdown-showcase--inspector dropdown-showcase--soft">
+            <Disclosure variant="soft" label="Transform" defaultOpen>
+              <ToggleRow variant="compact" label="Lock aspect" defaultChecked />
+            </Disclosure>
+            <Disclosure variant="soft" label="Lighting" summary="Studio">
+              <ToggleRow variant="compact" label="Soft shadows" defaultChecked />
+            </Disclosure>
+            <Disclosure variant="soft" label="Timing">
+              <ToggleRow variant="compact" label="Loop" defaultChecked />
             </Disclosure>
           </div>
         </div>

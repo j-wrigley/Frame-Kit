@@ -78,6 +78,13 @@ export interface SidebarSectionProps extends Omit<HTMLAttributes<HTMLElement>, '
   label?: ReactNode;
   /** Optional compact action aligned with the label. */
   actions?: ReactNode;
+  /**
+   * Draw the rule between this section and a neighbouring one. Set `false` on
+   * consecutive sections that carry their own surface (e.g. `soft`
+   * disclosures) so they stack as filled groups with a tight gap instead.
+   * @default true
+   */
+  divided?: boolean;
   children?: ReactNode;
 }
 
@@ -387,10 +394,16 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
 /** A full-width content group whose divider, label, and spacing follow the
  *  containing Sidebar density. */
 export const SidebarSection = forwardRef<HTMLElement, SidebarSectionProps>(function SidebarSection(
-  { label, actions, children, className, ...props },
+  { label, actions, divided = true, children, className, ...props },
   ref
 ) {
-  const classes = ['fk-sidebar__section', className].filter(Boolean).join(' ');
+  const classes = [
+    'fk-sidebar__section',
+    !divided && 'fk-sidebar__section--undivided',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
   return (
     <section ref={ref} {...props} className={classes}>
       {(label != null || actions != null) && (

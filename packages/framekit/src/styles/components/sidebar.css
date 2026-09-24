@@ -198,6 +198,25 @@
   border-top: 1px solid var(--fk-border-subtle);
 }
 
+/* Undivided neighbours: no rule, and the pair shares one small gap (the
+   upper section gives up most of its bottom padding, the lower all of its
+   top padding) so surfaced groups stack like a list. */
+.fk-sidebar__section--undivided + .fk-sidebar__section--undivided {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.fk-sidebar__section--undivided:has(+ .fk-sidebar__section--undivided) {
+  padding-bottom: var(--fk-space-2);
+}
+
+/* A labelled undivided section starts a new group without a rule, so it keeps
+   extra room above its label to read as a break, not as the next row. */
+.fk-sidebar__section--undivided
+  + .fk-sidebar__section--undivided:has(> .fk-sidebar__section-header) {
+  padding-top: var(--fk-space-3);
+}
+
 .fk-sidebar__section-header {
   display: flex;
   align-items: center;

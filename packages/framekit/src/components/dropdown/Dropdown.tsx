@@ -88,7 +88,16 @@ export interface DisclosureProps extends Omit<
   defaultOpen?: boolean;
   /** Called when the disclosure opens or closes. */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Visual treatment. `contained` is the bordered card. `plain` drops the
+   * border and fill for top-level inspector sections: a clean heading row with
+   * the chevron at the end. `soft` is a borderless filled group for disclosures
+   * nested inside a section. @default 'contained'
+   */
+  variant?: DisclosureVariant;
 }
+
+export type DisclosureVariant = 'contained' | 'plain' | 'soft';
 
 function firstEnabledIndex(options: readonly DropdownOption[]) {
   return options.findIndex((option) => !option.disabled);
@@ -410,14 +419,29 @@ export const NestedDropdown = forwardRef<HTMLDivElement, NestedDropdownProps>(
 /** An inline disclosure for optional settings that should remain in the current
  * inspector flow. Unlike `NestedDropdown`, its content is never an overlay. */
 export const Disclosure = forwardRef<HTMLDivElement, DisclosureProps>(function Disclosure(
-  { label, summary, children, open, defaultOpen = false, onOpenChange, className, ...props },
+  {
+    label,
+    summary,
+    children,
+    open,
+    defaultOpen = false,
+    onOpenChange,
+    variant = 'contained',
+    className,
+    ...props
+  },
   ref
 ) {
   const generatedId = useId();
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const isOpen = open ?? uncontrolledOpen;
   const contentId = `fk-disclosure-${generatedId}`;
-  const classes = ['fk-disclosure', isOpen && 'fk-disclosure--open', className]
+  const classes = [
+    'fk-disclosure',
+    variant !== 'contained' && `fk-disclosure--${variant}`,
+    isOpen && 'fk-disclosure--open',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
