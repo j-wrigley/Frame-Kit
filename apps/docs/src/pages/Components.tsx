@@ -9,6 +9,13 @@ const SHIPPED = [
     description: 'The command button — four weights, three sizes, icons, and selectable loaders.',
   },
   {
+    id: 'chip',
+    name: 'Chip',
+    status: 'stable',
+    description:
+      'A small bordered button for one word or token: an inserting token or a toggled mode.',
+  },
+  {
     id: 'loader',
     name: 'Loader',
     status: 'stable',
@@ -98,6 +105,13 @@ const SHIPPED = [
     description: 'Selectable icon-led layers and text-led presets with quiet contextual actions.',
   },
   {
+    id: 'row-actions',
+    name: 'Row actions',
+    status: 'stable',
+    description:
+      "The trailing 'i' then '+' pair: explain an item in a hover card, then add it or add more.",
+  },
+  {
     id: 'frames',
     name: 'Frame',
     status: 'stable',
@@ -137,6 +151,20 @@ const SHIPPED = [
     status: 'stable',
     description:
       'Compact visual patching with draggable tools, named ports, and direct connections between inputs and outputs.',
+  },
+  {
+    id: 'node-socket',
+    name: 'Node socket',
+    status: 'stable',
+    description:
+      'Lane glyphs for node-graph connections: the shape names the signal, the colour shows its state.',
+  },
+  {
+    id: 'node-row',
+    name: 'Node row',
+    status: 'stable',
+    description:
+      'Sidebar-sized label and control rows for node cards, with the socket in the row it drives.',
   },
   {
     id: 'camera-path',

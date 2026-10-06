@@ -18,6 +18,11 @@
   user-select: none;
 }
 
+/* Without the axis labels the canvas is the plot plus its margins. */
+.fk-tone-curve.fk-tone-curve--no-axis .fk-tone-curve__canvas {
+  aspect-ratio: 300 / 170;
+}
+
 .fk-tone-curve__surface {
   fill: var(--fk-bg-control);
   stroke: var(--fk-border-control);

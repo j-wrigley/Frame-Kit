@@ -109,6 +109,14 @@
   border-radius: inherit;
 }
 
+[data-fk-capture='figma'] .fk-slider--scale .fk-slider__capture-track {
+  background: var(--fk-slider-track);
+}
+
+[data-fk-capture='figma'] .fk-slider--scale .fk-slider__capture-fill {
+  background: transparent;
+}
+
 [data-fk-capture='figma'] .fk-slider__capture-thumb {
   position: absolute;
   top: 50%;

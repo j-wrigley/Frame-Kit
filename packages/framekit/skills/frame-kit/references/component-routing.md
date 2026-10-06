@@ -21,15 +21,17 @@ Inventory the complete relevant component catalogue rather than reaching for the
 | Need                                           | Start with                                                             | Notes                                                                          |
 | ---------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Command or icon action                         | `Button`, `Toolbar`                                                    | Use a toolbar for related tool selection and roving focus.                     |
+| One-word token or mode beside a field          | `Chip`                                                                 | Action chips insert a token; `pressed` chips toggle a mode such as Auto.       |
 | Progress or processing feedback                | `Loader`                                                               | Match the loader to duration and context; do not replace determinate progress. |
 | Text, search, rename, number, or compose input | `Input`, `SearchField`, `InlineRename`, `NumberInput`, `InputComposer` | Choose the semantic input role, not a visual approximation.                    |
 | Bounded discrete number                        | `Stepper`                                                              | Use for explicit increment and decrement actions.                              |
-| Familiar continuous range                      | `Slider`                                                               | Prefer when a native range model is sufficient.                                |
+| Familiar continuous range                      | `Slider`                                                               | Prefer when a native range model is sufficient; `track` paints a colour scale. |
 | Measured continuous range                      | `RulerSlider`, `RulerReadout`                                          | Use visible ticks only when the scale adds meaning.                            |
 | Direct inspector value                         | `DragValue`, `Scrubber`                                                | DragValue is field-led; Scrubber is row-led with rail feedback.                |
 | Short mutually exclusive choice                | `SegmentedSwitch`, `Tabs`, `RadioGroup`                                | Choose based on whether content, mode, or form choice changes.                 |
 | Binary setting                                 | `Toggle`, `ToggleRow`, `Checkbox`                                      | Use the documented semantic distinction.                                       |
 | Selection or item row                          | `LayerRow`                                                             | Keep actions accessible and metadata short.                                    |
+| Explain then add, on a library row or header   | `RowActions`, `RowInfoButton`, `RowAddButton`                          | The 'i' sits immediately before the '+'; reserve cells in lists.               |
 | Inspector or navigation shell                  | `Sidebar`, `SidebarSection`                                            | Choose panel, docked, or bounded floating placement; group controls by task.   |
 | Menu or optional settings                      | `Dropdown`, `NestedDropdown`, `Disclosure`                             | Do not use a dropdown as a general dialog.                                     |
 | Anchored supporting surface                    | `Popover`, `Tooltip`, `HoverCard`, `ContextMenu`                       | Keep required information out of hover-only surfaces.                          |
@@ -41,6 +43,7 @@ Inventory the complete relevant component catalogue rather than reaching for the
 | Procedural modulation                          | `ModulationStrip`, `EnvelopeEditor`, `LoopComposer`                    | Match waveform, staged envelope, or repeat behaviour.                          |
 | Temporal editing                               | `KeyframeLane`, `VideoTimeline`, `ValueGraph`                          | Match events, editorial clips, or continuous value animation.                  |
 | Connected processing                           | `NodeCanvas`                                                           | Application owns the node schema and domain execution.                         |
+| Node card or wireable settings list            | `NodeRows`, `NodeRow`, `NodeSocket`                                    | Socket on the row it drives; the application owns wiring and legality.         |
 | Frame or workspace composition                 | `Frame`, `Sidebar`, Ready Made examples, Sidebar builder               | Reuse complete patterns when they already match the tool.                      |
 | Transfer target                                | `DropZone`                                                             | Keep payload semantics application-owned and label the action clearly.         |
 

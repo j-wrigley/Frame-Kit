@@ -7,9 +7,9 @@ token-driven, and documented for humans and AI agents alike.
 **[Documentation](https://framekit.presentstandards.studio/)** · **[GitHub](https://github.com/j-wrigley/Frame-Kit)** ·
 **[llms.txt for agents](https://framekit.presentstandards.studio/llms.txt)**
 
-> **Status: v0.1 baseline.** The current foundations, components, creative
-> controls, Ready Made examples, human documentation, and AI direction form
-> the stable base standard. Work beyond this baseline targets v0.2.
+> **Status: v0.3, pre-1.0.** Foundations, components, creative controls,
+> Ready Made examples, human documentation, and AI direction are in place.
+> Minor releases add components and props without changing existing defaults.
 
 ## Install
 

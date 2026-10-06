@@ -20,6 +20,7 @@ import: import { NodeCanvas } from '@presentstandards/framekit-ui'
 - Do not use this as a substitute for a full-screen node editor with grouping, minimaps, or hundreds of nodes.
 - Use Dropdown, SegmentedSwitch, or Tabs for short categorical choices rather than a graph.
 - Use ValueGraph or EasingGraph when the task is shaping a curve rather than routing between tools.
+- Use [Node row](./node-row.md) and [Node socket](./node-socket.md) when the application owns a larger graph and needs node cards that read like the sidebar.
 
 ## Anatomy
 

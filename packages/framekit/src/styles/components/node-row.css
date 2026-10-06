@@ -1,0 +1,317 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Node row
+   label | control rows for node cards and properties views, with
+   the socket in the row it drives or emits. Sized like sidebar
+   rows: 24px sm controls and 6px gaps.
+   ───────────────────────────────────────────────────────────── */
+
+/* The body grid. Rows are subgrids of it, so the longest visible label
+   sizes the label column once for the whole card. */
+.fk-node-rows {
+  --fk-node-rows-label-max: 96px;
+
+  display: grid;
+  grid-template-columns: fit-content(var(--fk-node-rows-label-max)) minmax(0, 1fr);
+  align-content: start;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: 6px;
+}
+
+/* Edge placement owns the card body padding: sockets are centred on the
+   card's 1px border, 10px padding plus half the border outside each row.
+   A shell with a different border overrides --fk-node-row-socket-inset. */
+.fk-node-rows[data-placement='edge'] {
+  --fk-node-row-socket-inset: 10.5px;
+
+  padding: 8px 10px 10px;
+}
+
+/* Gutter placement reserves a 14px socket column (plus the 6px gap) on every
+   row, socketed or not, so labels start on one axis down the list. */
+.fk-node-rows[data-placement='gutter'] {
+  --fk-node-row-socket-inset: 13px;
+
+  padding-left: 20px;
+}
+
+.fk-node-rows[data-placement='gutter']:has(> .fk-node-row > .fk-node-row__socket--out) {
+  padding-right: 20px;
+}
+
+/* Group headings and hints span the body; rows join the shared columns. */
+.fk-node-rows > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.fk-node-rows > .fk-node-row {
+  grid-template-columns: subgrid;
+}
+
+/* ── Row ── */
+
+.fk-node-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: fit-content(96px) minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  column-gap: 6px;
+  row-gap: 4px;
+  border-radius: var(--fk-radius-sm);
+  transition:
+    opacity var(--fk-duration-fast) var(--fk-ease),
+    outline-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+/* A row used on its own in a gutter reserves the gutter itself. */
+.fk-node-row[data-placement='gutter']:not(.fk-node-rows > .fk-node-row) {
+  --fk-node-row-socket-inset: -7px;
+
+  padding-left: 20px;
+}
+
+.fk-node-row__label {
+  display: flex;
+  grid-column: 1;
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  gap: 4px;
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-node-row__label-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A drag-to-scrub label (the application sets data-scrub with its handlers). */
+.fk-node-row__label[data-scrub] {
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+/* Animated: a small non-interactive diamond after the name. */
+.fk-node-row__animated {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-inline: 1px;
+  background: var(--fk-accent-text);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+.fk-node-row__control {
+  display: flex;
+  grid-column: 2;
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  gap: 6px;
+}
+
+/* Controls share the column; a lone control spans it. Give a fixed-width
+   companion (such as a 56px field beside a slider) flex: 0 0 56px. */
+.fk-node-row__control > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ColorField has no sm size; inside a row it matches the 24px sm controls
+   and fills the column, as the sidebar's colour rows do. */
+.fk-node-row__control > .fk-color-field {
+  display: flex;
+  min-width: 0;
+}
+
+.fk-node-row__control .fk-color-field__popover-shell,
+.fk-node-row__control .fk-color-field__swatch {
+  flex-basis: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.fk-node-row__control .fk-color-field__input {
+  --fk-input-height: 24px;
+  --fk-input-pad: 6px;
+  --fk-input-font-size: var(--fk-fs-0);
+
+  flex: 1;
+  width: auto;
+  height: 24px;
+}
+
+/* Without a label the control takes the whole row. */
+.fk-node-row:not([data-labelled]) > .fk-node-row__control {
+  grid-column: 1 / -1;
+}
+
+/* Wide: the label keeps its line and the control spans both columns below. */
+.fk-node-row[data-wide] > .fk-node-row__label {
+  grid-column: 1 / -1;
+}
+
+.fk-node-row[data-wide] > .fk-node-row__control {
+  grid-column: 1 / -1;
+}
+
+.fk-node-row__output-label,
+.fk-node-row__meta {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The output side reads from the socket inward, so it packs to the end.
+   An output name is the socket's name: it never gives way to the text
+   beside it (a long source name, a readout) — that text truncates instead,
+   and the name only ellipsizes if it alone is wider than the column. */
+.fk-node-row__output-label {
+  flex: none;
+  max-width: 100%;
+  margin-left: auto;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  line-height: 1.2;
+  text-align: right;
+}
+
+.fk-node-row__meta {
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.fk-node-row__control > .fk-node-row__meta:first-child {
+  margin-left: auto;
+}
+
+/* ── Sockets ──
+   A zero-width slot on the edge (or gutter) centres the socket by layout,
+   never by transform, so offsetTop + offsetHeight / 2 is the true centre
+   even inside a scale(zoom) workspace. */
+
+.fk-node-row__socket {
+  /* A zoomed-out canvas grows its socket glyphs to a 7px on-screen minimum
+     (node-socket.css). Grown around the slot, the glyph and its state ring
+     would reach into the label: at 40% the ring covered the first letter.
+     So the slot moves OUTWARD by exactly what the glyph's half (4px) and its
+     ring (1.5px) grew: the socket's footprint inside the card never changes —
+     glyph and ring end 7px in at every zoom, as at 100% — and the label keeps
+     its clearance. Same growth factor as NodeSocket; zero without a zoom. An
+     application that draws wires to the socket centre moves the end by the
+     same amount: (grow - 1) x 5.5px outward. */
+  --fk-node-row-socket-grow: clamp(1, calc(0.875 / var(--fk-node-socket-zoom, 1)), 2.5);
+  --fk-node-row-socket-outset: calc((var(--fk-node-row-socket-grow) - 1) * 5.5px);
+
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+}
+
+.fk-node-row__socket--in {
+  left: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-outset));
+}
+
+.fk-node-row__socket--out {
+  right: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-outset));
+}
+
+/* Tall and wide rows pin the label and sockets to the first 24px line. */
+.fk-node-row[data-tall],
+.fk-node-row[data-wide] {
+  align-items: start;
+}
+
+.fk-node-row[data-tall] > .fk-node-row__socket,
+.fk-node-row[data-wide] > .fk-node-row__socket {
+  bottom: auto;
+  height: 24px;
+}
+
+/* ── States ── */
+
+.fk-node-row:hover > .fk-node-row__label,
+.fk-node-row[data-drop-target] > .fk-node-row__label {
+  color: var(--fk-text-primary);
+}
+
+/* Hovering a row names its socket: the open glyph takes the accent stroke. */
+.fk-node-row:hover > .fk-node-row__socket .fk-node-socket:not([data-state]) {
+  color: var(--fk-accent);
+}
+
+.fk-node-row[data-drop-target] {
+  outline: 1px solid var(--fk-accent);
+  outline-offset: 2px;
+}
+
+.fk-node-row[data-inactive] {
+  opacity: 0.4;
+}
+
+/* Driven: the control is disabled by the application but shows the live
+   value it receives in accent text, not as an unavailable control. A
+   SegmentedSwitch locks only its other options (a disabled option cannot be
+   the selected one), so its current segment keeps the accent it already has. */
+.fk-node-row[data-driven] :is(.fk-input, .fk-textarea, .fk-number-input, .fk-drag-value),
+.fk-node-row[data-driven] :is(.fk-input, .fk-textarea, .fk-number-input) :is(input, textarea),
+.fk-node-row[data-driven] .fk-segmented-switch__option,
+.fk-node-row[data-driven] .fk-slider__input,
+.fk-node-row[data-driven] .fk-color-field__swatch:disabled {
+  cursor: default;
+}
+
+.fk-node-row[data-driven] :is(.fk-input--disabled, .fk-textarea--disabled),
+.fk-node-row[data-driven] :is(.fk-input--disabled, .fk-textarea--disabled) > :is(input, textarea),
+.fk-node-row[data-driven] .fk-drag-value--disabled,
+.fk-node-row[data-driven] .fk-drag-value--disabled .fk-drag-value__value,
+.fk-node-row[data-driven] .fk-node-row__meta {
+  color: var(--fk-accent-text);
+  -webkit-text-fill-color: var(--fk-accent-text);
+}
+
+.fk-node-row[data-driven] :is(.fk-slider--disabled, .fk-drag-value--disabled),
+.fk-node-row[data-driven] .fk-color-field--disabled .fk-color-input__swatch {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-node-row,
+  .fk-node-row__label {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-node-row[data-drop-target] {
+    outline-color: Highlight;
+  }
+
+  .fk-node-row__animated {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

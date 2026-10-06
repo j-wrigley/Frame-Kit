@@ -20,6 +20,7 @@ import: import { LayerRow } from '@presentstandards/framekit-ui'
 - Use `ToggleRow` for one immediate binary setting.
 - Use `Dropdown` when choosing a value from a short option list.
 - Use `ContextMenu` when actions should be available only from a right-click target.
+- Use [Row actions](./row-actions.md) for an explain-then-add 'i' + '+' pair on library rows.
 - Do not put a long description or a primary workflow inside a row action strip.
 
 ## Anatomy

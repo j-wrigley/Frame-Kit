@@ -19,6 +19,7 @@ import: import { Button } from '@presentstandards/framekit-ui'
 
 - Navigation between pages/views — use a link.
 - A binary on/off setting — use a switch or checkbox.
+- One word or token that inserts itself or toggles a mode — use [Chip](./chip.md).
 
 ## Icon-only
 

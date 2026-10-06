@@ -25,6 +25,13 @@ export interface SliderProps extends Omit<
   showValue?: boolean;
   /** Formats the value for the visible and accessible value text. */
   formatValue?: (value: number) => string;
+  /**
+   * Paints a scale along the whole track in place of the accent fill — cool
+   * to warm, a hue ring, transparent to opaque — when the track itself says
+   * what the value means. Any CSS background, usually a left-to-right
+   * `linear-gradient(…)`.
+   */
+  track?: string;
 }
 
 /** A native range input styled for clear, continuous adjustments. It keeps
@@ -40,6 +47,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
     size = 'md',
     showValue = true,
     formatValue = defaultValueFormat,
+    track,
     className,
     disabled = false,
     'aria-label': ariaLabel,
@@ -48,13 +56,20 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
   ref
 ) {
   const formattedValue = formatValue(value);
-  const classes = ['fk-slider', `fk-slider--${size}`, disabled && 'fk-slider--disabled', className]
+  const classes = [
+    'fk-slider',
+    `fk-slider--${size}`,
+    track && 'fk-slider--scale',
+    disabled && 'fk-slider--disabled',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
   const progress = valueProgress(value, min, max);
   const style = {
     '--fk-slider-progress': `${progress}%`,
     '--fk-slider-thumb-offset': `${-progress}%`,
+    ...(track ? { '--fk-slider-track': track } : null),
   } as CSSProperties;
 
   return (

@@ -61,11 +61,15 @@ Start here when building UIs with this kit:
   and `align="end"` for measurements. `Textarea` is the multiline companion;
   `NumberInput` provides explicit application-owned step actions; `InputComposer`
   is a compact native submit form. Read `docs/components/input.md` before use.
+- Chip: `Chip` is a small bordered button for one word or token — an action
+  chip that inserts itself (`mono` for tokens) or a toggle chip (`pressed`,
+  e.g. Auto beside an index). Read `docs/components/chip.md` before use.
 - Stepper: `Stepper` is a bounded-value control with decrement/increment actions
   and an editable center value by default. Set `editable={false}` for display
   steppers; the consumer owns parsing, range limits, precision, and disabled
   action states. Read `docs/components/stepper.md` before use.
-- Slider: `Slider` is the native-range option for regular continuous values.
+- Slider: `Slider` is the native-range option for regular continuous values;
+  `track` paints a scale (cool → warm, a hue) along it instead of the accent fill.
   Use `RulerSlider` when a visible measurement scale helps, `DragValue` for
   direct value-field manipulation (with optional reset and bipolar fill), and
   `Scrubber` for compact inspector rows with rail, meter, or ruler feedback.
@@ -93,6 +97,12 @@ content?, icon?, meta?, disabled? }` items; when every item has `content`, it
   optional icon-only `actions`, each with an accessible label. The selected row
   exposes `aria-current` and keeps its actions visible. Read
   `docs/components/layer-row.md` before use.
+- Row actions: `RowActions` is the trailing 'i' then '+' pair for library
+  rows, list rows, and card headers. Put a `RowInfoButton` (as a `HoverCard`
+  trigger) in `info` and a `RowAddButton` (alone or as a `Popover` trigger) in
+  `add`; use `reserve` in lists so the '+' column lines up. Give a right-placed
+  hover card `offset={30}` so it clears the '+'. Read
+  `docs/components/row-actions.md` before use.
 - Frame: `Frame` renders a named artboard boundary with optional dimensions,
   selection handles, and a controlled recording outline using `recording` plus
   `recordingProgress` from 0 to 1. The application owns canvas coordinates and
@@ -136,7 +146,9 @@ content?, icon?, meta?, disabled? }` items; when every item has `content`, it
   values with stable ids; middle points can be added, dragged, keyboard-tuned,
   and deleted while endpoints retain their input bounds. Pair it with
   `Dropdown`, `SegmentedSwitch`, and `NumberInput` for presets, channel choice,
-  and exact selected values. Read `docs/components/tone-curve.md` before use.
+  and exact selected values. Set `showHistogram={false}` when there are no real
+  image samples, and `showAxis={false}` when it is drawn small. Read
+  `docs/components/tone-curve.md` before use.
 - Axis field: `AxisField` is a neutral two-axis value editor for paired creative
   settings such as amount/scale or scatter/spread. Pass a controlled
   `AxisFieldValue` and `onValueChange`; provide meaningful `xLabel` and `yLabel`,
@@ -148,6 +160,15 @@ content?, icon?, meta?, disabled? }` items; when every item has `content`, it
   `mode="cardinal"` for axis-only actions. Pair it with `Slider`, `RulerSlider`,
   or `NumberInput` for magnitude, strength, or distance. Read
   `docs/components/direction-pad.md` before use.
+- Node socket and node row: `NodeSocket` draws a connection socket whose shape
+  names its lane (`value` circle, `pixels` square, `element` ring-with-dot,
+  `mask` half-filled square) and whose colour shows its state (`connected`,
+  `state="compatible" | "hint" | "source" | "incompatible"`); it is visual only.
+  `NodeRows` + `NodeRow` lay out sidebar-sized label | control rows with the
+  socket in the row it drives: `placement="edge"` on node cards (sockets on the
+  card border), `"gutter"` in list or properties views. The application owns
+  wiring, legality, drop targets, and history. Read
+  `docs/components/node-socket.md` and `docs/components/node-row.md` before use.
 - Keyframe lane: `KeyframeLane` is a single-property temporal editor
   for discrete events, a playhead, and an optional working range. Pass
   controlled `KeyframeLaneKeyframe[]` values with stable ids and

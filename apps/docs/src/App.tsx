@@ -20,6 +20,7 @@ import { Motion } from './pages/Motion';
 import { Icons } from './pages/Icons';
 import { Components } from './pages/Components';
 import { Buttons } from './pages/Buttons';
+import { ChipPage } from './pages/ChipPage';
 import { LoaderPage } from './pages/Loader';
 import { DropZonePage } from './pages/DropZonePage';
 import { Inputs } from './pages/Inputs';
@@ -34,6 +35,7 @@ import { TabsPage } from './pages/Tabs';
 import { ChecksAndRadios } from './pages/ChecksAndRadios';
 import { ToggleRows } from './pages/ToggleRows';
 import { LayerRows } from './pages/LayerRows';
+import { RowActionsPage } from './pages/RowActionsPage';
 import { Frames } from './pages/Frames';
 import { SidebarPage } from './pages/SidebarPage';
 import { Dropdowns } from './pages/Dropdowns';
@@ -54,6 +56,8 @@ import { ColorBalanceWheelsPage } from './pages/ColorBalanceWheelsPage';
 import { PerspectiveTransformPage } from './pages/PerspectiveTransformPage';
 import { ValueGraphPage } from './pages/ValueGraphPage';
 import { NodeCanvasPage } from './pages/NodeCanvasPage';
+import { NodeSocketPage } from './pages/NodeSocketPage';
+import { NodeRowPage } from './pages/NodeRowPage';
 import { AxisFieldPage } from './pages/AxisFieldPage';
 import { DirectionPadPage } from './pages/DirectionPadPage';
 import { KeyframeLanePage } from './pages/KeyframeLanePage';
@@ -85,6 +89,7 @@ const PAGES: Record<PageId, () => JSX.Element> = {
   icons: Icons,
   components: Components,
   buttons: Buttons,
+  chip: ChipPage,
   loader: LoaderPage,
   'drop-zone': DropZonePage,
   inputs: Inputs,
@@ -99,6 +104,7 @@ const PAGES: Record<PageId, () => JSX.Element> = {
   'checks-radios': ChecksAndRadios,
   'toggle-rows': ToggleRows,
   'layer-rows': LayerRows,
+  'row-actions': RowActionsPage,
   frames: Frames,
   sidebar: SidebarPage,
   dropdowns: Dropdowns,
@@ -119,6 +125,8 @@ const PAGES: Record<PageId, () => JSX.Element> = {
   'perspective-transform': PerspectiveTransformPage,
   'value-graph': ValueGraphPage,
   'node-canvas': NodeCanvasPage,
+  'node-socket': NodeSocketPage,
+  'node-row': NodeRowPage,
   'axis-field': AxisFieldPage,
   'direction-pad': DirectionPadPage,
   'keyframe-lane': KeyframeLanePage,

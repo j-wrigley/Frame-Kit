@@ -28,6 +28,13 @@ export interface SpringResponseProps extends Omit<
   density?: SpringResponseDensity;
   /** Renders the four direct parameter fields. @default true */
   showControls?: boolean;
+  /** Renders the response summary under the graph (character tag, settle
+   *  time, damping ratio, overshoot). Turn it off where the surrounding UI
+   *  already names the spring, such as a node card. @default true */
+  showSummary?: boolean;
+  /** Renders the time axis labels under the plot. Turn them off where the
+   *  graph is drawn small (their 8px type scales with it). @default true */
+  showAxis?: boolean;
   /** Enables the built-in parameter fields. @default true */
   editable?: boolean;
   /** Disables the component and mutes its response. @default false */
@@ -41,6 +48,8 @@ type ResponsePoint = { time: number; value: number };
 
 const VIEWBOX = { width: 360, height: 180 };
 const PLOT = { x: 14, y: 14, width: 332, height: 120 };
+/** Without the axis labels the canvas ends one margin below the plot. */
+const VIEWBOX_NO_AXIS_HEIGHT = PLOT.y + PLOT.height + PLOT.y;
 const DEFAULT_VALUE: SpringResponseValue = {
   mass: 1,
   stiffness: 170,
@@ -180,6 +189,8 @@ export const SpringResponse = forwardRef<HTMLDivElement, SpringResponseProps>(
       onValueChange,
       density = 'default',
       showControls = true,
+      showSummary = true,
+      showAxis = true,
       editable = true,
       disabled = false,
       label = 'Spring response',
@@ -217,6 +228,7 @@ export const SpringResponse = forwardRef<HTMLDivElement, SpringResponseProps>(
       `fk-spring-response--${density}`,
       !canEdit && 'fk-spring-response--readonly',
       disabled && 'fk-spring-response--disabled',
+      !showAxis && 'fk-spring-response--no-axis',
       className,
     ]
       .filter(Boolean)
@@ -240,7 +252,7 @@ export const SpringResponse = forwardRef<HTMLDivElement, SpringResponseProps>(
       <div ref={ref} {...props} className={classes} aria-disabled={disabled || undefined}>
         <svg
           className="fk-spring-response__canvas"
-          viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`}
+          viewBox={`0 0 ${VIEWBOX.width} ${showAxis ? VIEWBOX.height : VIEWBOX_NO_AXIS_HEIGHT}`}
           role="img"
           aria-label={`${label}. ${responseCharacter(dampingRatio, overshoot)} response, settles in ${formatMilliseconds(response.settlingTime)}, damping ratio ${dampingRatio.toFixed(2)}${overshoot > 0.5 ? `, ${overshoot.toFixed(1)}% overshoot` : ''}.`}
         >
@@ -249,7 +261,7 @@ export const SpringResponse = forwardRef<HTMLDivElement, SpringResponseProps>(
             x="0.5"
             y="0.5"
             width={VIEWBOX.width - 1}
-            height={VIEWBOX.height - 1}
+            height={(showAxis ? VIEWBOX.height : VIEWBOX_NO_AXIS_HEIGHT) - 1}
             rx="4"
           />
           <g className="fk-spring-response__grid">
@@ -272,22 +284,26 @@ export const SpringResponse = forwardRef<HTMLDivElement, SpringResponseProps>(
           />
           <path className="fk-spring-response__area" d={graphArea} />
           <path className="fk-spring-response__curve" d={graphPath} />
-          <g className="fk-spring-response__axis">
-            <text x={PLOT.x} y="165">
-              0 MS
-            </text>
-            <text x={PLOT.x + PLOT.width} y="165">
-              {formatMilliseconds(response.duration)}
-            </text>
-          </g>
+          {showAxis && (
+            <g className="fk-spring-response__axis">
+              <text x={PLOT.x} y="165">
+                0 MS
+              </text>
+              <text x={PLOT.x + PLOT.width} y="165">
+                {formatMilliseconds(response.duration)}
+              </text>
+            </g>
+          )}
         </svg>
 
-        <div className="fk-spring-response__summary" aria-live="polite">
-          <span className="fk-tag">{responseCharacter(dampingRatio, overshoot)}</span>
-          <output>{formatMilliseconds(response.settlingTime)} settle</output>
-          <span>ζ {dampingRatio.toFixed(2)}</span>
-          <span>{overshoot > 0.5 ? `${overshoot.toFixed(1)}% overshoot` : 'No overshoot'}</span>
-        </div>
+        {showSummary && (
+          <div className="fk-spring-response__summary" aria-live="polite">
+            <span className="fk-tag">{responseCharacter(dampingRatio, overshoot)}</span>
+            <output>{formatMilliseconds(response.settlingTime)} settle</output>
+            <span>ζ {dampingRatio.toFixed(2)}</span>
+            <span>{overshoot > 0.5 ? `${overshoot.toFixed(1)}% overshoot` : 'No overshoot'}</span>
+          </div>
+        )}
 
         {showControls && (
           <div className="fk-spring-response__controls">

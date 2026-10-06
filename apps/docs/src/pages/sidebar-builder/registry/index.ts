@@ -6,6 +6,7 @@ import { dropZoneEntry } from './drop-zone';
 import { frameEntry } from './frame';
 import { hoverCardEntry } from './hover-card';
 import { layerRowEntry } from './layer-row';
+import { rowActionsEntry } from './row-actions';
 import { loaderEntry } from './loader';
 import { popoverEntry } from './popover';
 import { sidebarEntry } from './sidebar';
@@ -13,6 +14,7 @@ import { tagEntry } from './tag';
 import { toolbarEntry } from './toolbar';
 import { tooltipEntry } from './tooltip';
 import { checkboxEntry } from './checkbox';
+import { chipEntry } from './chip';
 import { colorFieldEntry } from './color-field';
 import { dragValueEntry } from './drag-value';
 import { dropdownEntry } from './dropdown';
@@ -41,6 +43,7 @@ import { keyframeLaneEntry } from './keyframe-lane';
 import { loopEntry } from './loop';
 import { modulationEntry } from './modulation';
 import { nodeCanvasEntry } from './node-canvas';
+import { nodeRowEntry } from './node-row';
 import { orbitEntry } from './orbit';
 import { perspectiveEntry } from './perspective';
 import { springEntry } from './spring';
@@ -59,6 +62,7 @@ export const CATALOG: readonly CatalogEntry[] = [
   frameEntry,
   hoverCardEntry,
   layerRowEntry,
+  rowActionsEntry,
   loaderEntry,
   popoverEntry,
   sidebarEntry,
@@ -66,6 +70,7 @@ export const CATALOG: readonly CatalogEntry[] = [
   toolbarEntry,
   tooltipEntry,
   checkboxEntry,
+  chipEntry,
   colorFieldEntry,
   dragValueEntry,
   dropdownEntry,
@@ -94,6 +99,7 @@ export const CATALOG: readonly CatalogEntry[] = [
   loopEntry,
   modulationEntry,
   nodeCanvasEntry,
+  nodeRowEntry,
   orbitEntry,
   perspectiveEntry,
   springEntry,

@@ -9,6 +9,7 @@
 // Components — one lands at a time, each with a spec in docs/components/.
 export { Tag, type TagProps, type TagTone } from './components/tag';
 export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from './components/button';
+export { Chip, type ChipProps, type ChipSize } from './components/chip';
 export { Loader, type LoaderProps, type LoaderSize, type LoaderVariant } from './components/loader';
 export { DropZone, type DropZoneProps, type DropZoneSize } from './components/drop-zone';
 export {
@@ -46,10 +47,16 @@ export {
 } from './components/toggle';
 export {
   LayerRow,
+  RowActions,
+  RowAddButton,
+  RowInfoButton,
   type LayerRowAction,
   type LayerRowActionTone,
   type LayerRowProps,
   type LayerRowVariant,
+  type RowActionsProps,
+  type RowAddButtonProps,
+  type RowInfoButtonProps,
 } from './components/layer-row';
 export { Frame, type FrameProps } from './components/frame';
 export {
@@ -131,11 +138,21 @@ export {
 } from './components/value-graph';
 export {
   NodeCanvas,
+  NodeRow,
+  NodeRows,
+  NodeSocket,
   type NodeCanvasConnection,
   type NodeCanvasNode,
   type NodeCanvasPort,
   type NodeCanvasProps,
   type NodeCanvasTone,
+  type NodeRowLabelProps,
+  type NodeRowPlacement,
+  type NodeRowProps,
+  type NodeRowsProps,
+  type NodeSocketLane,
+  type NodeSocketProps,
+  type NodeSocketState,
 } from './components/node-canvas';
 export { AxisField, type AxisFieldProps, type AxisFieldValue } from './components/axis-field';
 export {

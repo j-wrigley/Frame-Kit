@@ -101,6 +101,21 @@
   border-radius: var(--fk-radius-full);
 }
 
+/* A scale track (the track prop): the whole track shows what the value means
+   — cool to warm, a hue ring — so the thumb alone marks the value and no
+   accent fill paints over the scale. */
+.fk-slider--scale .fk-slider__input::-webkit-slider-runnable-track {
+  background: var(--fk-slider-track);
+}
+
+.fk-slider--scale .fk-slider__input::-moz-range-track {
+  background: var(--fk-slider-track);
+}
+
+.fk-slider--scale .fk-slider__input::-moz-range-progress {
+  background: transparent;
+}
+
 .fk-slider__input::-webkit-slider-thumb {
   width: var(--fk-slider-thumb-size);
   height: var(--fk-slider-thumb-size);

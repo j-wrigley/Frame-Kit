@@ -242,13 +242,18 @@ export const Popover = forwardRef<HTMLSpanElement, PopoverProps>(function Popove
     };
   }, [focusTrigger, isOpen, setPopoverOpen]);
 
+  // Focus only once the panel is positioned. Until then it is
+  // `visibility: hidden`, and a hidden control cannot take focus — a focus
+  // attempted in the same frame as the first measurement is silently lost
+  // and leaves focus on the trigger.
+  const positioned = position !== null;
   useEffect(() => {
-    if (!isOpen || !autoFocus) return undefined;
+    if (!isOpen || !autoFocus || !positioned) return undefined;
     const frame = window.requestAnimationFrame(() => {
       panelRef.current?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)?.focus();
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [autoFocus, isOpen]);
+  }, [autoFocus, isOpen, positioned]);
 
   const triggerProps = trigger.props as {
     onClick?: (event: ReactMouseEvent<HTMLElement>) => void;

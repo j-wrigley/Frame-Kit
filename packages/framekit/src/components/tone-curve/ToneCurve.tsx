@@ -39,6 +39,14 @@ export interface ToneCurveProps extends Omit<
   channel?: ToneCurveChannel;
   /** Normalised 0–1 histogram samples rendered behind the curve. */
   histogram?: readonly number[];
+  /** Renders the histogram backdrop. Turn it off where there is no real
+   *  image data to show: without samples the backdrop is an illustrative
+   *  one, which would read as a measurement. @default true */
+  showHistogram?: boolean;
+  /** Renders the 0 and 255 axis labels under the plot; off, the canvas ends
+   *  one margin below the plot. Turn them off where the curve is drawn small
+   *  (their 7px type scales with it). @default true */
+  showAxis?: boolean;
   /** Enables point selection, dragging, double-click insertion, and deletion. @default true */
   editable?: boolean;
   /** Disables direct manipulation and mutes the graph. @default false */
@@ -64,6 +72,8 @@ const DEFAULT_HISTOGRAM = Array.from({ length: 44 }, (_, index) => {
 });
 const VIEWBOX = { width: 300, height: 184 };
 const PLOT = { x: 14, y: 14, width: 272, height: 142 };
+/** Without the axis labels the canvas ends one margin below the plot. */
+const VIEWBOX_NO_AXIS_HEIGHT = PLOT.y + PLOT.height + PLOT.y;
 const MIN_GAP = 0.035;
 let pointSerial = 0;
 
@@ -150,6 +160,8 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
     onActiveIdChange,
     channel = 'luminance',
     histogram = DEFAULT_HISTOGRAM,
+    showHistogram = true,
+    showAxis = true,
     editable = true,
     disabled = false,
     step = 0.01,
@@ -173,7 +185,12 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
     : (points[0]?.id ?? null);
   const canEdit = editable && !disabled;
   const curvePath = smoothCurvePath(points);
-  const classes = ['fk-tone-curve', !canEdit && 'fk-tone-curve--readonly', className]
+  const classes = [
+    'fk-tone-curve',
+    !canEdit && 'fk-tone-curve--readonly',
+    !showAxis && 'fk-tone-curve--no-axis',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -194,16 +211,20 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
     [activeIdProp, onActiveIdChange]
   );
 
-  const pointFromPointer = useCallback((event: ReactPointerEvent<SVGElement>) => {
-    const bounds = svgRef.current?.getBoundingClientRect();
-    if (!bounds || bounds.width === 0 || bounds.height === 0) return null;
-    const x = ((event.clientX - bounds.left) / bounds.width) * VIEWBOX.width;
-    const y = ((event.clientY - bounds.top) / bounds.height) * VIEWBOX.height;
-    return {
-      x: clamp((x - PLOT.x) / PLOT.width),
-      y: clamp(1 - (y - PLOT.y) / PLOT.height),
-    };
-  }, []);
+  const viewHeight = showAxis ? VIEWBOX.height : VIEWBOX_NO_AXIS_HEIGHT;
+  const pointFromPointer = useCallback(
+    (event: ReactPointerEvent<SVGElement>) => {
+      const bounds = svgRef.current?.getBoundingClientRect();
+      if (!bounds || bounds.width === 0 || bounds.height === 0) return null;
+      const x = ((event.clientX - bounds.left) / bounds.width) * VIEWBOX.width;
+      const y = ((event.clientY - bounds.top) / bounds.height) * viewHeight;
+      return {
+        x: clamp((x - PLOT.x) / PLOT.width),
+        y: clamp(1 - (y - PLOT.y) / PLOT.height),
+      };
+    },
+    [viewHeight]
+  );
 
   const updatePoint = useCallback(
     (id: string, nextPoint: { x: number; y: number }) => {
@@ -301,7 +322,7 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
       <svg
         ref={svgRef}
         className="fk-tone-curve__canvas"
-        viewBox={`0 0 ${VIEWBOX.width} ${VIEWBOX.height}`}
+        viewBox={`0 0 ${VIEWBOX.width} ${viewHeight}`}
         role={canEdit ? 'group' : 'img'}
         aria-label={label}
         data-disabled={disabled || undefined}
@@ -311,23 +332,25 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
           x="0.5"
           y="0.5"
           width={VIEWBOX.width - 1}
-          height={VIEWBOX.height - 1}
+          height={viewHeight - 1}
           rx="6"
         />
-        <g className="fk-tone-curve__histogram" aria-hidden="true">
-          {samples.map((sample, index) => {
-            const height = clamp(sample) * (PLOT.height * 0.82);
-            return (
-              <rect
-                key={index}
-                x={PLOT.x + index * barWidth}
-                y={PLOT.y + PLOT.height - height}
-                width={Math.max(1, barWidth - 1)}
-                height={height}
-              />
-            );
-          })}
-        </g>
+        {showHistogram && (
+          <g className="fk-tone-curve__histogram" aria-hidden="true">
+            {samples.map((sample, index) => {
+              const height = clamp(sample) * (PLOT.height * 0.82);
+              return (
+                <rect
+                  key={index}
+                  x={PLOT.x + index * barWidth}
+                  y={PLOT.y + PLOT.height - height}
+                  width={Math.max(1, barWidth - 1)}
+                  height={height}
+                />
+              );
+            })}
+          </g>
+        )}
         <g className="fk-tone-curve__grid" aria-hidden="true">
           {[0.25, 0.5, 0.75].map((ratio) => (
             <path
@@ -411,14 +434,16 @@ export const ToneCurve = forwardRef<HTMLDivElement, ToneCurveProps>(function Ton
             })}
           </g>
         )}
-        <g className="fk-tone-curve__axis" aria-hidden="true">
-          <text x={PLOT.x} y="174">
-            0
-          </text>
-          <text x={PLOT.x + PLOT.width} y="174">
-            255
-          </text>
-        </g>
+        {showAxis && (
+          <g className="fk-tone-curve__axis" aria-hidden="true">
+            <text x={PLOT.x} y="174">
+              0
+            </text>
+            <text x={PLOT.x + PLOT.width} y="174">
+              255
+            </text>
+          </g>
+        )}
       </svg>
     </div>
   );

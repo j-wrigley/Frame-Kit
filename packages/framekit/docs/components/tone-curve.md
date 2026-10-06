@@ -27,20 +27,22 @@ import: import { ToneCurve } from '@presentstandards/framekit-ui'
 
 ## Props
 
-| Prop               | Type                                        | Default          | Description                                                                      |
-| ------------------ | ------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
-| `value`            | `readonly ToneCurvePoint[]`                 | —                | Controlled points with stable `id`, `x`, and `y` values.                         |
-| `defaultValue`     | `readonly ToneCurvePoint[]`                 | Soft contrast    | Initial uncontrolled curve.                                                      |
-| `onValueChange`    | `(points: ToneCurvePoint[]) => void`        | —                | Called after a point is added, moved, or removed.                                |
-| `activeId`         | `string \| null`                            | —                | Controlled selected point id.                                                    |
-| `defaultActiveId`  | `string \| null`                            | —                | Initial uncontrolled selected point id.                                          |
-| `onActiveIdChange` | `(id: string \| null) => void`              | —                | Called when point selection changes.                                             |
-| `channel`          | `'luminance' \| 'red' \| 'green' \| 'blue'` | `'luminance'`    | Semantic channel name used for accessible context.                               |
-| `histogram`        | `readonly number[]`                         | Built-in samples | Normalised histogram bars rendered behind the curve.                             |
-| `editable`         | `boolean`                                   | `true`           | Enables selection, drag, double-click insertion, keyboard movement, and removal. |
-| `disabled`         | `boolean`                                   | `false`          | Prevents direct manipulation and mutes the graph.                                |
-| `step`             | `number`                                    | `0.01`           | Arrow-key increment; Shift multiplies it by five.                                |
-| `label`            | `string`                                    | `'Tone curve'`   | Accessible graph name.                                                           |
+| Prop               | Type                                        | Default          | Description                                                                                                                                        |
+| ------------------ | ------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`            | `readonly ToneCurvePoint[]`                 | —                | Controlled points with stable `id`, `x`, and `y` values.                                                                                           |
+| `defaultValue`     | `readonly ToneCurvePoint[]`                 | Soft contrast    | Initial uncontrolled curve.                                                                                                                        |
+| `onValueChange`    | `(points: ToneCurvePoint[]) => void`        | —                | Called after a point is added, moved, or removed.                                                                                                  |
+| `activeId`         | `string \| null`                            | —                | Controlled selected point id.                                                                                                                      |
+| `defaultActiveId`  | `string \| null`                            | —                | Initial uncontrolled selected point id.                                                                                                            |
+| `onActiveIdChange` | `(id: string \| null) => void`              | —                | Called when point selection changes.                                                                                                               |
+| `channel`          | `'luminance' \| 'red' \| 'green' \| 'blue'` | `'luminance'`    | Semantic channel name used for accessible context.                                                                                                 |
+| `histogram`        | `readonly number[]`                         | Built-in samples | Normalised histogram bars rendered behind the curve.                                                                                               |
+| `showHistogram`    | `boolean`                                   | `true`           | Shows the histogram backdrop. Off where there is no real image data: without samples the backdrop is illustrative and would read as a measurement. |
+| `showAxis`         | `boolean`                                   | `true`           | Shows the 0 and 255 labels; off, the canvas ends one margin below the plot. Off where the curve is drawn small.                                    |
+| `editable`         | `boolean`                                   | `true`           | Enables selection, drag, double-click insertion, keyboard movement, and removal.                                                                   |
+| `disabled`         | `boolean`                                   | `false`          | Prevents direct manipulation and mutes the graph.                                                                                                  |
+| `step`             | `number`                                    | `0.01`           | Arrow-key increment; Shift multiplies it by five.                                                                                                  |
+| `label`            | `string`                                    | `'Tone curve'`   | Accessible graph name.                                                                                                                             |
 
 ## Keyboard & accessibility
 

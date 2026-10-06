@@ -13,7 +13,8 @@ const DEMO_POINTS: readonly ToneCurvePoint[] = [
   { id: 'white', x: 1, y: 1 },
 ];
 
-/** Real prop union from ToneCurveChannel: 'luminance' | 'red' | 'green' | 'blue'.
+/** Real prop union from ToneCurveChannel: 'luminance' | 'red' | 'green' | 'blue',
+ *  plus showHistogram/showAxis/editable/disabled booleans.
  *  The `label` prop is accessible-only (never displayed), so no text option. */
 export const toneCurveEntry: CatalogEntry = {
   kind: 'tone-curve',
@@ -35,12 +36,16 @@ export const toneCurveEntry: CatalogEntry = {
       ],
       defaultValue: 'luminance',
     },
+    { key: 'showHistogram', label: 'Show histogram', type: 'toggle', defaultValue: true },
+    { key: 'showAxis', label: 'Show axis', type: 'toggle', defaultValue: true },
     { key: 'editable', label: 'Editable', type: 'toggle', defaultValue: true },
     { key: 'disabled', label: 'Disabled', type: 'toggle', defaultValue: false },
   ],
   render: (props, ctx) => (
     <ToneCurve
       channel={props.channel as ToneCurveChannel}
+      showHistogram={Boolean(props.showHistogram)}
+      showAxis={Boolean(props.showAxis)}
       editable={Boolean(props.editable)}
       disabled={Boolean(props.disabled)}
       value={ctx.get('points', DEMO_POINTS)}
@@ -51,6 +56,8 @@ export const toneCurveEntry: CatalogEntry = {
     [
       '<ToneCurve',
       props.channel !== 'luminance' ? `  channel="${props.channel}"` : null,
+      !props.showHistogram ? '  showHistogram={false}' : null,
+      !props.showAxis ? '  showAxis={false}' : null,
       !props.editable ? '  editable={false}' : null,
       props.disabled ? '  disabled' : null,
       '  value={points}',

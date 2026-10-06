@@ -8,6 +8,8 @@ export function SliderPage() {
   const [opacity, setOpacity] = useState(72);
   const [scale, setScale] = useState(100);
   const [feather, setFeather] = useState(18);
+  const [warmth, setWarmth] = useState(20);
+  const [hue, setHue] = useState(210);
 
   return (
     <>
@@ -80,6 +82,35 @@ export function SliderPage() {
                 formatValue={(value) => `${value} PX`}
               />
             </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="Scale track">
+        <p className="section-intro">
+          When the track itself says what the value means — cool to warm, a hue — pass{' '}
+          <code>track</code> a CSS background. It replaces the accent fill, so the thumb alone marks
+          the value.
+        </p>
+        <div className="demo">
+          <div className="value-control-stack">
+            <Slider
+              label="Temperature"
+              value={warmth}
+              min={-100}
+              max={100}
+              onValueChange={setWarmth}
+              track="linear-gradient(90deg, #5b8def, var(--fk-bg-control-active) 50%, #f0a33c)"
+            />
+            <Slider
+              label="Hue"
+              value={hue}
+              min={0}
+              max={360}
+              onValueChange={setHue}
+              formatValue={(value) => `${value}°`}
+              track="linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)"
+            />
           </div>
         </div>
       </Section>

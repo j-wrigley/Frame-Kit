@@ -29,16 +29,18 @@ from the current parameter values; it is not a decorative animation.
 
 ## Props
 
-| Prop            | Type                                   | Default             | Description                                                |
-| --------------- | -------------------------------------- | ------------------- | ---------------------------------------------------------- |
-| `value`         | `SpringResponseValue`                  | —                   | Controlled mass, stiffness, damping, and velocity values.  |
-| `defaultValue`  | `SpringResponseValue`                  | `{ 1, 170, 18, 0 }` | Initial uncontrolled values.                               |
-| `onValueChange` | `(value: SpringResponseValue) => void` | —                   | Called after one of the built-in parameter fields changes. |
-| `density`       | `'default' \| 'compact'`               | `'default'`         | Compacts graph labels and internal spacing.                |
-| `showControls`  | `boolean`                              | `true`              | Shows the four built-in direct parameter fields.           |
-| `editable`      | `boolean`                              | `true`              | Enables or disables the direct parameter fields.           |
-| `disabled`      | `boolean`                              | `false`             | Disables the component and mutes its response.             |
-| `label`         | `string`                               | `'Spring response'` | Accessible description used for the response graph.        |
+| Prop            | Type                                   | Default             | Description                                                                                                                          |
+| --------------- | -------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `value`         | `SpringResponseValue`                  | —                   | Controlled mass, stiffness, damping, and velocity values.                                                                            |
+| `defaultValue`  | `SpringResponseValue`                  | `{ 1, 170, 18, 0 }` | Initial uncontrolled values.                                                                                                         |
+| `onValueChange` | `(value: SpringResponseValue) => void` | —                   | Called after one of the built-in parameter fields changes.                                                                           |
+| `density`       | `'default' \| 'compact'`               | `'default'`         | Compacts graph labels and internal spacing.                                                                                          |
+| `showControls`  | `boolean`                              | `true`              | Shows the four built-in direct parameter fields.                                                                                     |
+| `showSummary`   | `boolean`                              | `true`              | Shows the summary under the graph (character, settle, ζ, overshoot). Off where the UI already names the spring, such as a node card. |
+| `showAxis`      | `boolean`                              | `true`              | Shows the time axis labels; off, the canvas ends one margin below the plot. Off where the graph is drawn small.                      |
+| `editable`      | `boolean`                              | `true`              | Enables or disables the direct parameter fields.                                                                                     |
+| `disabled`      | `boolean`                              | `false`             | Disables the component and mutes its response.                                                                                       |
+| `label`         | `string`                               | `'Spring response'` | Accessible description used for the response graph.                                                                                  |
 
 `SpringResponseValue` contains:
 

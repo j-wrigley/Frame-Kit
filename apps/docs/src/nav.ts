@@ -16,6 +16,7 @@ export type PageId =
   | 'icons'
   | 'components'
   | 'buttons'
+  | 'chip'
   | 'loader'
   | 'drop-zone'
   | 'inputs'
@@ -30,6 +31,7 @@ export type PageId =
   | 'checks-radios'
   | 'toggle-rows'
   | 'layer-rows'
+  | 'row-actions'
   | 'frames'
   | 'sidebar'
   | 'dropdowns'
@@ -50,6 +52,8 @@ export type PageId =
   | 'perspective-transform'
   | 'value-graph'
   | 'node-canvas'
+  | 'node-socket'
+  | 'node-row'
   | 'axis-field'
   | 'direction-pad'
   | 'keyframe-lane'
@@ -119,6 +123,7 @@ export const NAV: NavSection[] = [
     items: [
       { id: 'components', label: 'Overview' },
       { id: 'buttons', label: 'Button' },
+      { id: 'chip', label: 'Chip' },
       { id: 'loader', label: 'Loader' },
       { id: 'drop-zone', label: 'Drop zone' },
       { id: 'inputs', label: 'Input' },
@@ -133,6 +138,7 @@ export const NAV: NavSection[] = [
       { id: 'checks-radios', label: 'Checks & radios' },
       { id: 'toggle-rows', label: 'Toggle rows' },
       { id: 'layer-rows', label: 'Layer rows' },
+      { id: 'row-actions', label: 'Row actions' },
       { id: 'frames', label: 'Frame' },
       { id: 'sidebar', label: 'Sidebar' },
       { id: 'dropdowns', label: 'Dropdowns' },
@@ -159,6 +165,8 @@ export const NAV: NavSection[] = [
       { id: 'perspective-transform', label: 'Perspective / transform' },
       { id: 'value-graph', label: 'Value graph' },
       { id: 'node-canvas', label: 'Node canvas' },
+      { id: 'node-socket', label: 'Node socket' },
+      { id: 'node-row', label: 'Node row' },
       { id: 'axis-field', label: 'Axis field' },
       { id: 'direction-pad', label: 'Direction pad' },
       { id: 'keyframe-lane', label: 'Keyframe lane' },

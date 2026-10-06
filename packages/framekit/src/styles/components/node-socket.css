@@ -1,0 +1,249 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Node socket
+   Lane glyphs for node-graph connections. Shape carries the lane;
+   fill carries the state. Value and Pixels fill solid when connected.
+   Element and Mask fill their gap / empty half with an accent tint
+   instead: the inner mark still reads, so neither can be mistaken
+   for a connected Value or Pixels socket — and the state still
+   reads under a grey (graphite) accent, where colour alone cannot.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-node-socket {
+  /* A zoomable canvas sets --fk-node-socket-zoom (its scale) ONCE on its
+     workspace, and every glyph inside keeps a 7px minimum ON SCREEN, so the
+     four lane shapes stay readable at 40% (8px at 100% and up; 17.5px of
+     canvas at 40%). One factor scales the glyph's stroke, inner mark and
+     state ring, so a zoomed-out socket is the 100% socket drawn smaller,
+     never a thinner or fainter one. Only the 1.5px gap between glyph and
+     ring stays put: it is a separator, not a mark, and growing it would push
+     the ring further into the row's label. Capped at 2.5x: a canvas that
+     zooms out further than 35% lets its sockets shrink rather than collide
+     with the next row. On a NodeRow the grown glyph also moves outward
+     (node-row.css), so it never crowds the label beside it. */
+  --fk-node-socket-grow: clamp(1, calc(0.875 / var(--fk-node-socket-zoom, 1)), 2.5);
+  --fk-node-socket-size: calc(8px * var(--fk-node-socket-grow));
+  --fk-node-socket-stroke: calc(1.5px * var(--fk-node-socket-grow));
+  --fk-node-socket-ring: transparent;
+
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  /* The hit pad is inherited, not declared here, so a canvas can grow every
+     socket's target at low zoom from one property on its workspace. */
+  width: var(--fk-node-socket-hit, 12px);
+  height: var(--fk-node-socket-hit, 12px);
+  margin: 0;
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  font: inherit;
+  line-height: 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-xs);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.fk-node-socket {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.fk-node-socket__glyph {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: var(--fk-node-socket-size);
+  height: var(--fk-node-socket-size);
+  /* Filled with the card surface so a wire running behind never shows
+     through an open socket. Override where sockets sit on another surface. */
+  background: var(--fk-node-socket-surface, var(--fk-bg-raised));
+  border: var(--fk-node-socket-stroke) solid currentColor;
+  border-radius: 50%;
+  /* Gap then ring: the state ring stays readable against a filled glyph.
+     The gap is a fixed 1.5px; the ring outside it grows with the glyph. */
+  box-shadow:
+    0 0 0 1.5px var(--fk-node-socket-surface, var(--fk-bg-raised)),
+    0 0 0 calc(1.5px + 1.5px * var(--fk-node-socket-grow)) var(--fk-node-socket-ring);
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease),
+    box-shadow var(--fk-duration-fast) var(--fk-ease),
+    transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+/* The inner mark of the two compound glyphs. currentColor, so it follows
+   the state colour with the stroke. */
+.fk-node-socket[data-lane='element'] .fk-node-socket__glyph::after,
+.fk-node-socket[data-lane='mask'] .fk-node-socket__glyph::after {
+  position: absolute;
+  content: '';
+  background: currentColor;
+}
+
+/* ── Lanes ── */
+
+.fk-node-socket[data-lane='pixels'] .fk-node-socket__glyph,
+.fk-node-socket[data-lane='mask'] .fk-node-socket__glyph {
+  border-radius: calc(1.5px * var(--fk-node-socket-grow));
+}
+
+/* Element: a ring with a 2px centre dot (grown with the glyph). */
+.fk-node-socket[data-lane='element'] .fk-node-socket__glyph::after {
+  --fk-node-socket-dot: calc(2px * var(--fk-node-socket-grow));
+
+  top: 50%;
+  left: 50%;
+  width: var(--fk-node-socket-dot);
+  height: var(--fk-node-socket-dot);
+  margin: calc(var(--fk-node-socket-dot) / -2) 0 0 calc(var(--fk-node-socket-dot) / -2);
+  border-radius: 50%;
+}
+
+/* Mask: a square with its left half filled. */
+.fk-node-socket[data-lane='mask'] .fk-node-socket__glyph::after {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+}
+
+/* ── States ── */
+
+.fk-node-socket[data-connected],
+.fk-node-socket[data-state='source'] {
+  color: var(--fk-accent);
+}
+
+/* Only the single-mark glyphs fill solid; the compound glyphs keep their
+   inner mark visible so the lane still reads once connected. */
+.fk-node-socket[data-connected]:is([data-lane='value'], [data-lane='pixels'])
+  .fk-node-socket__glyph,
+.fk-node-socket[data-state='source']:is([data-lane='value'], [data-lane='pixels'])
+  .fk-node-socket__glyph {
+  background: currentColor;
+}
+
+/* The compound glyphs keep their gap or empty half, but tint it: open and
+   connected differ in fill, not just in the stroke's grey. 40% keeps the
+   tint clearly between the surface and the solid mark in both themes. */
+.fk-node-socket[data-connected]:is([data-lane='element'], [data-lane='mask'])
+  .fk-node-socket__glyph,
+.fk-node-socket[data-state='source']:is([data-lane='element'], [data-lane='mask'])
+  .fk-node-socket__glyph {
+  background: color-mix(
+    in srgb,
+    currentColor 40%,
+    var(--fk-node-socket-surface, var(--fk-bg-raised))
+  );
+}
+
+button.fk-node-socket:hover:not(:disabled) {
+  --fk-node-socket-ring: var(--fk-accent);
+
+  color: var(--fk-accent);
+}
+
+.fk-node-socket[data-state='compatible'],
+.fk-node-socket[data-state='source'] {
+  --fk-node-socket-ring: var(--fk-accent);
+}
+
+.fk-node-socket[data-state='compatible'] {
+  color: var(--fk-accent);
+}
+
+/* A preview of a legal partner before any drag starts: present, but
+   quieter than a live target. data-compat="hint" is the same mark set
+   imperatively: one delegated hover handler can preview every partner on
+   a canvas without re-rendering a single socket. A live drag state wins. */
+.fk-node-socket[data-state='hint'],
+.fk-node-socket[data-compat='hint']:not([data-state]) {
+  --fk-node-socket-ring: rgba(var(--fk-accent-rgb), 0.6);
+}
+
+/* The live drop target under the pointer. */
+button.fk-node-socket[data-state='compatible']:hover .fk-node-socket__glyph {
+  transform: scale(1.2);
+}
+
+.fk-node-socket[data-state='incompatible'] {
+  opacity: 0.3;
+}
+
+/* An illegal socket never lights up because the pointer passes over it. */
+button.fk-node-socket[data-state='incompatible'] {
+  cursor: not-allowed;
+}
+
+button.fk-node-socket[data-state='incompatible']:hover {
+  --fk-node-socket-ring: transparent;
+
+  color: var(--fk-text-tertiary);
+}
+
+button.fk-node-socket[data-connected][data-state='incompatible']:hover {
+  color: var(--fk-accent);
+}
+
+button.fk-node-socket:disabled {
+  color: var(--fk-text-disabled);
+  cursor: default;
+}
+
+button.fk-node-socket:focus-visible {
+  outline: none;
+}
+
+button.fk-node-socket:focus-visible .fk-node-socket__glyph {
+  outline: var(--fk-focus-outline);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-node-socket__glyph {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-node-socket__glyph {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .fk-node-socket[data-connected],
+  .fk-node-socket[data-state='source'],
+  .fk-node-socket[data-state='compatible'] {
+    color: Highlight;
+  }
+
+  .fk-node-socket[data-connected] .fk-node-socket__glyph,
+  .fk-node-socket[data-state='source'] .fk-node-socket__glyph,
+  .fk-node-socket[data-state='compatible'] .fk-node-socket__glyph {
+    border-color: Highlight;
+  }
+
+  .fk-node-socket[data-connected]:is([data-lane='value'], [data-lane='pixels'])
+    .fk-node-socket__glyph {
+    background: Highlight;
+  }
+
+  /* System colours already separate the states; a mixed tint would not. */
+  .fk-node-socket[data-connected]:is([data-lane='element'], [data-lane='mask'])
+    .fk-node-socket__glyph,
+  .fk-node-socket[data-state='source']:is([data-lane='element'], [data-lane='mask'])
+    .fk-node-socket__glyph {
+    background: Canvas;
+  }
+
+  .fk-node-socket .fk-node-socket__glyph::after {
+    background: CanvasText;
+  }
+
+  .fk-node-socket[data-connected] .fk-node-socket__glyph::after {
+    background: Highlight;
+  }
+}

@@ -1,0 +1,104 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Row actions
+   The trailing 'i' then '+' pair for library rows, list rows, and
+   card headers. Fixed cells, so a column of rows stays aligned
+   whether or not each row has an 'i'.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-row-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+}
+
+.fk-row-actions__info,
+.fk-row-actions__add {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+
+.fk-row-actions[data-reserve] .fk-row-actions__info {
+  width: 16px;
+  height: 16px;
+}
+
+.fk-row-actions[data-reserve] .fk-row-actions__add {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── 'i' ── */
+
+.fk-row-info {
+  display: inline-grid;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  /* It explains on hover and focus; a click does nothing, so no hand cursor. */
+  cursor: default;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-xs);
+  transition:
+    color var(--fk-duration-fast) var(--fk-ease),
+    background var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-row-info svg {
+  width: 12px;
+  height: 12px;
+}
+
+.fk-row-info:hover,
+.fk-row-info[aria-expanded='true'] {
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control-hover);
+}
+
+.fk-row-info:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 1px;
+}
+
+/* ── '+' — the sidebar section-action size on the kit's ghost button ── */
+
+.fk-button.fk-row-add {
+  --fk-button-height: 20px;
+  --fk-button-icon: 12px;
+
+  flex: none;
+  color: var(--fk-text-tertiary);
+  border-radius: var(--fk-radius-xs);
+}
+
+.fk-button.fk-row-add:hover:not(:disabled) {
+  color: var(--fk-text-primary);
+}
+
+.fk-button.fk-row-add[aria-expanded='true'] {
+  color: var(--fk-accent-text);
+  background: var(--fk-bg-control-active);
+}
+
+.fk-button.fk-row-add:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-row-info {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-row-info:focus-visible,
+  .fk-button.fk-row-add:focus-visible {
+    outline: 1px solid Highlight;
+  }
+}

@@ -11,6 +11,7 @@
    tag.css first: the shared micro-label recipe other components compose. */
 @import './components/tag.css';
 @import './components/button.css';
+@import './components/chip.css';
 @import './components/loader.css';
 @import './components/drop-zone.css';
 @import './components/segmented-switch.css';
@@ -18,6 +19,7 @@
 @import './components/checks-and-radios.css';
 @import './components/toggle.css';
 @import './components/layer-row.css';
+@import './components/row-actions.css';
 @import './components/frame.css';
 @import './components/sidebar.css';
 @import './components/easing-graph.css';
@@ -32,6 +34,8 @@
 @import './components/perspective-grid.css';
 @import './components/value-graph.css';
 @import './components/node-canvas.css';
+@import './components/node-socket.css';
+@import './components/node-row.css';
 @import './components/axis-field.css';
 @import './components/direction-pad.css';
 @import './components/keyframe-lane.css';

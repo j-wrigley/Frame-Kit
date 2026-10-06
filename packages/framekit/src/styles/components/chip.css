@@ -1,0 +1,75 @@
+/* Chip — a small bordered button for one word or token. Action chips insert
+   or pick; toggle chips (aria-pressed) state their pressed state in the
+   accent, so "on" reads without a second control. */
+
+.fk-chip {
+  --fk-chip-height: 18px;
+
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  height: var(--fk-chip-height);
+  box-sizing: border-box;
+  padding: 0 6px;
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-xs);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease),
+    color var(--fk-duration-fast) var(--fk-ease);
+}
+
+/* The label truncates, not the button: text-overflow has no effect on the
+   flex container's own text, and centring would clip both ends. The block
+   padding keeps descenders and braces clear of the clip without moving the
+   text (a taller line-height would shift it by a pixel). */
+.fk-chip__label {
+  min-width: 0;
+  padding-block: 0.125em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fk-chip--md {
+  --fk-chip-height: 24px;
+
+  padding: 0 7px;
+}
+
+.fk-chip--mono {
+  font-family: var(--fk-font-mono);
+  font-weight: var(--fk-fw-regular);
+}
+
+.fk-chip:hover:not(:disabled) {
+  color: var(--fk-text-primary);
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-chip[aria-pressed='true'] {
+  color: var(--fk-accent-text);
+  background: var(--fk-accent-subtle);
+  border-color: var(--fk-accent-muted);
+}
+
+.fk-chip:focus-visible {
+  outline: var(--fk-focus-outline);
+  outline-offset: 1px;
+}
+
+.fk-chip:disabled {
+  cursor: default;
+  opacity: 0.5;
+}

@@ -8241,6 +8241,595 @@ body {
   }
 }
 
+/* ── Node socket page ── */
+
+.node-socket-matrix__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fk-space-3);
+}
+
+.node-socket-matrix {
+  overflow-x: auto;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+}
+
+.node-socket-matrix table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.node-socket-matrix th,
+.node-socket-matrix td {
+  padding: var(--fk-space-3) var(--fk-space-2);
+  text-align: center;
+  border-bottom: 1px solid var(--fk-border-subtle);
+}
+
+.node-socket-matrix tr:last-child > * {
+  border-bottom: 0;
+}
+
+.node-socket-matrix thead th {
+  padding-block: var(--fk-space-2);
+  white-space: nowrap;
+}
+
+.node-socket-matrix thead th:first-child {
+  padding-left: var(--fk-space-3);
+  text-align: left;
+}
+
+.node-socket-matrix tbody th {
+  min-width: 132px;
+  padding-left: var(--fk-space-3);
+  text-align: left;
+}
+
+.node-socket-matrix__lane {
+  display: grid;
+  gap: 2px;
+}
+
+.node-socket-matrix tbody th strong {
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+}
+
+.node-socket-matrix tbody th span {
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-regular);
+  line-height: 1.35;
+}
+
+.node-socket-matrix__cell {
+  display: inline-grid;
+  place-items: center;
+}
+
+/* CSS zoom re-lays the glyph out at size, so a magnified socket stays crisp. */
+.node-socket-matrix[data-scale='3'] .node-socket-matrix__cell {
+  zoom: 3;
+}
+
+.node-socket-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--fk-space-3);
+}
+
+.node-socket-buttons__item {
+  display: grid;
+  justify-items: center;
+  gap: var(--fk-space-1);
+  padding: var(--fk-space-4) var(--fk-space-2) var(--fk-space-3);
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+}
+
+.node-socket-buttons__state {
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-regular);
+}
+
+.node-socket-zoom {
+  display: grid;
+  place-items: center;
+  height: 132px;
+  overflow: hidden;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+}
+
+.node-socket-zoom__workspace {
+  display: flex;
+  gap: 32px;
+  transform-origin: center;
+  transition: transform var(--fk-duration) var(--fk-ease);
+}
+
+/* Shows the hit pad around each glyph. */
+.node-socket-zoom__socket {
+  outline: 1px dashed var(--fk-border-strong);
+}
+
+.node-socket-zoom__readout {
+  margin: 0;
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-size: var(--fk-fs-0);
+}
+
+/* ── Node row page ──
+   The card shell below is a demo composition: in a product the canvas
+   owns its cards. Only the rows, sockets, and row actions are kit parts. */
+
+.docs-patch {
+  max-height: 560px;
+  overflow: auto;
+  background-color: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+  scrollbar-color: var(--fk-border-control-hover) transparent;
+}
+
+.docs-patch__sizer {
+  position: relative;
+  margin-inline: auto;
+}
+
+.docs-patch__workspace {
+  position: relative;
+  background-image:
+    linear-gradient(var(--fk-border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fk-border-subtle) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: 24px 24px;
+  transform-origin: 0 0;
+}
+
+.docs-patch__wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.docs-patch__wires path {
+  fill: none;
+  stroke: var(--fk-accent);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.docs-node {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  color: var(--fk-text-secondary);
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control-hover);
+  border-radius: var(--fk-radius-sm);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 12%);
+}
+
+.docs-node__header {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+  gap: 6px;
+  padding: 0 4px 0 4px;
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-surface);
+  border-bottom: 1px solid var(--fk-border-subtle);
+  border-radius: var(--fk-radius-sm) var(--fk-radius-sm) 0 0;
+}
+
+.docs-node > .docs-node__header:last-child {
+  border-bottom: 0;
+  border-radius: var(--fk-radius-sm);
+}
+
+.docs-node__fold {
+  display: inline-grid;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+  padding: 0;
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fk-radius-xs);
+}
+
+.docs-node__fold:hover {
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control-hover);
+}
+
+.docs-node__fold svg {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+.docs-node__fold[aria-expanded='true'] svg,
+.docs-node__fold--static svg {
+  transform: rotate(90deg);
+}
+
+.docs-node__fold--static {
+  cursor: default;
+}
+
+.docs-node__icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  color: var(--fk-text-tertiary);
+}
+
+.docs-node__icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.docs-node__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-node__record {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+}
+
+.docs-node__record::before {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+  box-sizing: border-box;
+  content: '';
+  border: 1.5px solid var(--fk-text-tertiary);
+  border-radius: 50%;
+}
+
+.docs-node__record:hover::before {
+  border-color: var(--fk-text-secondary);
+}
+
+.docs-node--header-only {
+  width: 256px;
+}
+
+.docs-node-source,
+.docs-node-file {
+  overflow: hidden;
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-node-source {
+  color: var(--fk-text-secondary);
+  font-size: var(--fk-fs-0);
+}
+
+.fk-node-row__control > .docs-node-fixed,
+.fk-node-row__control > .docs-node-driver {
+  flex: 0 0 auto;
+}
+
+.fk-node-row__control > .docs-node-field {
+  flex: 0 0 56px;
+}
+
+.docs-node-driver {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--fk-accent-text);
+  font-size: var(--fk-fs-0);
+  white-space: nowrap;
+}
+
+/* A list input's contents (a mask's shapes): boxed items, with the
+   count at the end of the label line. */
+.docs-node-list-row .fk-node-row__label-text {
+  flex: 1 1 auto;
+}
+
+.docs-node-list__label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.docs-node-list__count {
+  margin-left: auto;
+  color: var(--fk-text-tertiary);
+  font-family: var(--fk-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.docs-node-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-node-list > li {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 20px;
+  gap: 6px;
+  padding: 1px 1px 1px 8px;
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-0);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+}
+
+.docs-node-list > li > span {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-node-list__eye.fk-button {
+  --fk-button-height: 20px;
+  --fk-button-icon: 12px;
+
+  flex: none;
+  color: var(--fk-text-tertiary);
+}
+
+/* A group heading inside a card body (Screen, Colour, Paper): the Tag with
+   a subtle rule above, shown only when two or more groups are visible. */
+.docs-node-group {
+  margin: 2px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--fk-border-subtle);
+}
+
+/* A read-only value on a row, such as an image's media name. */
+.docs-node-readout {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-node-states {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--fk-space-6);
+}
+
+.docs-node-states .docs-node {
+  flex: none;
+}
+
+.docs-node-states__legend {
+  display: grid;
+  gap: var(--fk-space-3);
+  margin: 0;
+}
+
+.docs-node-states__legend > div {
+  display: grid;
+  gap: 2px;
+}
+
+.docs-node-states__legend dd {
+  margin: 0;
+  color: var(--fk-text-secondary);
+  font-size: var(--fk-fs-1);
+  line-height: 1.45;
+}
+
+.docs-node-gutter {
+  align-items: flex-start;
+}
+
+/* The '+' menu: sections of toggles, then Show all / Essentials. */
+.docs-add-menu {
+  --fk-popover-width: 220px;
+}
+
+.docs-add-menu__section {
+  display: grid;
+  gap: 1px;
+}
+
+/* One section per settings group in a card's '+' menu. */
+.docs-add-menu__section + .docs-add-menu__section {
+  margin-top: var(--fk-space-2);
+}
+
+.docs-add-menu__heading {
+  padding: 2px 6px 6px;
+}
+
+.docs-add-menu__item.fk-button {
+  justify-content: flex-start;
+  color: var(--fk-text-secondary);
+}
+
+.docs-add-menu__item.fk-button:hover:not(:disabled) {
+  color: var(--fk-text-primary);
+}
+
+.docs-add-menu__spacer {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+.docs-add-menu__footer {
+  display: flex;
+  gap: 4px;
+  margin-top: var(--fk-space-2);
+  padding-top: var(--fk-space-2);
+  border-top: 1px solid var(--fk-border-subtle);
+}
+
+/* The node explanation in the 'i' hover card. */
+.docs-node-info {
+  display: grid;
+  gap: var(--fk-space-2);
+}
+
+.docs-node-info__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--fk-space-2);
+}
+
+.docs-node-info__icon {
+  display: inline-grid;
+  color: var(--fk-text-tertiary);
+}
+
+.docs-node-info__icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.docs-node-info__head strong {
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-2);
+  font-weight: var(--fk-fw-medium);
+}
+
+.docs-node-info__summary {
+  margin: 0;
+  padding-bottom: var(--fk-space-2);
+  color: var(--fk-text-secondary);
+  font-size: var(--fk-fs-1);
+  line-height: 1.45;
+  border-bottom: 1px solid var(--fk-border-subtle);
+}
+
+.docs-node-info__facts {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.docs-node-info__facts > div {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--fk-space-2);
+}
+
+.docs-node-info__facts dd {
+  margin: 0;
+  color: var(--fk-text-primary);
+  font-size: var(--fk-fs-0);
+  line-height: 1.4;
+}
+
+.docs-node-info__tip {
+  margin: 0;
+  color: var(--fk-text-tertiary);
+  font-size: var(--fk-fs-0);
+  line-height: 1.4;
+}
+
+/* ── Row actions page ── */
+
+.docs-library {
+  display: grid;
+  width: min(100%, 240px);
+  gap: 2px;
+  padding: 6px;
+  background: var(--fk-bg-raised);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-md);
+}
+
+.docs-library__group {
+  padding: 5px 6px 3px;
+}
+
+.docs-library__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px;
+}
+
+.docs-library__item.fk-button {
+  justify-content: flex-start;
+  padding-inline: 3px 6px;
+  color: var(--fk-text-secondary);
+}
+
+.docs-library__item.fk-button:hover {
+  color: var(--fk-text-primary);
+}
+
+.docs-header-samples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fk-space-4);
+}
+
+@media (max-width: 640px) {
+  .node-socket-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .docs-node-states {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node-socket-zoom__workspace,
+  .docs-node__fold svg {
+    transition: none;
+  }
+}
+
 /* ── Spec pages ──
    Formatted view of the AI-readable Markdown docs. Prose column tuned for
    reading; every surface, rule, and code chip comes from kit tokens so the
@@ -8912,4 +9501,28 @@ body {
   .sbuild {
     min-height: 0;
   }
+}
+
+/* Chip page */
+.docs-chip-demo {
+  display: grid;
+  gap: 10px;
+  width: min(280px, 100%);
+}
+
+.docs-chip-run {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.docs-chip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-chip-row > .fk-input {
+  flex: 1 1 auto;
+  min-width: 0;
 }

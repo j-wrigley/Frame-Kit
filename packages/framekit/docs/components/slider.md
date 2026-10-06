@@ -34,26 +34,28 @@ the native, stable interaction.
 
 ## Props
 
-| Prop                   | Type                        | Default           | Description                                              |
-| ---------------------- | --------------------------- | ----------------- | -------------------------------------------------------- |
-| `value`                | `number`                    | —                 | Current controlled value.                                |
-| `onValueChange`        | `(value: number) => void`   | —                 | Receives the next numeric value.                         |
-| `min` / `max` / `step` | `number`                    | `0` / `100` / `1` | Native range bounds and increment.                       |
-| `label`                | `ReactNode`                 | —                 | Visible property label. Provide `aria-label` if omitted. |
-| `size`                 | `'sm' \| 'md' \| 'lg'`      | `'md'`            | Compact, standard, or prominent control size.            |
-| `showValue`            | `boolean`                   | `true`            | Shows the formatted value in the header.                 |
-| `formatValue`          | `(value: number) => string` | `String`          | Formats the visual and accessible value.                 |
+| Prop                   | Type                        | Default           | Description                                                                                                             |
+| ---------------------- | --------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `value`                | `number`                    | —                 | Current controlled value.                                                                                               |
+| `onValueChange`        | `(value: number) => void`   | —                 | Receives the next numeric value.                                                                                        |
+| `min` / `max` / `step` | `number`                    | `0` / `100` / `1` | Native range bounds and increment.                                                                                      |
+| `label`                | `ReactNode`                 | —                 | Visible property label. Provide `aria-label` if omitted.                                                                |
+| `size`                 | `'sm' \| 'md' \| 'lg'`      | `'md'`            | Compact, standard, or prominent control size.                                                                           |
+| `showValue`            | `boolean`                   | `true`            | Shows the formatted value in the header.                                                                                |
+| `formatValue`          | `(value: number) => string` | `String`          | Formats the visual and accessible value.                                                                                |
+| `track`                | `string`                    | —                 | A CSS background painted along the whole track (a scale such as cool → warm or a hue ring) in place of the accent fill. |
 
 Forwards standard native input attributes to the range input. `className` applies to the root.
 
 ## Tokens used
 
-| Token                    | Role                           |
-| ------------------------ | ------------------------------ |
-| `--fk-accent`            | Filled track and thumb border. |
-| `--fk-bg-control-active` | Unfilled track.                |
-| `--fk-bg-raised`         | Resting thumb fill.            |
-| `--fk-focus-outline`     | Keyboard focus indicator.      |
+| Token                    | Role                                 |
+| ------------------------ | ------------------------------------ |
+| `--fk-accent`            | Filled track and thumb border.       |
+| `--fk-bg-control-active` | Unfilled track.                      |
+| `--fk-bg-raised`         | Resting thumb fill.                  |
+| `--fk-focus-outline`     | Keyboard focus indicator.            |
+| `--fk-slider-track`      | The `track` scale (set by the prop). |
 
 ## Keyboard & accessibility
 
@@ -73,6 +75,22 @@ Forwards standard native input attributes to the range input. `className` applie
   formatValue={(value) => `${value}%`}
 />
 ```
+
+## Scale track
+
+```tsx
+<Slider
+  label="Temperature"
+  value={warmth}
+  min={-100}
+  max={100}
+  onValueChange={setWarmth}
+  track="linear-gradient(90deg, #5b8def, var(--fk-bg-control-active) 50%, #f0a33c)"
+/>
+```
+
+Use a scale only when the colours are the meaning (temperature, hue, opacity);
+an ordinary amount keeps the accent fill.
 
 ## Do / Don't
 

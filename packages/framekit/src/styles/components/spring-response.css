@@ -118,6 +118,13 @@
   font-size: 7px;
 }
 
+/* Without the axis labels the canvas is the plot plus its margins, at any
+   density: the box matches the shorter viewBox, so the plot fills its width
+   instead of letterboxing inside a taller box. */
+.fk-spring-response.fk-spring-response--no-axis .fk-spring-response__canvas {
+  aspect-ratio: 360 / 148;
+}
+
 .fk-spring-response--readonly {
   opacity: 0.72;
 }

@@ -5,6 +5,7 @@ import type { PageId } from './nav';
  *  `components/`, foundation references at the docs root. */
 const COMPONENT_SPECS: Partial<Record<PageId, string>> = {
   buttons: 'button',
+  chip: 'chip',
   loader: 'loader',
   'drop-zone': 'drop-zone',
   inputs: 'input',
@@ -19,6 +20,7 @@ const COMPONENT_SPECS: Partial<Record<PageId, string>> = {
   'checks-radios': 'checks-and-radios',
   'toggle-rows': 'toggle',
   'layer-rows': 'layer-row',
+  'row-actions': 'row-actions',
   frames: 'frame',
   sidebar: 'sidebar',
   dropdowns: 'dropdown',
@@ -40,6 +42,8 @@ const COMPONENT_SPECS: Partial<Record<PageId, string>> = {
   'perspective-transform': 'perspective-grid',
   'value-graph': 'value-graph',
   'node-canvas': 'node-canvas',
+  'node-socket': 'node-socket',
+  'node-row': 'node-row',
   'axis-field': 'axis-field',
   'direction-pad': 'direction-pad',
   'keyframe-lane': 'keyframe-lane',
