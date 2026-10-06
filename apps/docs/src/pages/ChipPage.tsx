@@ -49,9 +49,10 @@ export function ChipPage() {
 
       <Section title="Toggle chips">
         <p className="section-intro">
-          With <code>pressed</code> a chip is a one-word mode beside the field it governs; pressed
-          reads in the accent. <code>size=&quot;md&quot;</code> matches the 24px controls in the
-          row.
+          With <code>pressed</code> a chip is a one-word mode beside the field it governs. Pressed
+          is on: a solid accent fill, like a Toggle that is on, so it reads at a glance in any
+          accent. Unpressed stays the quiet bordered chip. <code>size=&quot;md&quot;</code> matches
+          the 24px controls in the row.
         </p>
         <div className="demo">
           <div className="docs-chip-demo">

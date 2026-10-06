@@ -42,9 +42,39 @@ is its true centre even inside a `scale(zoom)` workspace. Measure wire anchors t
   card's 1px border would otherwise put every anchor a pixel high).
 - **x**: take it from the card edge, not from the DOM. Edge sockets are centred on the 1px
   border, half a pixel inside the card's box (`left + 0.5`, `right − 0.5`), and `offsetLeft`
-  rounds that half pixel away. On a zoomed-out canvas (`--fk-node-socket-zoom` below 0.875) the
-  grown socket sits further out by `(grow − 1) × 5.5px`, where
-  `grow = clamp(1, 0.875 / zoom, 2.5)`: move the wire end out by the same amount.
+  rounds that half pixel away. This holds at every zoom: a zoomed-out socket grows in place, so
+  the wire end never moves off the edge.
+
+### Zoomed out
+
+On a canvas that sets `--fk-node-socket-zoom`, each socket glyph grows to keep 7px on screen
+([NodeSocket](./node-socket.md)). Its centre stays on the edge, so the row makes room on the
+label side: `NodeRows` adds `--fk-node-row-socket-room` to its inline padding (both sides in
+`edge` placement, the gutter in `gutter` placement) and moves each socket slot out by the same
+amount. The glyph, its 1.5px gap and its hover or hint ring then end at least 2px (on screen)
+before the first label or readout.
+
+| Zoom       | `grow`             | Room on each side | Label starts (from socket centre) | Ring-to-label gap on screen |
+| ---------- | ------------------ | ----------------- | --------------------------------- | --------------------------- |
+| 76% and up | 1 to 1.16          | 0                 | 10.5px                            | 2px or more                 |
+| 60%        | 1.46               | 2.35px            | 12.85px                           | 2px                         |
+| 40%        | 2.19               | 8.03px            | 18.53px                           | 2px                         |
+| 35%        | 2.5 (growth stops) | 10.46px           | 20.96px                           | 2px                         |
+
+`room = max(0, grow × (5.5px + 2px / 0.875) + 1.5px − inset)`, with
+`grow = clamp(1, 0.875 / zoom, 2.5)` and `inset` 10.5px (`edge`) or 13px (`gutter`). Without a
+zoom the room is 0.
+
+The card keeps its width and its height. The label and control columns give up the room, so keep
+controls in them, and in rows with sockets, at a height that does not depend on their width (the
+24px controls and line-counted text areas do). A row without sockets has nothing to make room
+for, so its full-width line keeps its 100% box: the control of an unlabelled row (a curve, a
+preview strip) and the control line of a `wide` row (a palette, a run of chips) reach back over
+the room with negative inline margins, so they never reflow as the canvas zooms. A socket's ring
+stays at least 2px (on screen) clear of those boxes down to 40%. Rows with sockets never reach
+back: they can be drop targets, and the drop outline follows the row box. The trailing side's
+share is `--fk-node-row-socket-room-end`: the room in `edge` placement, and in `gutter` placement
+only when a row has an output.
 
 ### Placement
 

@@ -207,9 +207,9 @@ export function NodeSocketPage() {
         <p className="section-note">
           Sockets are centred by layout, never by transform, so an application can measure a
           socket&apos;s centre with offsetTop and offsetHeight even inside a scaled workspace. In a
-          NodeRow a grown socket moves outward by what it grew ((grow − 1) × 5.5px), so its glyph
-          and ring never reach further into the card than at 100% and the row&apos;s label keeps its
-          clearance.
+          NodeRow a grown socket stays centred on the card edge at every zoom, so wires always land
+          on it; the row makes room on its label side instead, and labels keep at least 2px of clear
+          space on screen.
         </p>
       </Section>
 

@@ -32,21 +32,24 @@ root is the hit pad: a square sized by the inherited `--fk-node-socket-hit` cust
 Set two properties once, on the workspace that is scaled: `--fk-node-socket-zoom` (the canvas
 scale) and the hit pad rule `--fk-node-socket-hit: max(12px, calc(16px / var(--zoom)))`.
 
-| Zoom | Glyph on the card | Glyph on screen | Hit pad on the card | Hit pad on screen | `NodeRow` slot outset |
-| ---- | ----------------- | --------------- | ------------------- | ----------------- | --------------------- |
-| 200% | 8px               | 16px            | 12px                | 24px              | 0                     |
-| 100% | 8px               | 8px             | 16px                | 16px              | 0                     |
-| 40%  | 17.5px            | 7px             | 40px                | 16px              | 6.53px                |
+| Zoom | Glyph on the card | Glyph on screen | Hit pad on the card | Hit pad on screen | Socket centre      | `NodeRow` label room | Ring-to-label gap on screen |
+| ---- | ----------------- | --------------- | ------------------- | ----------------- | ------------------ | -------------------- | --------------------------- |
+| 200% | 8px               | 16px            | 12px                | 24px              | On the card border | 0                    | 7px                         |
+| 100% | 8px               | 8px             | 16px                | 16px              | On the card border | 0                    | 3.5px                       |
+| 40%  | 17.5px            | 7px             | 40px                | 16px              | On the card border | 8.03px               | 2px                         |
 
 - The glyph never draws smaller than **7px on screen**, so the four lane shapes stay readable when
   zoomed out. One growth factor scales the stroke, the inner mark and the state ring with it, so a
   zoomed-out socket is the 100% socket drawn smaller, never a thinner one. The 1.5px gap between
   the glyph and its ring does not grow. Growth stops at 2.5× (below 35% zoom the glyph shrinks
   rather than collide with the next row).
-- In a [NodeRow](./node-row.md) the grown socket moves **outward**, by what its half and its ring
-  grew: `(grow − 1) × 5.5px`. Its footprint inside the card never changes (glyph and ring end
-  7px inside the edge at every zoom), so it never crowds the row's label. Draw a wire's end to the
-  socket centre, moved out by the same amount.
+- In a [NodeRow](./node-row.md) the socket's centre **never moves**: it stays on the card border
+  (or in the gutter) at every zoom, so a wire drawn to the edge always lands on the glyph. The row
+  makes room on its **label side** instead: zoomed out, the body's inline padding grows by
+  `--fk-node-row-socket-room`, so the glyph and its hover or hint ring keep at least 2px of clear
+  space on screen before any label or readout. The card keeps its width and height: its label
+  and control columns give up the room, and a row without sockets (a graph, a wide row's
+  palette) keeps its full-width line at its 100% box.
 - Without `--fk-node-socket-zoom` the glyph is a fixed 8px, as on a sidebar or properties list,
   and nothing moves.
 
@@ -97,12 +100,12 @@ defaults to `type="button"`. A `span` socket is `aria-hidden` unless you give it
 
 ### Custom properties
 
-| Property                   | Default          | Set it on                | Purpose                                                                                                |
-| -------------------------- | ---------------- | ------------------------ | ------------------------------------------------------------------------------------------------------ |
-| `--fk-node-socket-zoom`    | `1`              | The scaled workspace     | The canvas zoom. Grows the glyph so it never draws below 7px on screen (and moves a row's socket out). |
-| `--fk-node-socket-hit`     | `12px`           | Any ancestor (inherited) | Hit pad size. A zoomable canvas can set `max(12px, calc(16px / var(--zoom)))` once on its workspace.   |
-| `--fk-node-socket-surface` | `--fk-bg-raised` | Any ancestor (inherited) | Fill behind an open glyph and the gap inside its ring. Match the surface the socket sits on.           |
-| `--fk-node-socket-ring`    | `transparent`    | The socket itself        | State ring colour. With `color`, lets a parent target light a `span` socket from its own `:hover`.     |
+| Property                   | Default          | Set it on                | Purpose                                                                                              |
+| -------------------------- | ---------------- | ------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `--fk-node-socket-zoom`    | `1`              | The scaled workspace     | The canvas zoom. Grows the glyph so it never draws below 7px on screen (and a row's label room).     |
+| `--fk-node-socket-hit`     | `12px`           | Any ancestor (inherited) | Hit pad size. A zoomable canvas can set `max(12px, calc(16px / var(--zoom)))` once on its workspace. |
+| `--fk-node-socket-surface` | `--fk-bg-raised` | Any ancestor (inherited) | Fill behind an open glyph and the gap inside its ring. Match the surface the socket sits on.         |
+| `--fk-node-socket-ring`    | `transparent`    | The socket itself        | State ring colour. With `color`, lets a parent target light a `span` socket from its own `:hover`.   |
 
 A `span` socket inside a larger target (a legacy port button, a whole row) does not see that
 target's hover. Light it from the target instead:

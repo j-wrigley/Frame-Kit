@@ -33,6 +33,20 @@ Renders one `<button class="fk-chip fk-chip--sm">` around a
 `fk-chip--mono` the code face. A toggle chip carries `aria-pressed`, which is
 also its styling hook.
 
+## States
+
+| State           | Appearance                                                                                     |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| Resting         | Quiet bordered chip: control fill, control border, secondary text.                             |
+| Hover           | Primary text, accent-wash border.                                                              |
+| Pressed (on)    | Solid accent fill and border, on-accent text — the same "on" as a Toggle. Reads in any accent. |
+| Pressed + hover | `--fk-accent-hover` fill; `:active` deepens to `--fk-accent-active`.                           |
+| Focus           | Kit focus outline, 1px outside the chip.                                                       |
+| Disabled        | 50% opacity, either state; a pressed chip still reads as on.                                   |
+
+Pressed text is AA on every preset accent in both themes (5.0:1 at the lowest,
+blue and amber; 10.4:1 graphite light, 13.3:1 graphite dark).
+
 ## Props
 
 | Prop      | Type           | Default | Description                                                              |
@@ -46,16 +60,17 @@ Forwards `ref`; spreads native button attributes (`onClick`, `disabled`,
 
 ## Tokens used
 
-| Token                       | Role           |
-| --------------------------- | -------------- |
-| `--fk-bg-control`           | Resting fill   |
-| `--fk-border-control`       | Resting border |
-| `--fk-border-control-hover` | Hover border   |
-| `--fk-text-secondary`       | Resting text   |
-| `--fk-accent-subtle`        | Pressed fill   |
-| `--fk-accent-muted`         | Pressed border |
-| `--fk-accent-text`          | Pressed text   |
-| `--fk-focus-outline`        | Keyboard focus |
+| Token                       | Role                    |
+| --------------------------- | ----------------------- |
+| `--fk-bg-control`           | Resting fill            |
+| `--fk-border-control`       | Resting border          |
+| `--fk-border-control-hover` | Hover border            |
+| `--fk-text-secondary`       | Resting text            |
+| `--fk-accent`               | Pressed fill and border |
+| `--fk-accent-hover`         | Pressed hover           |
+| `--fk-accent-active`        | Pressed active          |
+| `--fk-text-on-accent`       | Pressed text            |
+| `--fk-focus-outline`        | Keyboard focus          |
 
 ## Keyboard & accessibility
 
@@ -89,4 +104,6 @@ import { Chip } from '@presentstandards/framekit-ui';
 - **Do** keep a chip to one word or one token.
 - **Do** use `size="md"` beside 24px controls so the row's heights agree.
 - **Don't** use a chip as the only way to reach a command — it is a shortcut.
+- **Do** keep pressed for "on". A pressed chip is the solid accent, the
+  strongest mark in a row, so reserve it for a mode that is actually on.
 - **Don't** colour a chip by meaning; the accent marks pressed, nothing else.

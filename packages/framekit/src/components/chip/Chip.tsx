@@ -15,7 +15,7 @@ export interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 /** A small bordered button for one short word or token: a placeholder that
  *  inserts itself, or a one-word mode such as Auto that toggles. Lighter
- *  than a Button, and it states its pressed state in the accent. Forwards
+ *  than a Button; pressed, it fills solid in the accent. Forwards
  *  its ref and spreads rest props onto the <button>. */
 export const Chip = forwardRef<HTMLButtonElement, ChipProps>(function Chip(
   { pressed, mono = false, size = 'sm', type = 'button', className, children, ...props },

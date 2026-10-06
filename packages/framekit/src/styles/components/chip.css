@@ -1,6 +1,6 @@
 /* Chip — a small bordered button for one word or token. Action chips insert
-   or pick; toggle chips (aria-pressed) state their pressed state in the
-   accent, so "on" reads without a second control. */
+   or pick; toggle chips (aria-pressed) fill solid in the accent when pressed,
+   so "on" reads at a glance without a second control. */
 
 .fk-chip {
   --fk-chip-height: 18px;
@@ -58,10 +58,26 @@
   border-color: var(--fk-border-control-hover);
 }
 
+/* Pressed is ON: the solid accent with on-accent text, as a Toggle that is
+   on — not a tint, which the grey default accent (graphite) washed out until
+   pressed and unpressed looked alike. Unpressed stays the quiet bordered
+   chip. Declared after the resting hover, and as specific, so hovering a
+   pressed chip deepens the fill instead of greying its text. */
 .fk-chip[aria-pressed='true'] {
-  color: var(--fk-accent-text);
-  background: var(--fk-accent-subtle);
-  border-color: var(--fk-accent-muted);
+  color: var(--fk-text-on-accent);
+  background: var(--fk-accent);
+  border-color: var(--fk-accent);
+}
+
+.fk-chip[aria-pressed='true']:hover:not(:disabled) {
+  color: var(--fk-text-on-accent);
+  background: var(--fk-accent-hover);
+  border-color: var(--fk-accent-hover);
+}
+
+.fk-chip[aria-pressed='true']:active:not(:disabled) {
+  background: var(--fk-accent-active);
+  border-color: var(--fk-accent-active);
 }
 
 .fk-chip:focus-visible {
@@ -72,4 +88,13 @@
 .fk-chip:disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+@media (forced-colors: active) {
+  .fk-chip[aria-pressed='true'] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background: Highlight;
+    border-color: Highlight;
+  }
 }

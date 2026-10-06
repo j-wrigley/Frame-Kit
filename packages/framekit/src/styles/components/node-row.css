@@ -5,6 +5,23 @@
    rows: 24px sm controls and 6px gaps.
    ───────────────────────────────────────────────────────────── */
 
+/* Zoomed-out room for the sockets. A zoomable canvas grows each socket
+   glyph to a 7px on-screen minimum (node-socket.css). The socket's centre
+   never moves — it stays on the card edge (or in the gutter) at every zoom,
+   as at 100% — so the room comes from the LABEL side: the body's inline
+   padding, and the sockets' offset with it, grow by --fk-node-row-socket-room.
+   Reach is how far from the socket centre text may start: the grown glyph
+   half (4px) and state ring (1.5px), the fixed 1.5px gap between them, and a
+   2px clearance kept on screen (2px / zoom of canvas, held at its 35% value
+   where growth stops). Room is what reach needs beyond the row's own
+   clearance (10.5px on the edge, 13px in the gutter): 0 from 76% up, 8.03px
+   of canvas at 40%. Same growth factor as NodeSocket; zero without a zoom. */
+.fk-node-rows,
+.fk-node-row {
+  --fk-node-row-socket-grow: clamp(1, calc(0.875 / var(--fk-node-socket-zoom, 1)), 2.5);
+  --fk-node-row-socket-reach: calc(var(--fk-node-row-socket-grow) * (5.5px + 2px / 0.875) + 1.5px);
+}
+
 /* The body grid. Rows are subgrids of it, so the longest visible label
    sizes the label column once for the whole card. */
 .fk-node-rows {
@@ -20,23 +37,39 @@
 
 /* Edge placement owns the card body padding: sockets are centred on the
    card's 1px border, 10px padding plus half the border outside each row.
-   A shell with a different border overrides --fk-node-row-socket-inset. */
+   A shell with a different border overrides --fk-node-row-socket-inset.
+   Zoomed out, both sides gain the socket room: the card keeps its width,
+   the label and control columns give up the room, and every label still
+   starts on one axis. A row without sockets takes the room back on its
+   full-width line (after the Wide rules below). */
 .fk-node-rows[data-placement='edge'] {
   --fk-node-row-socket-inset: 10.5px;
+  --fk-node-row-socket-room: max(
+    0px,
+    calc(var(--fk-node-row-socket-reach) - var(--fk-node-row-socket-inset))
+  );
+  --fk-node-row-socket-room-end: var(--fk-node-row-socket-room);
 
-  padding: 8px 10px 10px;
+  padding: 8px calc(10px + var(--fk-node-row-socket-room)) 10px;
 }
 
 /* Gutter placement reserves a 14px socket column (plus the 6px gap) on every
    row, socketed or not, so labels start on one axis down the list. */
 .fk-node-rows[data-placement='gutter'] {
   --fk-node-row-socket-inset: 13px;
+  --fk-node-row-socket-room: max(
+    0px,
+    calc(var(--fk-node-row-socket-reach) - var(--fk-node-row-socket-inset))
+  );
+  --fk-node-row-socket-room-end: 0px;
 
-  padding-left: 20px;
+  padding-left: calc(20px + var(--fk-node-row-socket-room));
 }
 
 .fk-node-rows[data-placement='gutter']:has(> .fk-node-row > .fk-node-row__socket--out) {
-  padding-right: 20px;
+  --fk-node-row-socket-room-end: var(--fk-node-row-socket-room);
+
+  padding-right: calc(20px + var(--fk-node-row-socket-room));
 }
 
 /* Group headings and hints span the body; rows join the shared columns. */
@@ -66,11 +99,14 @@
     outline-color var(--fk-duration-fast) var(--fk-ease);
 }
 
-/* A row used on its own in a gutter reserves the gutter itself. */
+/* A row used on its own in a gutter reserves the gutter itself: the socket
+   sits 7px in, the label 13px beyond it (plus any zoomed-out room). */
 .fk-node-row[data-placement='gutter']:not(.fk-node-rows > .fk-node-row) {
-  --fk-node-row-socket-inset: -7px;
+  --fk-node-row-socket-room: max(0px, calc(var(--fk-node-row-socket-reach) - 13px));
+  --fk-node-row-socket-room-end: 0px;
+  --fk-node-row-socket-inset: calc(-7px - var(--fk-node-row-socket-room));
 
-  padding-left: 20px;
+  padding-left: calc(20px + var(--fk-node-row-socket-room));
 }
 
 .fk-node-row__label {
@@ -167,6 +203,21 @@
   grid-column: 1 / -1;
 }
 
+/* Zoomed out, a row without sockets has nothing to make room for, so its
+   full-width line keeps its 100% box: an unlabelled row's control (a curve,
+   a preview strip) and a wide row's control line (a palette, a run of chips)
+   reach back over the socket room; a wide row's label stays on the label
+   axis. A graph or wrapping run sized by its width never reflows, so the
+   card's height does not change with the zoom. Only socketless rows: a row
+   with a socket can be a drop target, and its outline follows the row box.
+   Diagonally, a socket's ring stays at least 2px (on screen) clear of these
+   boxes down to 40%. Zero room, zero margin. */
+.fk-node-row:not([data-labelled], :has(> .fk-node-row__socket)) > .fk-node-row__control,
+.fk-node-row[data-wide]:not(:has(> .fk-node-row__socket)) > .fk-node-row__control {
+  margin-inline: calc(-1 * var(--fk-node-row-socket-room, 0px))
+    calc(-1 * var(--fk-node-row-socket-room-end, 0px));
+}
+
 .fk-node-row__output-label,
 .fk-node-row__meta {
   flex: 0 1 auto;
@@ -206,21 +257,12 @@
 /* ── Sockets ──
    A zero-width slot on the edge (or gutter) centres the socket by layout,
    never by transform, so offsetTop + offsetHeight / 2 is the true centre
-   even inside a scale(zoom) workspace. */
+   even inside a scale(zoom) workspace. The slot sits the inset plus the
+   zoomed-out room outside the row — exactly what the body's padding grew
+   by — so its centre stays on the card edge at every zoom, and a wire drawn
+   to the edge lands on the glyph. */
 
 .fk-node-row__socket {
-  /* A zoomed-out canvas grows its socket glyphs to a 7px on-screen minimum
-     (node-socket.css). Grown around the slot, the glyph and its state ring
-     would reach into the label: at 40% the ring covered the first letter.
-     So the slot moves OUTWARD by exactly what the glyph's half (4px) and its
-     ring (1.5px) grew: the socket's footprint inside the card never changes —
-     glyph and ring end 7px in at every zoom, as at 100% — and the label keeps
-     its clearance. Same growth factor as NodeSocket; zero without a zoom. An
-     application that draws wires to the socket centre moves the end by the
-     same amount: (grow - 1) x 5.5px outward. */
-  --fk-node-row-socket-grow: clamp(1, calc(0.875 / var(--fk-node-socket-zoom, 1)), 2.5);
-  --fk-node-row-socket-outset: calc((var(--fk-node-row-socket-grow) - 1) * 5.5px);
-
   position: absolute;
   z-index: 1;
   top: 0;
@@ -232,11 +274,11 @@
 }
 
 .fk-node-row__socket--in {
-  left: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-outset));
+  left: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-room, 0px));
 }
 
 .fk-node-row__socket--out {
-  right: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-outset));
+  right: calc(-1 * var(--fk-node-row-socket-inset, 0px) - var(--fk-node-row-socket-room, 0px));
 }
 
 /* Tall and wide rows pin the label and sockets to the first 24px line. */

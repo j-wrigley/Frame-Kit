@@ -18,8 +18,9 @@
      ring stays put: it is a separator, not a mark, and growing it would push
      the ring further into the row's label. Capped at 2.5x: a canvas that
      zooms out further than 35% lets its sockets shrink rather than collide
-     with the next row. On a NodeRow the grown glyph also moves outward
-     (node-row.css), so it never crowds the label beside it. */
+     with the next row. On a NodeRow the socket's centre never moves (it stays
+     on the card edge); the row makes room on its label side instead
+     (node-row.css), so the grown glyph and ring never crowd the label. */
   --fk-node-socket-grow: clamp(1, calc(0.875 / var(--fk-node-socket-zoom, 1)), 2.5);
   --fk-node-socket-size: calc(8px * var(--fk-node-socket-grow));
   --fk-node-socket-stroke: calc(1.5px * var(--fk-node-socket-grow));

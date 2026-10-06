@@ -642,7 +642,8 @@ export function NodeRowPage() {
         <p className="section-intro">
           Sockets sit on the card&apos;s edge at the midline of their row, so the wire meets the
           setting it changes. Wire ends are measured from each socket&apos;s layout position, so
-          they land on the glyphs at every zoom. Fold a card and its wires meet the header; use the
+          they land on the glyphs at every zoom. Zoomed out, a socket grows in place on the edge and
+          the rows make room on their label side. Fold a card and its wires meet the header; use the
           header&apos;s <strong>+</strong> to show more settings, and hover the <strong>i</strong>{' '}
           for an explanation.
         </p>
