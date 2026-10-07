@@ -9,6 +9,8 @@ const COMPONENT_SPECS: Partial<Record<PageId, string>> = {
   loader: 'loader',
   'drop-zone': 'drop-zone',
   inputs: 'input',
+  combobox: 'combobox',
+  'field-note': 'field-note',
   stepper: 'stepper',
   slider: 'slider',
   'ruler-slider': 'ruler-slider',

@@ -268,6 +268,14 @@ export {
   type TextareaProps,
 } from './components/input';
 export {
+  Combobox,
+  type ComboboxFont,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSize,
+} from './components/combobox';
+export { FieldNote, type FieldNoteProps, type FieldNoteTone } from './components/field-note';
+export {
   Stepper,
   type StepperFont,
   type StepperProps,

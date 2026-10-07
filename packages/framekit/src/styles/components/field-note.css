@@ -1,0 +1,25 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Field note
+   One quiet line under a control row: the facts a setting produces, or
+   (danger) why it can't be done. One style, no icon, tabular figures so a
+   live number never shifts the line.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-field-note {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--fk-text-secondary);
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-0);
+  font-weight: var(--fk-fw-regular);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fk-field-note--danger {
+  color: var(--fk-danger-text);
+}

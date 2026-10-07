@@ -24,6 +24,8 @@ Inventory the complete relevant component catalogue rather than reaching for the
 | One-word token or mode beside a field          | `Chip`                                                                 | Action chips insert a token; `pressed` chips toggle a mode such as Auto.       |
 | Progress or processing feedback                | `Loader`                                                               | Match the loader to duration and context; do not replace determinate progress. |
 | Text, search, rename, number, or compose input | `Input`, `SearchField`, `InlineRename`, `NumberInput`, `InputComposer` | Choose the semantic input role, not a visual approximation.                    |
+| Typed value with common choices                | `Combobox`                                                             | Suggestions carry a description; the list never filters.                       |
+| One-line readout or reason under a control row | `FieldNote`                                                            | Facts joined with `·`; `danger` says why a row can't work.                     |
 | Bounded discrete number                        | `Stepper`                                                              | Use for explicit increment and decrement actions.                              |
 | Familiar continuous range                      | `Slider`                                                               | Prefer when a native range model is sufficient; `track` paints a colour scale. |
 | Measured continuous range                      | `RulerSlider`, `RulerReadout`                                          | Use visible ticks only when the scale adds meaning.                            |

@@ -20,6 +20,8 @@ export type PageId =
   | 'loader'
   | 'drop-zone'
   | 'inputs'
+  | 'combobox'
+  | 'field-note'
   | 'stepper'
   | 'slider'
   | 'ruler-slider'
@@ -127,6 +129,8 @@ export const NAV: NavSection[] = [
       { id: 'loader', label: 'Loader' },
       { id: 'drop-zone', label: 'Drop zone' },
       { id: 'inputs', label: 'Input' },
+      { id: 'combobox', label: 'Combobox' },
+      { id: 'field-note', label: 'Field note' },
       { id: 'stepper', label: 'Stepper' },
       { id: 'slider', label: 'Slider' },
       { id: 'ruler-slider', label: 'Ruler slider' },

@@ -16,8 +16,10 @@ import { tooltipEntry } from './tooltip';
 import { checkboxEntry } from './checkbox';
 import { chipEntry } from './chip';
 import { colorFieldEntry } from './color-field';
+import { comboboxEntry } from './combobox';
 import { dragValueEntry } from './drag-value';
 import { dropdownEntry } from './dropdown';
+import { fieldNoteEntry } from './field-note';
 import { inlineRenameEntry } from './inline-rename';
 import { inputEntry } from './input';
 import { numberInputEntry } from './number-input';
@@ -72,8 +74,10 @@ export const CATALOG: readonly CatalogEntry[] = [
   checkboxEntry,
   chipEntry,
   colorFieldEntry,
+  comboboxEntry,
   dragValueEntry,
   dropdownEntry,
+  fieldNoteEntry,
   inlineRenameEntry,
   inputEntry,
   numberInputEntry,

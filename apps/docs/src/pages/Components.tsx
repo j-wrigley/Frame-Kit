@@ -36,6 +36,20 @@ const SHIPPED = [
       'Dense labelled fields, search, textareas, number steppers, and compact compose flows.',
   },
   {
+    id: 'combobox',
+    name: 'Combobox',
+    status: 'stable',
+    description:
+      'An editable field with a suggestion list: type any value the tool can read, or pick one.',
+  },
+  {
+    id: 'field-note',
+    name: 'Field note',
+    status: 'stable',
+    description:
+      'One quiet line under a control row: the facts it produces, or why it cannot work.',
+  },
+  {
     id: 'stepper',
     name: 'Stepper',
     status: 'stable',

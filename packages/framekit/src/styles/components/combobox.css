@@ -1,0 +1,179 @@
+/* ─────────────────────────────────────────────────────────────
+   Frame Kit — Combobox
+   An editable field with a suggestion list. The field shares the Input
+   chrome; the list is the Dropdown listbox (.fk-dropdown__menu and
+   .fk-dropdown__option), so both read as one family. Focus never leaves
+   the field: options are aria-activedescendant targets, not buttons.
+   ───────────────────────────────────────────────────────────── */
+
+.fk-combobox {
+  --fk-combobox-height: 30px;
+
+  box-sizing: border-box;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  width: min(100%, 240px);
+  min-width: 0;
+  height: var(--fk-combobox-height);
+  color: var(--fk-text-primary);
+  background: var(--fk-bg-control);
+  border: 1px solid var(--fk-border-control);
+  border-radius: var(--fk-radius-sm);
+  transition:
+    background var(--fk-duration-fast) var(--fk-ease),
+    border-color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-combobox--sm {
+  --fk-combobox-height: 24px;
+}
+
+.fk-combobox--full {
+  display: grid;
+  width: 100%;
+}
+
+.fk-combobox:hover:not(.fk-combobox--disabled),
+.fk-combobox:focus-within,
+.fk-combobox[data-open] {
+  border-color: var(--fk-border-control-hover);
+}
+
+.fk-combobox__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: calc(var(--fk-combobox-height) - 2px);
+  padding: 0 0 0 var(--fk-space-3);
+  color: var(--fk-text-primary);
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-family: var(--fk-font-sans);
+  font-size: var(--fk-fs-1);
+  font-weight: var(--fk-fw-medium);
+  letter-spacing: 0;
+  line-height: 1;
+  text-overflow: ellipsis;
+}
+
+.fk-combobox--mono .fk-combobox__input {
+  font-family: var(--fk-font-mono);
+  font-weight: var(--fk-fw-regular);
+}
+
+.fk-combobox__input::placeholder {
+  color: var(--fk-text-tertiary);
+  opacity: 1;
+}
+
+.fk-combobox__input:focus {
+  outline: none;
+}
+
+.fk-combobox__toggle {
+  display: grid;
+  place-items: center;
+  height: calc(var(--fk-combobox-height) - 2px);
+  padding: 0 var(--fk-space-2) 0 var(--fk-space-1);
+  color: var(--fk-text-tertiary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0 var(--fk-radius-sm) var(--fk-radius-sm) 0;
+  transition: color var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-combobox__toggle:hover:not(:disabled) {
+  color: var(--fk-text-primary);
+}
+
+.fk-combobox__chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--fk-duration-fast) var(--fk-ease);
+}
+
+.fk-combobox[data-open] .fk-combobox__chevron {
+  color: var(--fk-accent-text);
+  transform: rotate(180deg);
+}
+
+/* Invalid: the danger border, at rest and while editing. Say why in a
+   FieldNote; colour alone never carries the message. */
+.fk-combobox--invalid,
+.fk-combobox--invalid:hover:not(.fk-combobox--disabled),
+.fk-combobox--invalid:focus-within,
+.fk-combobox--invalid[data-open] {
+  border-color: var(--fk-danger);
+}
+
+.fk-combobox--disabled {
+  cursor: not-allowed;
+}
+
+.fk-combobox--disabled .fk-combobox__input {
+  color: var(--fk-text-disabled);
+  cursor: inherit;
+}
+
+.fk-combobox__toggle:disabled {
+  color: var(--fk-text-disabled);
+  cursor: inherit;
+}
+
+/* The list may be wider than a narrow field, never narrower (minWidth is
+   the field's width): descriptions such as output sizes stay on one line. */
+.fk-combobox__menu {
+  max-width: calc(100vw - 24px);
+  max-height: min(320px, calc(100vh - 48px));
+  overflow-y: auto;
+}
+
+/* The committed value reads in the accent; the keyboard or pointer position
+   carries the fill, so the two never look the same. */
+.fk-combobox__option[aria-selected='true']:not([data-active]):not(:hover) {
+  background: transparent;
+}
+
+.fk-combobox__option[data-active] {
+  color: var(--fk-accent-text);
+  background: var(--fk-bg-control);
+}
+
+.fk-combobox__option[aria-disabled='true'],
+.fk-combobox__option[aria-disabled='true']:hover {
+  color: var(--fk-text-disabled);
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.fk-combobox__option[aria-disabled='true'] .fk-dropdown__option-description {
+  color: var(--fk-text-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fk-combobox,
+  .fk-combobox__toggle,
+  .fk-combobox__chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fk-combobox:focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .fk-combobox--invalid {
+    border-color: Mark;
+  }
+
+  .fk-combobox__option[data-active] {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

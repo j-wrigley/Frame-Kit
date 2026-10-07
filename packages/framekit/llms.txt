@@ -61,6 +61,16 @@ Start here when building UIs with this kit:
   and `align="end"` for measurements. `Textarea` is the multiline companion;
   `NumberInput` provides explicit application-owned step actions; `InputComposer`
   is a compact native submit form. Read `docs/components/input.md` before use.
+- Combobox: `Combobox` is an editable field with a suggestion list — type any
+  value the application can `parse` (`1.5x`, `1920w`) or choose a suggestion,
+  whose `description` can show what it makes (`3840×2160`). `onCommit(value,
+  text)` gets `null` for text that does not parse; the field keeps it, marked
+  invalid, until corrected or Escape. The list never filters. Read
+  `docs/components/combobox.md` before use.
+- Field note: `FieldNote` is one quiet line under a control row — terse facts
+  joined with ` · ` (`3840×2160 · HEVC · ~42 MB`) or, with `tone="danger"`, why
+  the row can't work. Link it to its control with `aria-describedby`. Read
+  `docs/components/field-note.md` before use.
 - Chip: `Chip` is a small bordered button for one word or token — an action
   chip that inserts itself (`mono` for tokens) or a toggle chip (`pressed`,
   e.g. Auto beside an index). Read `docs/components/chip.md` before use.

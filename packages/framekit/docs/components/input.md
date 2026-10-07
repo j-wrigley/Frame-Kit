@@ -21,6 +21,8 @@ import: import { InlineRename, Input, SearchField, Textarea, NumberInput, InputC
 
 - A fixed set of mutually exclusive values — use a Select or segmented control.
 - A binary setting — use a switch or checkbox.
+- A value with common choices that also accepts typed values — use [Combobox](./combobox.md).
+- A one-line readout or reason under a field — use [FieldNote](./field-note.md).
 - A destructive or irreversible confirmation — use a Button and confirmation flow.
 
 ## Components

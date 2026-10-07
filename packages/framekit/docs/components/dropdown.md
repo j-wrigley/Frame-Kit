@@ -23,6 +23,7 @@ import: import { Disclosure, Dropdown, NestedDropdown } from '@presentstandards/
 - Use `SegmentedSwitch` when there are only two to four short, equal modes.
 - Use `RadioGroup` when all choices need to remain visible with descriptions.
 - Do not put a long form or multi-step task inside `NestedDropdown`.
+- Use [Combobox](./combobox.md) when a typed value is valid too (`1.5x`, `1920w`).
 
 ## `Dropdown`
 
@@ -62,14 +63,14 @@ Compose its children from Frame Kit controls such as `SegmentedSwitch`,
 
 `Disclosure` expands optional content in place; no outside-dismissal occurs.
 
-| Prop           | Type                      | Default | Description                            |
-| -------------- | ------------------------- | ------- | -------------------------------------- |
-| `label`        | `ReactNode`               | —       | Required disclosure name.              |
-| `summary`      | `ReactNode`               | —       | Optional end-aligned state summary.    |
-| `open`         | `boolean`                 | —       | Controlled disclosure state.           |
-| `defaultOpen`  | `boolean`                 | `false` | Initial uncontrolled disclosure state. |
-| `onOpenChange` | `(open: boolean) => void` | —       | Called after a requested state change. |
-| `variant`      | `'contained' \| 'plain' \| 'soft'` | `'contained'` | Visual treatment (see below). |
+| Prop           | Type                               | Default       | Description                            |
+| -------------- | ---------------------------------- | ------------- | -------------------------------------- |
+| `label`        | `ReactNode`                        | —             | Required disclosure name.              |
+| `summary`      | `ReactNode`                        | —             | Optional end-aligned state summary.    |
+| `open`         | `boolean`                          | —             | Controlled disclosure state.           |
+| `defaultOpen`  | `boolean`                          | `false`       | Initial uncontrolled disclosure state. |
+| `onOpenChange` | `(open: boolean) => void`          | —             | Called after a requested state change. |
+| `variant`      | `'contained' \| 'plain' \| 'soft'` | `'contained'` | Visual treatment (see below).          |
 
 ### Disclosure variants
 

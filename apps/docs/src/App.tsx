@@ -24,6 +24,8 @@ import { ChipPage } from './pages/ChipPage';
 import { LoaderPage } from './pages/Loader';
 import { DropZonePage } from './pages/DropZonePage';
 import { Inputs } from './pages/Inputs';
+import { ComboboxPage } from './pages/ComboboxPage';
+import { FieldNotePage } from './pages/FieldNotePage';
 import { StepperPage } from './pages/Stepper';
 import { SliderPage } from './pages/Slider';
 import { RulerSliderPage } from './pages/RulerSlider';
@@ -93,6 +95,8 @@ const PAGES: Record<PageId, () => JSX.Element> = {
   loader: LoaderPage,
   'drop-zone': DropZonePage,
   inputs: Inputs,
+  combobox: ComboboxPage,
+  'field-note': FieldNotePage,
   stepper: StepperPage,
   slider: SliderPage,
   'ruler-slider': RulerSliderPage,

@@ -9526,3 +9526,26 @@ body {
   flex: 1 1 auto;
   min-width: 0;
 }
+
+/* Combobox and Field note pages */
+.docs-combobox-demo,
+.docs-field-note-demo {
+  display: grid;
+  gap: 6px;
+  width: min(280px, 100%);
+}
+
+.docs-combobox-row {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-field-note-row {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 6px;
+}
