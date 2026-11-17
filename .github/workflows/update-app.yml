@@ -1,0 +1,167 @@
+# Moves one app onto the newest Frame Kit. Each app calls this from its own
+# .github/workflows/framekit.yml (copy templates/app/framekit.yml), so the
+# steps live here once and every app follows them.
+#
+# commit mode (web apps): when the app's checks pass on the new version, the
+#   update is committed to the default branch, and the host redeploys it.
+#   When they fail, it goes up as a pull request (or an issue) instead, so a
+#   kit change that breaks the app never reaches the live site.
+# check mode (desktop apps worked on locally): nothing is pushed. A failure
+#   opens an issue; the app's own `npm run dev` installs passing versions
+#   (templates/app/framekit-sync.mjs).
+name: Update Frame Kit
+
+on:
+  workflow_call:
+    inputs:
+      checks:
+        description: Commands that must pass on the new version, one per line.
+        type: string
+        default: npm run build
+      mode:
+        description: "commit or check"
+        type: string
+        default: commit
+      node-version:
+        type: string
+        default: "22"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: framekit-update-${{ github.repository }}
+      cancel-in-progress: false
+    env:
+      PACKAGE: "@presentstandards/framekit-ui"
+      MODE: ${{ inputs.mode }}
+      GH_TOKEN: ${{ github.token }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      # Desktop apps don't need Electron itself to build or test.
+      ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Is there a newer Frame Kit?
+        id: versions
+        env:
+          MANUAL: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          current=$(node -p "((require('./package-lock.json').packages || {})['node_modules/' + process.env.PACKAGE] || {}).version || ''")
+          if [ -z "$current" ]; then
+            echo "This app doesn't use $PACKAGE." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "update=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          latest=$(npm view "$PACKAGE" version)
+          newer=$(node -e '
+            const [a, b] = process.argv.slice(1).map((v) => v.split("-")[0].split(".").map(Number));
+            const i = [0, 1, 2].find((n) => a[n] !== b[n]);
+            process.stdout.write(String(i !== undefined && b[i] > a[i]));
+          ' "$current" "$latest")
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          if [ "$newer" != "true" ]; then
+            echo "Already on Frame Kit $current, the newest." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "update=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # A version that already failed here has a pull request or issue
+          # waiting: the daily check leaves it be. Run the workflow by hand
+          # to try it again.
+          title="Frame Kit $latest needs a look"
+          if [ "$MANUAL" != "true" ]; then
+            prs=$(gh pr list --state all --search "\"$title\" in:title" --json number --jq length 2>/dev/null || echo 0)
+            issues=$(gh issue list --state all --search "\"$title\" in:title" --json number --jq length 2>/dev/null || echo 0)
+            if [ "$((prs + issues))" -gt 0 ]; then
+              echo "Frame Kit $latest failed here before; see the open pull request or issue." | tee -a "$GITHUB_STEP_SUMMARY"
+              echo "update=false" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+          fi
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+          echo "update=true" >> "$GITHUB_OUTPUT"
+          echo "Frame Kit $current → $latest" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Install it
+        id: install
+        if: steps.versions.outputs.update == 'true'
+        continue-on-error: true
+        env:
+          LATEST: ${{ steps.versions.outputs.latest }}
+        run: |
+          npm ci --no-audit --no-fund
+          npm install "$PACKAGE@$LATEST" --save-exact --no-audit --no-fund
+          # Apps that carry the kit's agent docs get them refreshed too.
+          if [ -f .claude/skills/frame-kit/.framekit-version ] || [ -f .agents/skills/frame-kit/.framekit-version ]; then
+            node "node_modules/$PACKAGE/bin/framekit-agents.mjs"
+          fi
+
+      - name: Run the app's checks
+        id: checks
+        if: steps.versions.outputs.update == 'true' && steps.install.outcome == 'success'
+        continue-on-error: true
+        env:
+          CHECKS: ${{ inputs.checks }}
+        run: bash -eo pipefail -c "$CHECKS"
+
+      - name: Commit the update
+        if: steps.versions.outputs.update == 'true' && steps.checks.outcome == 'success' && inputs.mode == 'commit'
+        env:
+          LATEST: ${{ steps.versions.outputs.latest }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git add -- .claude/skills/frame-kit .agents/skills/frame-kit 2>/dev/null || true
+          git commit -m "Update Frame Kit to $LATEST"
+          for attempt in 1 2 3; do
+            git push && break
+            [ "$attempt" = 3 ] && exit 1
+            git pull --rebase
+          done
+          echo "Committed and pushed: the app is on Frame Kit $LATEST." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Passed (check mode)
+        if: steps.versions.outputs.update == 'true' && steps.checks.outcome == 'success' && inputs.mode != 'commit'
+        env:
+          LATEST: ${{ steps.versions.outputs.latest }}
+        run: echo "Frame Kit $LATEST passes this app's checks. \`npm run dev\` installs it locally." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report the failure
+        if: steps.versions.outputs.update == 'true' && steps.checks.outcome != 'success'
+        env:
+          LATEST: ${{ steps.versions.outputs.latest }}
+          CURRENT: ${{ steps.versions.outputs.current }}
+          TITLE: ${{ steps.versions.outputs.title }}
+          STAGE: ${{ steps.install.outcome != 'success' && 'install' || 'checks' }}
+        run: |
+          body="Moving this app from Frame Kit $CURRENT to $LATEST failed at the **$STAGE** step, so nothing was changed on the main branch.
+
+          What failed: $RUN_URL"
+          if [ "$MODE" = "commit" ] && [ "$STAGE" = "checks" ]; then
+            branch="framekit-$LATEST"
+            base=$(git rev-parse --abbrev-ref HEAD)
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git switch -c "$branch"
+            git add -u
+            git add -- .claude/skills/frame-kit .agents/skills/frame-kit 2>/dev/null || true
+            git commit -m "Update Frame Kit to $LATEST"
+            git push --force origin "$branch"
+            # Needs "Allow GitHub Actions to create and approve pull
+            # requests" in the repo's Actions settings; an issue otherwise.
+            if gh pr create --base "$base" --head "$branch" --title "$TITLE" --body "$body
+
+          This branch has the update; fix the app here and merge it."; then
+              echo "Opened a pull request: $TITLE" >> "$GITHUB_STEP_SUMMARY"; exit 1
+            fi
+            body="$body
+
+          The update is on the branch \`$branch\`."
+          fi
+          gh issue create --title "$TITLE" --body "$body"
+          echo "Opened an issue: $TITLE" >> "$GITHUB_STEP_SUMMARY"
+          exit 1

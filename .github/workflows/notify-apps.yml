@@ -1,0 +1,75 @@
+# After a release, tells every app that uses Frame Kit, so each one updates
+# within minutes instead of at its daily check.
+#
+# Runs when packages/framekit/package.json lands on main (the version bump
+# that comes before `npm publish`), waits until that version is on npm, then
+# sends each app a `framekit-released` event. Each app's framekit.yml answers
+# it by calling update-app.yml.
+#
+# Needs two settings in this repo (Settings → Secrets and variables → Actions):
+#   secret   FRAMEKIT_APPS_TOKEN  a fine-grained token with Contents: Read and
+#                                 write on each app repo
+#   variable FRAMEKIT_APPS        the app repos, space-separated, e.g.
+#                                 owner/App-One owner/App-Two
+# Without them nothing breaks: the apps still update at their daily check.
+name: Tell the apps
+
+on:
+  push:
+    branches: [main]
+    paths: [packages/framekit/package.json]
+  workflow_dispatch:
+
+concurrency:
+  group: notify-apps
+  cancel-in-progress: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the version
+        id: version
+        run: echo "version=$(node -p "require('./packages/framekit/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Wait until it is on npm
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          for minute in $(seq 1 90); do
+            if npm view "@presentstandards/framekit-ui@$VERSION" version 2>/dev/null | grep -q .; then
+              echo "Frame Kit $VERSION is on npm."; exit 0
+            fi
+            sleep 60
+          done
+          echo "::warning::Frame Kit $VERSION wasn't published within 90 minutes. Run this workflow again after publishing."
+          exit 1
+
+      - name: Tell each app
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          TOKEN: ${{ secrets.FRAMEKIT_APPS_TOKEN }}
+          APPS: ${{ vars.FRAMEKIT_APPS }}
+        run: |
+          if [ -z "$TOKEN" ] || [ -z "$APPS" ]; then
+            echo "::warning::FRAMEKIT_APPS_TOKEN or FRAMEKIT_APPS isn't set, so the apps will pick up $VERSION at their daily check."
+            exit 0
+          fi
+          failed=0
+          for repo in $APPS; do
+            code=$(curl -sS -o response.txt -w '%{http_code}' -X POST \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/$repo/dispatches" \
+              -d "{\"event_type\":\"framekit-released\",\"client_payload\":{\"version\":\"$VERSION\"}}")
+            if [ "$code" = "204" ]; then
+              echo "Told $repo" | tee -a "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::$repo answered $code: $(cat response.txt)"
+              failed=1
+            fi
+          done
+          exit $failed

@@ -1,0 +1,30 @@
+# Keeps this app on the newest Frame Kit. Copy to the app's
+# .github/workflows/framekit.yml and set `mode` and `checks` for the app.
+# The steps themselves live in Frame Kit's update-app.yml.
+name: Frame Kit updates
+
+on:
+  # Sent by Frame Kit right after a release is on npm.
+  repository_dispatch:
+    types: [framekit-released]
+  # In case that message never arrives.
+  schedule:
+    - cron: "23 6 * * *"
+  # Actions → Frame Kit updates → Run workflow, to try again by hand.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  update:
+    uses: j-wrigley/Frame-Kit/.github/workflows/update-app.yml@main
+    with:
+      # commit: push passing updates to main (the host redeploys).
+      # check: only open an issue when one fails; `npm run dev` installs it.
+      mode: commit
+      checks: |
+        npm run typecheck
+        npm run build
