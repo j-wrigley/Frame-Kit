@@ -25,8 +25,10 @@ import: import { Toggle, ToggleRow } from '@presentstandards/framekit-ui'
 
 ## `Toggle`
 
-`Toggle` renders a native `<input type="checkbox" role="switch">`. Give a
-standalone control an `aria-label` or connect it to a visible external label.
+`Toggle` renders a native `<input type="checkbox" role="switch">`, laid
+invisibly over its track, so a standalone `Toggle` takes clicks on the track
+itself with no label around it. Give a standalone control an `aria-label` or
+connect it to a visible external label.
 
 | Prop   | Type                    | Default     | Description                             |
 | ------ | ----------------------- | ----------- | --------------------------------------- |
